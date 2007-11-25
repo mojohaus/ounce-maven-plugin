@@ -1,0 +1,56 @@
+   
+  ------
+  Introduction
+  ------
+  Brian Fox
+  ------
+  Nov 2007
+  ------
+
+Ounce Maven Plugin
+
+  The Ounce Maven plugin allows easy integration with the {{{http://www.ouncelabs.com}OunceLabs}} Ounce security analysis tool.
+
+* Goals Overview
+
+  The Ounce plugin has several goals:
+
+  *{{{project-mojo.html}ounce:project}} creates an Ounce project File from the Command Line.
+  
+  *{{{project-only-mojo.html}ounce:project-only}} creates an Ounce project File as part of the build.
+
+  *{{{application-mojo.html}ounce:application}} creates an Ounce application file.
+  
+  *{{{scan-mojo.html}ounce:scan}} performs an on demand scan.
+  
+  []
+
+* Usage
+
+   Instructions on how to use the ounce plugin goals:
+   
+   *{{{setup.html}Setting up your Environment}}
+   
+   *{{{usage/project.html}Create a Project file}}
+   
+   *{{{usage/application.html}Create an Application file}}
+   
+   *{{{usage/scan.html}Perform an on demand scan}}   
+
+   []
+* Examples
+
+  The following examples show how to use the ounce plugin in more advanced use-cases:
+  
+    *{{{examples/compiler.html}Configuring Compiler Settings}}
+  
+  []
+
+* Resources
+
+  * {{{http://www.ouncelabs.com}OunceLabs}}
+
+  []
+
+
+
