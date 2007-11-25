@@ -23,6 +23,8 @@ Ounce Maven Plugin
   
   *{{{scan-mojo.html}ounce:scan}} performs an on demand scan.
   
+  *{{{report-mojo.html}ounce:report}} performs an on demand scan and publishes the results to the site.
+  
   []
 
 * Usage
@@ -35,7 +37,9 @@ Ounce Maven Plugin
    
    *{{{usage/application.html}Create an Application file}}
    
-   *{{{usage/scan.html}Perform an on demand scan}}   
+   *{{{usage/scan.html}Perform an on demand scan}}  
+   
+   *{{{usage/report.html}Perform a scan as part of the site generation}}    
 
    []
 * Examples

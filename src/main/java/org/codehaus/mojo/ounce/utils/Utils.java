@@ -82,7 +82,7 @@ public class Utils
      */
     static public String convertToPropertyPath ( String path, Map pathProperties )
     {
-        if ( pathProperties != null && pathProperties.size() > 0 )
+        if ( path !=null && pathProperties != null && pathProperties.size() > 0 )
         {
             for ( Iterator iter = pathProperties.entrySet().iterator(); iter.hasNext(); )
             {
@@ -149,7 +149,14 @@ public class Utils
      */
     static public String convertToUnixStylePath ( String pName )
     {
-        return pName.replace( '\\', '/' );
+        if (pName != null)
+        {
+            return pName.replace( '\\', '/' );    
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /**

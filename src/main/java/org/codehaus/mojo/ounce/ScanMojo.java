@@ -1,29 +1,29 @@
 /*
-* Copyright (c) 2007, Ounce Labs, Inc.
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:
-*     * Redistributions of source code must retain the above copyright
-*       notice, this list of conditions and the following disclaimer.
-*     * Redistributions in binary form must reproduce the above copyright
-*       notice, this list of conditions and the following disclaimer in the
-*       documentation and/or other materials provided with the distribution.
-*     * Neither the name of the <organization> nor the
-*       names of its contributors may be used to endorse or promote products
-*       derived from this software without specific prior written permission.
-*
-* THIS SOFTWARE IS PROVIDED BY OUNCE LABS, INC. ``AS IS'' AND ANY
-* EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-* WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL OUNCE LABS, INC. BE LIABLE FOR ANY
-* DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-* (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-* LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-* ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-* (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ * Copyright (c) 2007, Ounce Labs, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the <organization> nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY OUNCE LABS, INC. ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL OUNCE LABS, INC. BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 package org.codehaus.mojo.ounce;
 
@@ -36,10 +36,8 @@ import org.codehaus.mojo.ounce.utils.Utils;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 import org.codehaus.plexus.util.StringUtils;
 
-
 /**
- * This mojo allows an on demand scan of an application and
- * the optional publishing of the results.
+ * This mojo allows an on demand scan of an application and the optional publishing of the results.
  * 
  * @author <a href="mailto:brianf@apache.org">Brian Fox</a>
  * @goal scan
@@ -50,72 +48,74 @@ public class ScanMojo
 {
 
     /**
-     * The name of the application to scan as known by the
-     * automation server. Either the applicationName or
+     * The name of the application to scan as known by the automation server. Either the applicationName or
      * applicationFile must be populated.
+     * 
      * @parameter expression="${ounce.applicationName}"
      */
     String applicationName;
 
     /**
-     * The location of the application file to scan. Either
-     * the applicationName or applicationFile must be
-     * populated.
+     * The location of the application file to scan. Either the applicationName or applicationFile must be populated.
+     * 
      * @parameter expression="${ounce.applicationFile}"
      */
     String applicationFile;
 
     /**
      * A name for the assessment.
+     * 
      * @parameter expression="${project.name}-${project.version}"
      */
     String assessmentName;
 
     /**
-     * A file name may be specified where to save the file
-     * otherwise the automation server will place the
-     * assessment in a temporary location pending other
-     * operations. The temporary location will delete files
-     * upon startup and after a configurable period of time.
-     * @parameter expression="${project.outputDirectory}/ounce/assessment.xml"
+     * A file name may be specified where to save the file otherwise the automation server will place the assessment in
+     * a temporary location pending other operations. The temporary location will delete files upon startup and after a
+     * configurable period of time.
+     * 
+     * @parameter 
      */
     String assessmentOutput;
 
     /**
-     * Assigns a “caller” to the assessment. Caller is an
-     * arbitrary string and may or may not correspond with
-     * any actual user of any system. Caller is written to
-     * ounceauto’s log file. In the future this
-     * functionality will aid in auditing.
+     * Assigns a “caller” to the assessment. Caller is an arbitrary string and may or may not correspond with any actual
+     * user of any system. Caller is written to ounceauto’s log file. In the future this functionality will aid in
+     * auditing.
+     * 
      * @parameter expression="${ounce.caller}"
      */
     String caller;
 
     /**
-     * Automatically generate a report for this assessment
-     * following the completion of the scan. For information
-     * on report types and output types see the 5.0.4
-     * function spec overview. The arguments are identical
-     * to the CLI report command.
+     * Automatically generate a report for this assessment following the completion of the scan. For information on
+     * report types and output types see the 5.0.4 function spec overview. The arguments are identical to the CLI report
+     * command. Format: [report type]|[output type]|[output location]
      * 
-     * Format: [report type]|[output type]|[output location]
      * @parameter expression="${ounce.reportType}"
      */
     String reportType;
 
     /**
-     * Automatically publish the assessment following the
-     * completion of the scan.
+     * Automatically publish the assessment following the completion of the scan.
+     * 
      * @parameter expression="${ounce.publish}" default-value="true"
      */
     boolean publish;
-    
+
     /**
-     * The location of the Ounce client installation directory if 
-     * the Ounce client is not on the path.
+     * The location of the Ounce client installation directory if the Ounce client is not on the path.
+     * 
      * @parameter
      */
     String ounceInstallDir;
+
+    /**
+     * If the mojo should wait until the scan is complete
+     * 
+     * @parameter expression="${ounce.wait}" default-value="false"
+     */
+    boolean waitForScan;
 
     // private List projects;
     /*
@@ -123,7 +123,7 @@ public class ScanMojo
      * 
      * @see org.apache.maven.plugin.Mojo#execute()
      */
-    public void execute ()
+    public void execute()
         throws MojoExecutionException, MojoFailureException
     {
 
@@ -136,7 +136,8 @@ public class ScanMojo
 
             OunceCore core = getCore();
             core.scan( applicationName, Utils.convertToPropertyPath( applicationFile, pathProperties ), assessmentName,
-                       assessmentOutput, caller, reportType, publish, this.options, this.ounceInstallDir, getLog() );
+                       assessmentOutput, caller, reportType, publish, this.options, this.ounceInstallDir, waitForScan,
+                       getLog() );
         }
         catch ( ComponentLookupException e )
         {

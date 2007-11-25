@@ -1,29 +1,29 @@
 /*
-* Copyright (c) 2007, Ounce Labs, Inc.
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:
-*     * Redistributions of source code must retain the above copyright
-*       notice, this list of conditions and the following disclaimer.
-*     * Redistributions in binary form must reproduce the above copyright
-*       notice, this list of conditions and the following disclaimer in the
-*       documentation and/or other materials provided with the distribution.
-*     * Neither the name of the <organization> nor the
-*       names of its contributors may be used to endorse or promote products
-*       derived from this software without specific prior written permission.
-*
-* THIS SOFTWARE IS PROVIDED BY OUNCE LABS, INC. ``AS IS'' AND ANY
-* EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-* WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL OUNCE LABS, INC. BE LIABLE FOR ANY
-* DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-* (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-* LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-* ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-* (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ * Copyright (c) 2007, Ounce Labs, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the <organization> nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY OUNCE LABS, INC. ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL OUNCE LABS, INC. BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package org.codehaus.mojo.ounce.core;
 
 import java.io.File;
@@ -46,8 +46,7 @@ import com.thoughtworks.xstream.XStream;
 /**
  * @author <a href="mailto:brianf@apache.org">Brian Fox</a>
  * @author <a href="mailto:sam.headrick@ouncelabs.com">Sam Headrick</a>
- * @plexus.component role="org.codehaus.mojo.ounce.core.OunceCore"
- *                   role-hint="xml"
+ * @plexus.component role="org.codehaus.mojo.ounce.core.OunceCore" role-hint="test-xml"
  */
 public class OunceCoreXml
     implements OunceCore
@@ -56,11 +55,11 @@ public class OunceCoreXml
     /*
      * (non-Javadoc)
      * 
-     * @see com.ouncelabs.plugins.OunceCore#createApplication(java.lang.String,
-     *      java.io.File, java.util.List, boolean, boolean)
+     * @see com.ouncelabs.plugins.OunceCore#createApplication(java.lang.String, java.io.File, java.util.List, boolean,
+     *      boolean)
      */
-    public void createApplication ( String baseDir, String theName, String theApplicationRoot, List theProjects,
-                                    Map ounceOptions, Log log )
+    public void createApplication( String baseDir, String theName, String theApplicationRoot, List theProjects,
+                                   Map ounceOptions, Log log )
         throws OunceCoreException
     {
         // sort them to avoid implementation details messing
@@ -91,48 +90,46 @@ public class OunceCoreXml
     /*
      * (non-Javadoc)
      * 
-     * @see com.ouncelabs.plugins.OunceCore#createProject(java.lang.String,
-     *      java.io.File, java.util.List, java.io.File,
-     *      java.lang.String, java.lang.String, boolean,
-     *      com.ouncelabs.plugins.CompilerOptions)
+     * @see com.ouncelabs.plugins.OunceCore#createProject(java.lang.String, java.io.File, java.util.List, java.io.File,
+     *      java.lang.String, java.lang.String, boolean, com.ouncelabs.plugins.CompilerOptions)
      */
-    public void createProject ( String baseDir, String theName, String theProjectRoot, List theSourceRoots,
-                                String theWebRoot, String theClassPath, String theJdkName,
-                                OunceCoreCompilerOptions theCompilerOptions, String packaging, Set includes,
-                                Set excludes, Map ounceOptions, Log log )
+    public void createProject( String baseDir, String theName, String theProjectRoot, List theSourceRoots,
+                               String theWebRoot, String theClassPath, String theJdkName,
+                               OunceCoreCompilerOptions theCompilerOptions, String packaging, Set includes,
+                               Set excludes, Map ounceOptions, Log log )
         throws OunceCoreException
     {
-            if ( StringUtils.isNotEmpty( theClassPath ) )
+        if ( StringUtils.isNotEmpty( theClassPath ) )
+        {
+            // the classpath order can change subtly from
+            // maven. Lets sort it alphabetically since we
+            // really
+            // only care about the contents for testing the
+            // plugin
+            String[] classp = theClassPath.split( ";" );
+            Arrays.sort( classp );
+
+            StringBuffer sb = new StringBuffer();
+            if ( classp.length > 0 )
             {
-                // the classpath order can change subtly from
-                // maven. Lets sort it alphabetically since we
-                // really
-                // only care about the contents for testing the
-                // plugin
-                String[] classp = theClassPath.split( ";" );
-                Arrays.sort( classp );
+                // first one, no separator needed
+                sb.append( classp[0] );
 
-                StringBuffer sb = new StringBuffer();
-                if ( classp.length > 0 )
+                // separate the rest of them with
+                // pathSeparator
+                for ( int i = 1; i < classp.length; i++ )
                 {
-                    // first one, no separator needed
-                    sb.append( classp[0] );
-
-                    // separate the rest of them with
-                    // pathSeparator
-                    for ( int i = 1; i < classp.length; i++ )
-                    {
-                        sb.append( ProjectOnlyMojo.PATH_SEPARATOR );
-                        sb.append( classp[i] );
-                    }
-                    theClassPath = sb.toString();
+                    sb.append( ProjectOnlyMojo.PATH_SEPARATOR );
+                    sb.append( classp[i] );
                 }
+                theClassPath = sb.toString();
             }
+        }
 
         log.info( "Writing parameters to xml." );
-        OunceCoreProject bean = new OunceCoreProject( theName, theProjectRoot, theSourceRoots, theWebRoot,
-                                                      theClassPath, theJdkName, packaging, includes, excludes,
-                                                      theCompilerOptions,ounceOptions );
+        OunceCoreProject bean =
+            new OunceCoreProject( theName, theProjectRoot, theSourceRoots, theWebRoot, theClassPath, theJdkName,
+                                  packaging, includes, excludes, theCompilerOptions, ounceOptions );
         XStream xs = new XStream();
         xs.alias( "compilerOptions", OunceCoreCompilerOptions.class );
         xs.alias( "project", OunceCoreProject.class );
@@ -157,7 +154,7 @@ public class OunceCoreXml
      * 
      * @see org.codehaus.mojo.ounce.core.OunceCore#readApplication(java.lang.String)
      */
-    public OunceCoreApplication readApplication ( String thePath, Log log )
+    public OunceCoreApplication readApplication( String thePath, Log log )
         throws OunceCoreException
     {
         XStream xs = new XStream();
@@ -183,7 +180,7 @@ public class OunceCoreXml
      * 
      * @see org.codehaus.mojo.ounce.core.OunceCore#readProject(java.lang.String)
      */
-    public OunceCoreProject readProject ( String thePath, Log log )
+    public OunceCoreProject readProject( String thePath, Log log )
         throws OunceCoreException
     {
         XStream xs = new XStream();
@@ -204,21 +201,20 @@ public class OunceCoreXml
         }
     }
 
-	public void report(Log log) throws OunceCoreException {
-		// TODO Auto-generated method stub
-		
-	}
-
-    /* (non-Javadoc)
-     * @see org.codehaus.mojo.ounce.core.OunceCore#scan(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.util.Map, org.apache.maven.plugin.logging.Log)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.codehaus.mojo.ounce.core.OunceCore#scan(java.lang.String, java.lang.String, java.lang.String,
+     *      java.lang.String, java.lang.String, java.lang.String, boolean, java.util.Map, java.lang.String, boolean,
+     *      org.apache.maven.plugin.logging.Log)
      */
-    public void scan ( String theApplicationName, String theApplicationFile, String theAssessmentName,
-                       String theAssessmentOutput, String theCaller, String theReportType, boolean thePublish,
-                       Map theOunceOptions, String installDir, Log theLog )
+    public void scan( String theApplicationName, String theApplicationFile, String theAssessmentName,
+                      String theAssessmentOutput, String theCaller, String theReportType, boolean thePublish,
+                      Map theOunceOptions, String installDir, boolean wait, Log theLog )
         throws OunceCoreException
     {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

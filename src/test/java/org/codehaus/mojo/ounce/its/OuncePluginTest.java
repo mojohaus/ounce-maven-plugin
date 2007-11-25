@@ -56,7 +56,7 @@ public class OuncePluginTest
         throws Exception
     {
         super.setUp();
-        props.setProperty( "ounce.core", "xml" );
+        props.setProperty( "ounce.core", "test-xml" );
     }
 
     public void testProject1 ()

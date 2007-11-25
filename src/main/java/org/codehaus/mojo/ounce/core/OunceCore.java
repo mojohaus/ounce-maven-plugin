@@ -123,11 +123,12 @@ public interface OunceCore
      * @param publish automatically publish the results.
      * @param ounceOptions Extra Ounce options
      * @param installDir location of ounce client
+     * @param wait if the client should wait for the scan to complete before returning.
      * @param log
      * @throws OunceCoreException
      */
     void scan ( String applicationName, String applicationFile, String assessmentName, String assessmentOutput,
-                String caller, String reportType, boolean publish, Map ounceOptions, String installDir, Log log )
+                String caller, String reportType, boolean publish, Map ounceOptions, String installDir, boolean wait, Log log )
         throws OunceCoreException;
 
 }

@@ -24,13 +24,13 @@
     <menu name="Overview">
       <item name="Introduction" href="index.html"/>
       <item name="Goals" href="plugin-info.html"/>
-      <item name="Setup" href="setup.html"/>
       <item name="FAQ" href="faq.html"/>
     </menu>
     <menu name="Usage">
       <item name="Create an Application file" href="usage/application.html"/>
       <item name="Create a Project file" href="usage/project.html"/>
       <item name="Scan an Application" href="usage/scan.html"/>
+      <item name="Create a site report" href="usage/report.html"/>
     </menu>
     <menu name="Examples">
         <item name="Configuring Compiler Settings" href="examples/compiler.html"/>
