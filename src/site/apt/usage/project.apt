@@ -19,11 +19,7 @@ Project Mojo Usage
   *{{{http://maven.apache.org/guides/plugin/guide-java-plugin-development.html}Plugin Development}}
 
   *{{{http://maven.apache.org/guides/introduction/introduction-to-plugin-prefix-mapping.html}Plugin Prefix}}
-
-* Setting up your environment to use the Ounce Maven Plugin  
-
-    The Ounce Maven plugin group <<<com.ouncelabs.maven.plugins>>> is not automatically searched by Maven. See the {{{../setup.html}setup}} page for more information.
-  
+ 
 * The <<<ounce:project>>> mojo
   
     If you want to generate the Ounce project on demand via the command line like:
@@ -40,7 +36,7 @@ mvn ounce:project
   <build>
    <plugins>
      <plugin>
-        <groupId>com.ouncelabs.plugins</groupId>
+        <groupId>org.codehaus.mojo</groupId>
         <artifactId>ounce-maven-plugin</artifactId>
         <configuration>
           
@@ -71,7 +67,7 @@ mvn ounce:project
   <build>
    <plugins>
      <plugin>
-        <groupId>com.ouncelabs.plugins</groupId>
+        <groupId>org.codehaus.mojo</groupId>
         <artifactId>ounce-maven-plugin</artifactId>
         <executions>
           <execution>

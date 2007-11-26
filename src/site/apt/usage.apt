@@ -33,7 +33,7 @@ Usage
   <build>
    <plugins>
      <plugin>
-        <groupId>com.ouncelabs.plugins</groupId>
+        <groupId>org.codehaus.mojo</groupId>
         <artifactId>ounce-maven-plugin</artifactId>        <executions>
           <execution>
             <id>copy</id>
@@ -67,7 +67,7 @@ mvn ounce:project
   <build>
    <plugins>
      <plugin>
-        <groupId>com.ouncelabs.plugins</groupId>
+        <groupId>org.codehaus.mojo</groupId>
         <artifactId>ounce-maven-plugin</artifactId>
         <configuration>
           
