@@ -27,7 +27,6 @@
 
 package org.codehaus.mojo.ounce;
 
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.codehaus.mojo.ounce.core.OunceCore;
@@ -41,7 +40,6 @@ import org.codehaus.plexus.util.StringUtils;
  * 
  * @author <a href="mailto:brianf@apache.org">Brian Fox</a>
  * @goal scan
- * @aggregator
  */
 public class ScanMojo
     extends AbstractOunceMojo
@@ -111,7 +109,8 @@ public class ScanMojo
     String ounceInstallDir;
 
     /**
-     * If the mojo should wait until the scan is complete
+     * If the mojo should wait until the scan is complete. Used by the
+     * scan mojo only...ignored during report generation.
      * 
      * @parameter expression="${ounce.wait}" default-value="false"
      */
