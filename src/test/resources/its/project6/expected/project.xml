@@ -9,14 +9,5 @@
     <webRoot>target/ounce-project-6-1</webRoot>
     <classPath>${M2_REPO}/org/apache/maven/maven-artifact/2.0.6/maven-artifact-2.0.6.jar;${M2_REPO}/org/codehaus/plexus/plexus-utils/1.4.1/plexus-utils-1.4.1.jar;target/classes;target/test-classes</classPath>
     <packaging>jar</packaging>
-    <includes/>
-    <excludes/>
-    <compilerOptions>
-      <debug>true</debug>
-      <verbose>false</verbose>
-      <showDeprecation>false</showDeprecation>
-      <optimize>false</optimize>
-      <showWarnings>false</showWarnings>
-    </compilerOptions>
   </project>
 </object-stream>

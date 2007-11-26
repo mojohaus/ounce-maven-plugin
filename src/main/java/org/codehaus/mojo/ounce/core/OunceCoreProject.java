@@ -46,17 +46,13 @@ public class OunceCoreProject
 
     String packaging;
 
-    Set includes;
-
-    Set excludes;
-
-    OunceCoreCompilerOptions compilerOptions;
+    String compilerOptions;
     
     Map ounceOptions;
 
     public OunceCoreProject( String theName, String theProjectRoot, List theSourceRoots, String theWebRoot,
                              String theClassPath, String theJdkName, String packaging,
-                             Set includes, Set excludes, OunceCoreCompilerOptions theCompilerOptions,Map theOunceOptions )
+                             String theCompilerOptions,Map theOunceOptions )
     {
         super();
         this.name = theName;
@@ -66,8 +62,6 @@ public class OunceCoreProject
         this.classPath = theClassPath;
         this.jdkName = theJdkName;
         this.packaging = packaging;
-        this.includes = includes;
-        this.excludes = excludes;
         this.compilerOptions = theCompilerOptions;
         this.ounceOptions = theOunceOptions;
     }
@@ -129,25 +123,9 @@ public class OunceCoreProject
     }
 
     /**
-     * @return the includes
-     */
-    public Set getIncludes ()
-    {
-        return this.includes;
-    }
-
-    /**
-     * @return the excludes
-     */
-    public Set getExcludes ()
-    {
-        return this.excludes;
-    }
-
-    /**
      * @return the compilerOptions
      */
-    public OunceCoreCompilerOptions getCompilerOptions ()
+    public String getCompilerOptions ()
     {
         return this.compilerOptions;
     }

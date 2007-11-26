@@ -68,8 +68,7 @@ public class OunceCoreConsole
      */
     public void createProject ( String baseDir, String theName, String theProjectRoot, List theSourceRoots,
                                 String theWebRoot, String theClassPath, String theJdkName,
-                                OunceCoreCompilerOptions theCompilerOptions, String packaging, Set includes,
-                                Set excludes, Map ounceOptions, Log log )
+                                String theCompilerOptions, String packaging, Map ounceOptions, Log log )
         throws OunceCoreException
     {
         System.out.println( "Create Project Params:" );
@@ -81,8 +80,6 @@ public class OunceCoreConsole
         System.out.println( "ClassPath: " + theClassPath );
         System.out.println( "Webroot: " + theWebRoot );
         System.out.println( "Packaging: " + packaging );
-        System.out.println( "Includes: " + includes );
-        System.out.println( "Excludes: " + excludes );
         System.out.println( "CompilerOptions: " + theCompilerOptions );
         System.out.println( "OunceOptions: " + ounceOptions );
     }

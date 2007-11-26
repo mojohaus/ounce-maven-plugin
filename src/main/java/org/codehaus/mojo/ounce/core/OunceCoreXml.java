@@ -94,9 +94,8 @@ public class OunceCoreXml
      *      java.lang.String, java.lang.String, boolean, com.ouncelabs.plugins.CompilerOptions)
      */
     public void createProject( String baseDir, String theName, String theProjectRoot, List theSourceRoots,
-                               String theWebRoot, String theClassPath, String theJdkName,
-                               OunceCoreCompilerOptions theCompilerOptions, String packaging, Set includes,
-                               Set excludes, Map ounceOptions, Log log )
+                               String theWebRoot, String theClassPath, String theJdkName, String theCompilerOptions,
+                               String packaging, Map ounceOptions, Log log )
         throws OunceCoreException
     {
         if ( StringUtils.isNotEmpty( theClassPath ) )
@@ -129,9 +128,8 @@ public class OunceCoreXml
         log.info( "Writing parameters to xml." );
         OunceCoreProject bean =
             new OunceCoreProject( theName, theProjectRoot, theSourceRoots, theWebRoot, theClassPath, theJdkName,
-                                  packaging, includes, excludes, theCompilerOptions, ounceOptions );
+                                  packaging,  theCompilerOptions, ounceOptions );
         XStream xs = new XStream();
-        xs.alias( "compilerOptions", OunceCoreCompilerOptions.class );
         xs.alias( "project", OunceCoreProject.class );
         try
         {
@@ -184,7 +182,6 @@ public class OunceCoreXml
         throws OunceCoreException
     {
         XStream xs = new XStream();
-        xs.alias( "compilerOptions", OunceCoreCompilerOptions.class );
         xs.alias( "project", OunceCoreProject.class );
 
         File inFile = new File( thePath + File.separator + "target", "project.xml" );

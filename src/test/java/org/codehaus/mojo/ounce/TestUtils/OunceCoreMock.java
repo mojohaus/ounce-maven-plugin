@@ -34,7 +34,6 @@ import java.util.Set;
 import org.apache.maven.plugin.logging.Log;
 import org.codehaus.mojo.ounce.core.OunceCore;
 import org.codehaus.mojo.ounce.core.OunceCoreApplication;
-import org.codehaus.mojo.ounce.core.OunceCoreCompilerOptions;
 import org.codehaus.mojo.ounce.core.OunceCoreException;
 import org.codehaus.mojo.ounce.core.OunceCoreProject;
 import org.codehaus.mojo.ounce.core.OunceCoreScan;
@@ -83,13 +82,13 @@ public class OunceCoreMock
      *      org.apache.maven.plugin.logging.Log)
      */
     public void createProject( String theBaseDir, String name, String projectRoot, List sourceRoots, String webRoot,
-                               String classPath, String jdkName, OunceCoreCompilerOptions compilerOptions,
-                               String packaging, Set includes, Set excludes, Map ounceOptions, Log theLog )
+                               String classPath, String jdkName, String compilerOptions, String packaging,
+                               Map ounceOptions, Log theLog )
         throws OunceCoreException
     {
         project =
-            new OunceCoreProject( name, projectRoot, sourceRoots, webRoot, classPath, jdkName, packaging, includes,
-                                  excludes, compilerOptions, ounceOptions );
+            new OunceCoreProject( name, projectRoot, sourceRoots, webRoot, classPath, jdkName, packaging,
+                                  compilerOptions, ounceOptions );
     }
 
     /*

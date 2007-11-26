@@ -150,9 +150,8 @@ public class OunceCoreXmlSerializer
     }
 
     public void createProject( String baseDir, String theName, String projectRoot, List theSourceRoots,
-                               String theWebRoot, String theClassPath, String theJdkName,
-                               OunceCoreCompilerOptions compilerOptions, String packaging, Set includes, Set excludes,
-                               Map options, Log log )
+                               String theWebRoot, String theClassPath, String theJdkName, String compilerOptions,
+                               String packaging, Map options, Log log )
         throws OunceCoreException
     {
         if ( StringUtils.isNotEmpty( theClassPath ) )

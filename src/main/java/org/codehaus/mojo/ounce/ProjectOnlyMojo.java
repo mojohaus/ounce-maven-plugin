@@ -1,29 +1,29 @@
 /*
-* Copyright (c) 2007, Ounce Labs, Inc.
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:
-*     * Redistributions of source code must retain the above copyright
-*       notice, this list of conditions and the following disclaimer.
-*     * Redistributions in binary form must reproduce the above copyright
-*       notice, this list of conditions and the following disclaimer in the
-*       documentation and/or other materials provided with the distribution.
-*     * Neither the name of the <organization> nor the
-*       names of its contributors may be used to endorse or promote products
-*       derived from this software without specific prior written permission.
-*
-* THIS SOFTWARE IS PROVIDED BY OUNCE LABS, INC. ``AS IS'' AND ANY
-* EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-* WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL OUNCE LABS, INC. BE LIABLE FOR ANY
-* DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-* (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-* LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-* ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-* (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ * Copyright (c) 2007, Ounce Labs, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the <organization> nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY OUNCE LABS, INC. ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL OUNCE LABS, INC. BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package org.codehaus.mojo.ounce;
 
 import java.util.HashSet;
@@ -37,19 +37,14 @@ import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.codehaus.mojo.ounce.core.OunceCore;
-import org.codehaus.mojo.ounce.core.OunceCoreCompilerOptions;
 import org.codehaus.mojo.ounce.core.OunceCoreException;
 import org.codehaus.mojo.ounce.utils.Utils;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 
-
 /**
- * This mojo generates an Ounce project file. It does not
- * fork the build like the "project" mojo and is instead
- * intended to be bound in a pom for automatic execution.
- * 
- * If you would rather have the project generated on demand
- * via the command line, use the project goal instead.
+ * This mojo generates an Ounce project file. It does not fork the build like the "project" mojo and is instead intended
+ * to be bound in a pom for automatic execution. If you would rather have the project generated on demand via the
+ * command line, use the project goal instead.
  * 
  * @author <a href="mailto:brianf@apache.org">Brian Fox</a>
  * @requiresDependencyResolution test
@@ -65,18 +60,11 @@ public class ProjectOnlyMojo
     public static final String M2_REPO = "M2_REPO";
 
     /**
-     * This is the scope of the classpath used to analyze
-     * this project. The default value is "test." Valid
-     * choices are: compile, test, runtime, system.
+     * This is the scope of the classpath used to analyze this project. The default value is "test." Valid choices are:
+     * compile, test, runtime, system. If includeTestSources is true, then the classpathScope will automatically revert
+     * to test, otherwise it is likely that the source will fail to compile.
      * 
-     * If includeTestSources is true, then the
-     * classpathScope will automatically revert to test,
-     * otherwise it is likely that the source will fail to
-     * compile.
-     * 
-     * @parameter default-value="compile"
-     *            expression="${ounce.classpathScope}";
-     * 
+     * @parameter default-value="compile" expression="${ounce.classpathScope}";
      */
     private String classpathScope;
 
@@ -86,7 +74,7 @@ public class ProjectOnlyMojo
      * @parameter expression="${ounce.jdkName}"
      */
     private String jdkName;
-    
+
     /**
      * Options to pass to the javac compiler.
      * 
@@ -95,93 +83,19 @@ public class ProjectOnlyMojo
     private String javaCompilerOptions;
 
     /**
-     * If TestSources should be included in the compilable
-     * sources. If set, adds project.getTestSourceRoot() to
-     * the path and defaults the classpathScope to test.
+     * If TestSources should be included in the compilable sources. If set, adds project.getTestSourceRoot() to the path
+     * and defaults the classpathScope to test.
      * 
-     * @parameter expression="${ounce.includeTestSources}"
-     *            default-value="false"
+     * @parameter expression="${ounce.includeTestSources}" default-value="false"
      */
     protected boolean includeTestSources;
 
     /**
-     * The directory where the webapp is built for war
-     * projects.
+     * The directory where the webapp is built for war projects.
      * 
      * @parameter expression="${project.build.directory}/${project.build.finalName}"
      */
     private String webappDirectory;
-
-    /**
-     * Set to true to include debugging information in the
-     * compiled class files.
-     * 
-     * @parameter expression="${maven.compiler.debug}"
-     *            default-value="true"
-     */
-    private boolean debug = true;
-
-    /**
-     * Set to true to show messages about what the compiler
-     * is doing.
-     * 
-     * @parameter expression="${maven.compiler.verbose}"
-     *            default-value="false"
-     */
-    private boolean verbose;
-
-    /**
-     * Sets whether to show source locations where
-     * deprecated APIs are used.
-     * 
-     * @parameter expression="${maven.compiler.showDeprecation}"
-     *            default-value="false"
-     */
-    private boolean showDeprecation;
-
-    /**
-     * Set to true to show compilation warnings.
-     * 
-     * @parameter expression="${maven.compiler.showWarnings}"
-     *            default-value="false"
-     */
-    private boolean showWarnings;
-
-    /**
-     * The -source argument for the Java compiler.
-     * 
-     * @parameter expression="${maven.compiler.source}"
-     */
-    private String source;
-
-    /**
-     * The -target argument for the Java compiler.
-     * 
-     * @parameter expression="${maven.compiler.target}"
-     */
-    private String target;
-
-    /**
-     * The -encoding argument for the Java compiler.
-     * 
-     * @parameter expression="${maven.compiler.encoding}"
-     */
-    private String encoding;
-
-    /**
-     * A list of inclusion filters for the compiler.
-     * (example: **\*.java)
-     * 
-     * @parameter
-     */
-    private Set includes = new HashSet();
-
-    /**
-     * A list of exclusion filters for the compiler.
-     * 
-     * @parameter
-     */
-    private Set excludes = new HashSet();
 
     /**
      * Location of the local repository.
@@ -197,7 +111,7 @@ public class ProjectOnlyMojo
      * 
      * @see org.apache.maven.plugin.Mojo#execute()
      */
-    public void execute ()
+    public void execute()
         throws MojoExecutionException, MojoFailureException
     {
         if ( project.getPackaging() != "pom" || !skipPoms )
@@ -227,8 +141,7 @@ public class ProjectOnlyMojo
                 OunceCore core = getCore();
 
                 core.createProject( getProjectRoot(), name, projectRoot, sourceRoots, webappDirectory, classPath,
-                                    jdkName, populateCompilerOptions(), project.getPackaging(),
-                                    this.includes, this.excludes, this.options,this.getLog() );
+                                    jdkName, javaCompilerOptions, project.getPackaging(), this.options, this.getLog() );
             }
             catch ( ComponentLookupException e )
             {
@@ -246,15 +159,12 @@ public class ProjectOnlyMojo
     }
 
     /**
-     * This method gets the source roots from the project.
-     * 
-     * Overrides the ProjectOnly:getSourceRoots() method
-     * because we don't have an executed project because the
-     * build wasn't forked.
+     * This method gets the source roots from the project. Overrides the ProjectOnly:getSourceRoots() method because we
+     * don't have an executed project because the build wasn't forked.
      * 
      * @return List of source roots.
      */
-    protected List getSourceRoots ()
+    protected List getSourceRoots()
     {
         List sourceRoots = project.getCompileSourceRoots();
 
@@ -266,13 +176,12 @@ public class ProjectOnlyMojo
     }
 
     /**
-     * Gets the classpath elements and returns a properly
-     * formatted classpath.
+     * Gets the classpath elements and returns a properly formatted classpath.
      * 
      * @return
      * @throws MojoExecutionException
      */
-    protected String buildClasspath ()
+    protected String buildClasspath()
         throws MojoExecutionException
     {
 
@@ -284,13 +193,13 @@ public class ProjectOnlyMojo
         if ( i.hasNext() )
         {
             // first one, no separator needed
-            sb.append( Utils.convertToUnixStylePath( (String) i.next()) );
+            sb.append( Utils.convertToUnixStylePath( (String) i.next() ) );
 
             // separate the rest of them with pathSeparator
             while ( i.hasNext() )
             {
                 sb.append( ProjectOnlyMojo.PATH_SEPARATOR );
-                sb.append( Utils.convertToUnixStylePath( (String) i.next()) );
+                sb.append( Utils.convertToUnixStylePath( (String) i.next() ) );
             }
         }
 
@@ -299,13 +208,12 @@ public class ProjectOnlyMojo
     }
 
     /**
-     * Gets the properly scoped classpathElements from the
-     * Maven Project
+     * Gets the properly scoped classpathElements from the Maven Project
      * 
      * @return List of classpath strings.
      * @throws MojoExecutionException
      */
-    protected List getClasspathElements ()
+    protected List getClasspathElements()
         throws MojoExecutionException
     {
         List classpathElements = null;
@@ -333,40 +241,22 @@ public class ProjectOnlyMojo
             }
             else
             {
-                throw new MojoExecutionException( "Invalid classpathScope: " + this.classpathScope
-                    + " valid values are: compile, test, runtime, system." );
+                throw new MojoExecutionException( "Invalid classpathScope: " + this.classpathScope +
+                    " valid values are: compile, test, runtime, system." );
             }
         }
         catch ( DependencyResolutionRequiredException e )
         {
             throw new MojoExecutionException( e.getLocalizedMessage(), e );
         }
-        
-        return classpathElements;
-    }
 
-    /**
-     * Populate the CompilerOptions bean
-     * 
-     * @return populated CompilerOptions
-     */
-    protected OunceCoreCompilerOptions populateCompilerOptions ()
-    {
-        OunceCoreCompilerOptions o = new OunceCoreCompilerOptions();
-        o.setDebug( debug );
-        o.setEncoding( encoding );
-        o.setShowDeprecation( showDeprecation );
-        o.setShowWarnings( showWarnings );
-        o.setSource( source );
-        o.setTarget( target );
-        o.setVerbose( verbose );
-        return o;
+        return classpathElements;
     }
 
     /**
      * @return the classpathScope
      */
-    protected String getClasspathScope ()
+    protected String getClasspathScope()
     {
         return this.classpathScope;
     }
@@ -374,7 +264,7 @@ public class ProjectOnlyMojo
     /**
      * @param theClasspathScope the classpathScope to set
      */
-    protected void setClasspathScope ( String theClasspathScope )
+    protected void setClasspathScope( String theClasspathScope )
     {
         this.classpathScope = theClasspathScope;
     }
@@ -382,7 +272,7 @@ public class ProjectOnlyMojo
     /**
      * @return the jdkName
      */
-    protected String getJdkName ()
+    protected String getJdkName()
     {
         return this.jdkName;
     }
@@ -390,7 +280,7 @@ public class ProjectOnlyMojo
     /**
      * @param theJdkName the jdkName to set
      */
-    protected void setJdkName ( String theJdkName )
+    protected void setJdkName( String theJdkName )
     {
         this.jdkName = theJdkName;
     }
@@ -398,40 +288,39 @@ public class ProjectOnlyMojo
     /**
      * @return the includeTestSources
      */
-    protected boolean isIncludeTestSources ()
+    protected boolean isIncludeTestSources()
     {
         return this.includeTestSources;
     }
 
     /**
-     * @param theIncludeTestSources the includeTestSources
-     *            to set
+     * @param theIncludeTestSources the includeTestSources to set
      */
-    protected void setIncludeTestSources ( boolean theIncludeTestSources )
+    protected void setIncludeTestSources( boolean theIncludeTestSources )
     {
         this.includeTestSources = theIncludeTestSources;
     }
-    
+
     /**
      * @return the java compiler options
      */
-    protected String getJavaCompilerOptions () 
+    protected String getJavaCompilerOptions()
     {
-    	return javaCompilerOptions;
+        return javaCompilerOptions;
     }
-    
+
     /**
      * @param theJavaCompilerOptions the java compiler options
      */
-    protected void setJavaCompilerOptions (String theJavaCompilerOptions ) 
+    protected void setJavaCompilerOptions( String theJavaCompilerOptions )
     {
-    	this.javaCompilerOptions = theJavaCompilerOptions;
+        this.javaCompilerOptions = theJavaCompilerOptions;
     }
 
     /**
      * @return the webappDirectory
      */
-    protected String getWebappDirectory ()
+    protected String getWebappDirectory()
     {
         return this.webappDirectory;
     }
@@ -439,127 +328,15 @@ public class ProjectOnlyMojo
     /**
      * @param theWebappDirectory the webappDirectory to set
      */
-    protected void setWebappDirectory ( String theWebappDirectory )
+    protected void setWebappDirectory( String theWebappDirectory )
     {
         this.webappDirectory = theWebappDirectory;
     }
 
     /**
-     * @return the debug
-     */
-    protected boolean isDebug ()
-    {
-        return this.debug;
-    }
-
-    /**
-     * @param theDebug the debug to set
-     */
-    protected void setDebug ( boolean theDebug )
-    {
-        this.debug = theDebug;
-    }
-
-    /**
-     * @return the verbose
-     */
-    protected boolean isVerbose ()
-    {
-        return this.verbose;
-    }
-
-    /**
-     * @param theVerbose the verbose to set
-     */
-    protected void setVerbose ( boolean theVerbose )
-    {
-        this.verbose = theVerbose;
-    }
-
-    /**
-     * @return the showDeprecation
-     */
-    protected boolean isShowDeprecation ()
-    {
-        return this.showDeprecation;
-    }
-
-    /**
-     * @param theShowDeprecation the showDeprecation to set
-     */
-    protected void setShowDeprecation ( boolean theShowDeprecation )
-    {
-        this.showDeprecation = theShowDeprecation;
-    }
-
-    /**
-     * @return the showWarnings
-     */
-    protected boolean isShowWarnings ()
-    {
-        return this.showWarnings;
-    }
-
-    /**
-     * @param theShowWarnings the showWarnings to set
-     */
-    protected void setShowWarnings ( boolean theShowWarnings )
-    {
-        this.showWarnings = theShowWarnings;
-    }
-
-    /**
-     * @return the source
-     */
-    protected String getSource ()
-    {
-        return this.source;
-    }
-
-    /**
-     * @param theSource the source to set
-     */
-    protected void setSource ( String theSource )
-    {
-        this.source = theSource;
-    }
-
-    /**
-     * @return the target
-     */
-    protected String getTarget ()
-    {
-        return this.target;
-    }
-
-    /**
-     * @param theTarget the target to set
-     */
-    protected void setTarget ( String theTarget )
-    {
-        this.target = theTarget;
-    }
-
-    /**
-     * @return the encoding
-     */
-    protected String getEncoding ()
-    {
-        return this.encoding;
-    }
-
-    /**
-     * @param theEncoding the encoding to set
-     */
-    protected void setEncoding ( String theEncoding )
-    {
-        this.encoding = theEncoding;
-    }
-
-    /**
      * @return the local
      */
-    public ArtifactRepository getLocal ()
+    public ArtifactRepository getLocal()
     {
         return this.local;
     }
@@ -567,7 +344,7 @@ public class ProjectOnlyMojo
     /**
      * @param theLocal the local to set
      */
-    public void setLocal ( ArtifactRepository theLocal )
+    public void setLocal( ArtifactRepository theLocal )
     {
         this.local = theLocal;
     }

@@ -33,69 +33,10 @@ Ounce Compiler Settings
    
 * Compiler Settings
 
-   The {{{http://maven.apache.org/plugins/maven-compiler-plugin}maven-compiler-plugin}} allows the user to specify many extra compiler settings. Some of them will
-   also need to be known to the Ounce compiler. See the {{{../project-mojo.html}project}} mojo page for specifics on the individual settings. 
-   
-   All the settings duplicated from the <<<maven-compiler-plugin>>> have the same name and expression values as the compiler. This is done to make it easy to configure
-   both plugins from a single source. A suggested approach to sharing the config is shown below.
-   
-   You may currently be setting the compiler settings using the config as shown below. (for brevity only the most common, source and target are shown)
+  Ounce will normally handle the java compiler options correctly, but additional parameters may be
+  passed using the <<<javaCompilerOptions>>> parameter. This command line will be passed
+  directly to the compiler and thus you should refer to your compiler documentation for the 
+  proper flags and syntax.
 
-+---+
-<project>
-  ...
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-           <source>1.4</source>
-           <target>1.4</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  ...
-</project   
-+---+   
-   
-  The correct way to share this configuration is through the introduction of properties to hold the values. The configuration is shown below.
-
-+---+
-<project>
-  ...
-    <properties>
-	  <my.compiler.source>1.4</my.compiler.source>
-	  <my.compiler.target>1.4</my.compiler.target>
-    <properties>
-    <build>	
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-             <source>${my.compiler.source}</source>
-             <target>${my.compiler.target}</target>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>com.ouncelabs.maven.plugins</groupId>
-          <artifactId>ounce-maven-plugin</artifactId>
-          <configuration>
-             <source>${my.compiler.source}</source>
-             <target>${my.compiler.target}</target>
-          </configuration>
-        </plugin>
-      </plugins>
-    </build>
-  ...
-</project   
-+---+  
-
-  It is also worth mentioning that since the ounce plugin looks for compiler values using the same expression as the <<<maven-compiler-plugin>>> you may also
-  pass parameters on the command line as you might do currently:
-  
-+---+
-mvn install -Dmaven.compiler.source=1.4 -Dmaven.compiler.target=1.4
-+---+
 
    	
