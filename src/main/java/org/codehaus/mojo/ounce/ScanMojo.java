@@ -79,8 +79,8 @@ public class ScanMojo
     String assessmentOutput;
 
     /**
-     * Assigns a “caller” to the assessment. Caller is an arbitrary string and may or may not correspond with any actual
-     * user of any system. Caller is written to ounceauto’s log file. In the future this functionality will aid in
+     * Assigns a caller to the assessment. Caller is an arbitrary string and may or may not correspond with any actual
+     * user of any system. Caller is written to ounceautos log file. In the future this functionality will aid in
      * auditing.
      * 
      * @parameter expression="${ounce.caller}"
