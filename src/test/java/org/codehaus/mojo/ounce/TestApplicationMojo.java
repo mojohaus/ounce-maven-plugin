@@ -400,9 +400,9 @@ public class TestApplicationMojo
 
         assertEquals( 3, projects.size() );
 
-        assertContains( projects, "${pathToExtern}", "myExternalApp", "e" );
-        assertContains( projects, "${pathToExtern2}/f", "myExternalApp", "f" );
-        assertContains( projects, "${pathToExtern2}/g", "myExternalApp", "g" );
+        assertContains( projects, "%pathToExtern%", "myExternalApp", "e" );
+        assertContains( projects, "%pathToExtern2%/f", "myExternalApp", "f" );
+        assertContains( projects, "%pathToExtern2%/g", "myExternalApp", "g" );
     }
 
     public List getProjects ()

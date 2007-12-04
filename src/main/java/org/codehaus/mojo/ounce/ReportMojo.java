@@ -8,7 +8,6 @@ import org.apache.maven.doxia.siterenderer.Renderer;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
-import org.apache.maven.reporting.AbstractMavenReport;
 import org.apache.maven.reporting.MavenReport;
 import org.apache.maven.reporting.MavenReportException;
 import org.codehaus.doxia.sink.Sink;
@@ -84,7 +83,7 @@ public class ReportMojo
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
-          
+    	
     }
 
     public boolean canGenerateReport()
@@ -96,8 +95,8 @@ public class ReportMojo
         throws MavenReportException
     {
         this.getLog().warn( "Generating..." );
-        this.waitForScan = false;
-        this.assessmentOutput=reportOutputDirectory+File.separator+getOutputName()+".html";
+        this.waitForScan = true;
+        this.reportType = "Findings|html|" + reportOutputDirectory+File.separator+getOutputName()+".html";
         try
         {
             super.execute();

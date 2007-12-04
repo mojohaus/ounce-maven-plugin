@@ -72,7 +72,7 @@ public class ScanMojo
      * a temporary location pending other operations. The temporary location will delete files upon startup and after a
      * configurable period of time.
      * 
-     * @parameter 
+     * @parameter expression="${ounce.assessmentOutput}"
      */
     String assessmentOutput;
 
@@ -97,16 +97,16 @@ public class ScanMojo
     /**
      * Automatically publish the assessment following the completion of the scan.
      * 
-     * @parameter expression="${ounce.publish}" default-value="true"
+     * @parameter expression="${ounce.publish}" default-value="false"
      */
     boolean publish;
 
     /**
      * The location of the Ounce client installation directory if the Ounce client is not on the path.
      * 
-     * @parameter
+     * @parameter expression="${ounce.installDir}"
      */
-    String ounceInstallDir;
+    String installDir;
 
     /**
      * If the mojo should wait until the scan is complete. Used by the
@@ -135,7 +135,7 @@ public class ScanMojo
 
             OunceCore core = getCore();
             core.scan( applicationName, Utils.convertToPropertyPath( applicationFile, pathProperties ), assessmentName,
-                       assessmentOutput, caller, reportType, publish, this.options, this.ounceInstallDir, waitForScan,
+                       assessmentOutput, caller, reportType, publish, this.options, this.installDir, waitForScan,
                        getLog() );
         }
         catch ( ComponentLookupException e )

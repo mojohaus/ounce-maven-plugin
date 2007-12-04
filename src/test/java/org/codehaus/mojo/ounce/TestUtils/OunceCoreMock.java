@@ -29,7 +29,6 @@ package org.codehaus.mojo.ounce.TestUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.maven.plugin.logging.Log;
 import org.codehaus.mojo.ounce.core.OunceCore;

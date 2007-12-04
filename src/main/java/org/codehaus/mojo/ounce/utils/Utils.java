@@ -42,7 +42,8 @@ import org.codehaus.plexus.util.StringUtils;
 public class Utils
 {
 
-    static final String propertyFormat = "${**}";
+    //static final String propertyFormat = "${**}";
+	static final String propertyFormat = "%**%";
 
     /**
      * Removes the pathToRemove from the path and optionally

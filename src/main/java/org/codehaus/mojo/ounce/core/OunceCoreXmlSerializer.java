@@ -26,10 +26,12 @@
  */
 package org.codehaus.mojo.ounce.core;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -46,9 +48,7 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.xerces.dom.DocumentImpl;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
-import org.codehaus.mojo.ounce.ProjectOnlyMojo;
 import org.codehaus.plexus.util.StringUtils;
-import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -60,8 +60,6 @@ import org.w3c.dom.NodeList;
  * @plexus.component role="org.codehaus.mojo.ounce.core.OunceCore" role-hint="ouncexml"
  */
 public class OunceCoreXmlSerializer implements OunceCore {
-
-	public final static String s_ounceComment = "";
 
 	public void createApplication(String baseDir, String theName, String applicationRoot, List theProjects, Map options, Log log) throws OunceCoreException {
         // sort them to avoid implementation details messing
@@ -75,7 +73,7 @@ public class OunceCoreXmlSerializer implements OunceCore {
 	        // create the XML Document
 	        Document xmlDoc;
 	        Element root = null;
-	        String filePath = theName + ".paf";
+	        String filePath = baseDir + File.separator + theName + ".paf";
 	        File pafFile = new File(filePath);
 	        if (pafFile.exists()) {
 	        	// load up the PAF
@@ -104,8 +102,6 @@ public class OunceCoreXmlSerializer implements OunceCore {
 	        } else {
 	        	log.info("Creating new paf: '" + filePath + "'...");
 	        	xmlDoc = new DocumentImpl();
-		        Comment ounceComment = xmlDoc.createComment(s_ounceComment);
-		        xmlDoc.appendChild(ounceComment);
 		        root = xmlDoc.createElement("Application");
 		        root.setAttribute("name", theName);
 	        	xmlDoc.appendChild(root);
@@ -137,8 +133,6 @@ public class OunceCoreXmlSerializer implements OunceCore {
 	}
 
 	public void createProject(String baseDir, String theName, String projectRoot, List theSourceRoots, String theWebRoot, String theClassPath, String theJdkName, String compilerOptions, String packaging, Map options, Log log) throws OunceCoreException {
-       
-
         log.info("OunceCoreXmlSerializer: Writing Project parameters to xml.");
         
         // place all of the Project properties into a property bundle
@@ -161,14 +155,18 @@ public class OunceCoreXmlSerializer implements OunceCore {
 	        }
         }
 
-        if (theWebRoot != null && theWebRoot.trim().length() > 0) {
+        if (!StringUtils.isEmpty(theWebRoot) && (!StringUtils.isEmpty(packaging) && packaging.equals("war"))) {
         	projectProperties.setProperty("web_context_root_path", theWebRoot.trim());
+        }
+        
+        if (!StringUtils.isEmpty(compilerOptions)) {
+        	projectProperties.setProperty("compiler_options", compilerOptions);
         }
         
     	try {
     		Document xmlDoc;
     		Element root = null;
-        	String filePath = theName + ".ppf";
+        	String filePath = baseDir + File.separator + theName + ".ppf";
     		File ppfFile = new File(filePath);
     		if (ppfFile.exists()) {
     			// need to preserve information that could be in the ppf (Project validation routines, etc.)
@@ -189,7 +187,15 @@ public class OunceCoreXmlSerializer implements OunceCore {
 	    					// don't preserve Configuration and Source, these should come fresh from Maven
 	    					// everything else should be left alone
 	    					if (childName.equals("Configuration") || childName.equals("Source")) {
-	    						node.removeChild(child);
+	    						if (childName.equals("Source")) {
+	        						NamedNodeMap attribs = child.getAttributes();
+	    							String webStr = attribs.getNamedItem("web").getNodeValue();
+	    							if (!(webStr != null && webStr.equals("true"))) {
+	    	    						node.removeChild(child);
+	    							}
+	    						} else {
+	    							node.removeChild(child);
+	    						}
 	    					}
 	    				}
 	    			}
@@ -198,8 +204,6 @@ public class OunceCoreXmlSerializer implements OunceCore {
     			log.info("Creating new Document...");
     			// create a new XML Document
     			xmlDoc = new DocumentImpl();
-    	        Comment ounceComment = xmlDoc.createComment(s_ounceComment);
-    	        xmlDoc.appendChild(ounceComment);
     			root = xmlDoc.createElement("Project");
 	        	xmlDoc.appendChild(root);
     		}
@@ -379,17 +383,17 @@ public class OunceCoreXmlSerializer implements OunceCore {
 	    					} else if (childName.equals("Source")) {
 	    						String sourcePath = attribs.getNamedItem("path").getNodeValue();
 	    						String webStr = attribs.getNamedItem("web").getNodeValue();
-	    					    if (webStr != null && webStr.equals("true")) {
-	    					    	// TODO: need a way to maintain that this is a web source root   
+	    						// add any non-web roots
+	    					    if (webStr == null || (webStr != null && !webStr.equals("true"))) {
+		    					    sourceRoots.add(sourcePath);
 	    						} 
-	    					    sourceRoots.add(sourcePath);
 	    					}
 	    				}
 	    			}
 	    		}
-	    		String packaging = null; // TODO -- what are the various packaging options?
+	    		String packaging = null;
 	    		if (webRoot != null) {
-	    			packaging = "";
+	    			packaging = "war";
 	    		}
 	    		
 	    		OunceCoreProject project = new OunceCoreProject(projectName, projectRoot, sourceRoots, webRoot, classPath, jdkName, packaging, optionsStr, options);
@@ -408,5 +412,78 @@ public class OunceCoreXmlSerializer implements OunceCore {
 
 	public void scan(String applicationName, String applicationFile, String assessmentName, String assessmentOutput, String caller, String reportType, boolean publish, Map ounceOptions, String installDir, boolean wait, Log log) throws OunceCoreException {
 		
+		String command;
+		if (installDir == null) {
+			// just assume it's on the path
+			command = "ounceauto";
+		} else {
+			command = installDir + File.separator + "bin" + File.separator + "ounceauto";
+		}
+		
+		try {
+			command += " scanapplication";
+			if (!StringUtils.isEmpty(applicationFile)) {
+				command += " -application_file \"" + applicationFile + "\"";
+			} else if (!StringUtils.isEmpty(applicationName)) {
+				command += " -application \"" + applicationName + "\"";
+			}
+			if (!StringUtils.isEmpty(assessmentName)) {
+				command += " -name \"" + assessmentName + "\""; 
+			}
+			if (!StringUtils.isEmpty(assessmentOutput)) {
+				command += " -save \"" + assessmentOutput + "\"";
+			}
+			if (!StringUtils.isEmpty(caller)) {
+				command += " -caller \"" + caller + "\"";
+			}
+			if (!StringUtils.isEmpty(reportType)) {
+				String[] split = reportType.split("[|]");
+				if (split.length != 3) {
+					throw new OunceCoreException("Invalid report type specification '" + reportType + "'.");
+				}
+				String type = split[0];
+				String format = split[1];
+				String location = split[2];
+				command += " -report \"" + type + "\" \"" + format + "\" " + "\"" + location + "\"";
+			}
+			if (publish) {
+				command += " -publish";
+			}
+			
+			System.out.println(command);
+			
+			int requestId = executeCommand(command, log);
+			
+			System.out.println("requestId: " + requestId);
+			if (wait) {
+				if (installDir == null) {
+					// just assume it's on the path
+					command = "ounceauto";
+				} else {
+					command = installDir + File.separator + "bin" + File.separator + "ounceauto";
+				}
+				command += " wait -requestid " + requestId;
+				System.out.println(command);
+				executeCommand(command, log);
+			}
+		} catch (Exception ex) {
+			throw new OunceCoreException(ex);
+		}
+	}
+	
+	private int executeCommand(String command, Log log) throws IOException, InterruptedException {
+		Process p = Runtime.getRuntime().exec(command);
+		BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		String line;
+		while ((line = input.readLine()) != null) {
+			if (log != null) {
+				log.info("ounceauto: " + line);
+			} else {
+				System.out.println("ounceauto: " + line);
+			}
+		}
+
+		input.close();
+		return p.waitFor();
 	}
 }

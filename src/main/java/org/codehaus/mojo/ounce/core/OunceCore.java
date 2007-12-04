@@ -28,7 +28,6 @@ package org.codehaus.mojo.ounce.core;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.maven.plugin.logging.Log;
 import org.codehaus.plexus.PlexusContainer;
@@ -51,8 +50,6 @@ public interface OunceCore
      * @param name Name of the application.
      * @param applicationRoot Base folder used to calculate the relative location of the projects.
      * @param projects List of paths to included projects.
-     * @param preserveApp If set, then the application files are not overwritten.
-     * @param storeFullPaths If true, all paths are absolute.
      * @param ounceOptions Extra options
      * @param log Logger
      * @throws OunceCoreException
@@ -74,7 +71,6 @@ public interface OunceCore
      * @param webRoot Location of the exploded war (null if not a war)
      * @param classPath Classpath needed for compilation
      * @param jdkName Name of JDK configuration known to Ounce Core
-     * @param storeFullPaths If true, all paths are absolute.
      * @param compilerOptions Bean containing compiler options (based on maven-compiler-plugin options)
      * @param packaging The packaging type of the current project.
      * @param ounceOptions Extra Ounce options

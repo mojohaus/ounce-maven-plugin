@@ -89,7 +89,7 @@ public class TestScanMojo
         core = (OunceCoreMock) mojo.getCore();
         scan = core.getScan();
         
-        assertEquals( "${mypath}/is/messed/${up}", scan.getApplicationFile() );
+        assertEquals( "%mypath%/is/messed/%up%", scan.getApplicationFile() );
         
         
     }

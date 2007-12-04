@@ -26,10 +26,8 @@
  */
 package org.codehaus.mojo.ounce;
 
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
@@ -60,7 +58,7 @@ public class ProjectOnlyMojo
     public static final String M2_REPO = "M2_REPO";
 
     /**
-     * This is the scope of the classpath used to analyze this project. The default value is "test." Valid choices are:
+     * This is the scope of the classpath used to analyze this project. The default value is "compile." Valid choices are:
      * compile, test, runtime, system. If includeTestSources is true, then the classpathScope will automatically revert
      * to test, otherwise it is likely that the source will fail to compile.
      * 

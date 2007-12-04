@@ -63,7 +63,7 @@ public abstract class AbstractOunceMojo
      * Use -Dounce.core=console to have have the output displayed
      * instead of written to the file.
      * 
-     * @parameter default-value="console"
+     * @parameter default-value="ouncexml"
      *            expression="${ounce.core}
      */
     protected String coreHint;

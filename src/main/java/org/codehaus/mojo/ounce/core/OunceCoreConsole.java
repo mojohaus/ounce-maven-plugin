@@ -28,7 +28,6 @@ package org.codehaus.mojo.ounce.core;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.maven.plugin.logging.Log;
 

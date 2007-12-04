@@ -31,8 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.mojo.ounce.utils.Utils;
-
 import junit.framework.TestCase;
 
 /**
@@ -72,14 +70,14 @@ public class TestUtils
     public void testFilePathConversion ()
     {
         assertEquals( "org/apache", Utils.convertToRelativePath( "/repo/org/apache", "/repo", "" ) );
-        assertEquals( "${M2_REPO}/org/apache", Utils.convertToRelativePath( "/repo/org/apache", "/repo", "M2_REPO" ) );
-        assertEquals( "${M2_REPO}/org/apache;${M2_REPO}/com", Utils
+        assertEquals( "%M2_REPO%/org/apache", Utils.convertToRelativePath( "/repo/org/apache", "/repo", "M2_REPO" ) );
+        assertEquals( "%M2_REPO%/org/apache;%M2_REPO%/com", Utils
             .convertToRelativePath( "/repo/org/apache;/repo/com", "/repo", "M2_REPO" ) );
-        assertEquals( "${M2_REPO}/org/apache;${M2_REPO}/com", Utils
+        assertEquals( "%M2_REPO%/org/apache;%M2_REPO%/com", Utils
             .convertToRelativePath( "\\repo\\org\\apache;\\repo\\com", "\\repo", "M2_REPO" ) );
         assertEquals( "org/apache", Utils.convertToRelativePath( "\\repo\\org\\apache", "\\repo", "" ) );
         assertEquals( ".", Utils.convertToRelativePath( "/foo/something", "/foo/something", "" ) );
-        assertEquals( "${key}", Utils.convertToRelativePath( "/foo/something", "/foo/something", "key" ) );
+        assertEquals( "%key%", Utils.convertToRelativePath( "/foo/something", "/foo/something", "key" ) );
 
         List list = new ArrayList();
         list.add( "/repo/org/apache" );
@@ -94,8 +92,8 @@ public class TestUtils
         result = Utils.convertToRelativePaths( list, "/repo", "M2_REPO" );
 
         assertEquals( list.size(), result.size() );
-        assertEquals( "${M2_REPO}/org/apache", result.get( 0 ) );
-        assertEquals( "${M2_REPO}/org/apache/foo", result.get( 1 ) );
+        assertEquals( "%M2_REPO%/org/apache", result.get( 0 ) );
+        assertEquals( "%M2_REPO%/org/apache/foo", result.get( 1 ) );
 
     }
 
@@ -105,9 +103,9 @@ public class TestUtils
         properties.put( "M2_REPO", "/repo" );
         properties.put( "SOMEPLACE", "someplace" );
 
-        assertEquals( "${M2_REPO}", Utils.convertToPropertyPath( "/repo", properties ) );
-        assertEquals( "${SOMEPLACE}", Utils.convertToPropertyPath( "someplace", properties ) );
-        assertEquals( "${M2_REPO}/${SOMEPLACE}", Utils.convertToPropertyPath( "/repo/someplace", properties ) );
+        assertEquals( "%M2_REPO%", Utils.convertToPropertyPath( "/repo", properties ) );
+        assertEquals( "%SOMEPLACE%", Utils.convertToPropertyPath( "someplace", properties ) );
+        assertEquals( "%M2_REPO%/%SOMEPLACE%", Utils.convertToPropertyPath( "/repo/someplace", properties ) );
         assertEquals( "/repo/someplace", Utils.convertToPropertyPath( "/repo/someplace", null ) );
         assertEquals( "/repo/someplace", Utils.convertToPropertyPath( "/repo/someplace", new HashMap() ) );
 
@@ -133,9 +131,9 @@ public class TestUtils
         
         list = Utils.convertToPropertyPaths( list, properties );
 
-        assertTrue( list.contains( "${M2_REPO}" ) );
-        assertTrue( list.contains( "${SOMEPLACE}" ) );
-        assertTrue( list.contains( "${M2_REPO}/${SOMEPLACE}/foo" ) );
+        assertTrue( list.contains( "%M2_REPO%" ) );
+        assertTrue( list.contains( "%SOMEPLACE%" ) );
+        assertTrue( list.contains( "%M2_REPO%/%SOMEPLACE%/foo" ) );
 
     }
 }
