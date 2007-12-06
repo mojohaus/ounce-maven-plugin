@@ -420,34 +420,71 @@ public class OunceCoreXmlSerializer implements OunceCore {
 			command = installDir + File.separator + "bin" + File.separator + "ounceauto";
 		}
 		
+		String existingAssessment = null;
+		int includeSrcBefore = -1;
+		int includeSrcAfter = -1;
+		
+		if (ounceOptions != null) {
+			if (ounceOptions.get("existingAssessmentFile") != null) {
+				existingAssessment = (String) ounceOptions.get("existingAssessmentFile");
+			}
+			if (ounceOptions.get("includeSrcBefore") != null) {
+				includeSrcBefore = ((Integer) ounceOptions.get("includeSrcBefore")).intValue();
+			}
+			if (ounceOptions.get("includeSrcAfter") != null) {
+				includeSrcAfter = ((Integer) ounceOptions.get("includeSrcAfter")).intValue();
+			}
+		}
+		
 		try {
-			command += " scanapplication";
-			if (!StringUtils.isEmpty(applicationFile)) {
-				command += " -application_file \"" + applicationFile + "\"";
-			} else if (!StringUtils.isEmpty(applicationName)) {
-				command += " -application \"" + applicationName + "\"";
-			}
-			if (!StringUtils.isEmpty(assessmentName)) {
-				command += " -name \"" + assessmentName + "\""; 
-			}
-			if (!StringUtils.isEmpty(assessmentOutput)) {
-				command += " -save \"" + assessmentOutput + "\"";
+			if (existingAssessment == null) {
+				command += " scanapplication";
+				if (!StringUtils.isEmpty(applicationFile)) {
+					command += " -application_file \"" + applicationFile + "\"";
+				} else if (!StringUtils.isEmpty(applicationName)) {
+					command += " -application \"" + applicationName + "\"";
+				}
+				if (!StringUtils.isEmpty(assessmentName)) {
+					command += " -name \"" + assessmentName + "\""; 
+				}
+				if (!StringUtils.isEmpty(assessmentOutput)) {
+					command += " -save \"" + assessmentOutput + "\"";
+				}
+				if (!StringUtils.isEmpty(reportType)) {
+					String[] split = reportType.split("[|]");
+					if (split.length != 3) {
+						throw new OunceCoreException("Invalid report type specification '" + reportType + "'.");
+					}
+					String type = split[0];
+					String format = split[1];
+					String location = split[2];
+					command += " -report \"" + type + "\" \"" + format + "\" " + "\"" + location + "\"";
+				}
+				if (publish) {
+					command += " -publish";
+				}
+			} else {
+				// just generate a report for an existing saved assessment
+				command += " generatereport -assessment \"" + existingAssessment + "\"";
+				if (!StringUtils.isEmpty(reportType)) {
+					String[] split = reportType.split("[|]");
+					if (split.length != 3) {
+						throw new OunceCoreException("Invalid report type specification '" + reportType + "'.");
+					}
+					String type = split[0];
+					String format = split[1];
+					String location = split[2];
+					command += " -type \"" + type + "\" -output \"" + format + "\" -file \"" + location + "\"";
+				}
 			}
 			if (!StringUtils.isEmpty(caller)) {
 				command += " -caller \"" + caller + "\"";
+			}	
+			if (includeSrcBefore != -1) {
+				command += " -includeSrcBefore " + includeSrcBefore;
 			}
-			if (!StringUtils.isEmpty(reportType)) {
-				String[] split = reportType.split("[|]");
-				if (split.length != 3) {
-					throw new OunceCoreException("Invalid report type specification '" + reportType + "'.");
-				}
-				String type = split[0];
-				String format = split[1];
-				String location = split[2];
-				command += " -report \"" + type + "\" \"" + format + "\" " + "\"" + location + "\"";
-			}
-			if (publish) {
-				command += " -publish";
+			if (includeSrcAfter != -1) {
+				command += " -includeSrcAfter " + includeSrcAfter;
 			}
 			
 			System.out.println(command);

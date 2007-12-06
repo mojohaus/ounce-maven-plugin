@@ -1,6 +1,7 @@
 package org.codehaus.mojo.ounce;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -26,12 +27,34 @@ public class ReportMojo
     /**
      * Directory where reports will go.
      * 
-     *@parameter expression="${project.reporting.outputDirectory}/ounce"
+     * @parameter expression="${project.reporting.outputDirectory}/ounce"
      * @required
      * @readonly
      */
     private File reportOutputDirectory;
 
+    /**
+     * Existing assessment file to generate a report for.  
+     * If specified the report will be run on an existing assessment rather than a new scan.
+     * 
+     * @parameter expression="${ounce.existingAssessmentFile}"
+     */
+    String existingAssessmentFile;
+    
+    /**
+     * Number of lines of source code to include in the report before each finding.
+     * 
+     * @parameter expression="${ounce.includeSrcBefore}"
+     */
+    int includeSrcBefore = -1;
+    
+    /**
+     * Number of lines of source code to include in the report after each finding.
+     * 
+     * @parameter expression="${ounce.includeSrcAfter}"
+     */
+    int includeSrcAfter = -1;
+    
     /**
      * The current Project.
      * 
@@ -83,7 +106,19 @@ public class ReportMojo
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
-    	
+    	System.out.println("execute");
+    	this.getLog().warn( "Generating..." );
+        
+        if (existingAssessmentFile != null || includeSrcAfter != -1 || includeSrcBefore != -1) {
+        	if (options == null) {
+        		options = new HashMap();
+        	}
+        	options.put("existingAssessmentFile", existingAssessmentFile);
+        	options.put("includeSrcAfter", new Integer(includeSrcAfter));
+        	options.put("includeSrcBefore", new Integer(includeSrcBefore));
+        }
+
+        super.execute();
     }
 
     public boolean canGenerateReport()
@@ -97,6 +132,7 @@ public class ReportMojo
         this.getLog().warn( "Generating..." );
         this.waitForScan = true;
         this.reportType = "Findings|html|" + reportOutputDirectory+File.separator+getOutputName()+".html";
+
         try
         {
             super.execute();
@@ -109,7 +145,6 @@ public class ReportMojo
         {
             throw new MavenReportException("Execption generating report:",e);
         }
-        
     }
 
     /**
