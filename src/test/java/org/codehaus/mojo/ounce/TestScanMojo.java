@@ -84,7 +84,7 @@ public class TestScanMojo
         map.put( "mypath", "my/path" );
         map.put( "up", "up" );
         
-        mojo.pathProperties = map;
+        mojo.pathVariables = map;
         mojo.execute();
         core = (OunceCoreMock) mojo.getCore();
         scan = core.getScan();

@@ -165,7 +165,7 @@ public class ScanMojo
             }
 
             OunceCore core = getCore();
-            core.scan( applicationName, Utils.convertToPropertyPath( applicationFile, pathProperties ), assessmentName,
+            core.scan( applicationName, Utils.convertToPropertyPath( applicationFile, pathVariables ), assessmentName,
                        assessmentOutput, caller, reportType, reportOutputType, reportOutputLocation, publish, this.options, this.installDir, waitForScan,
                        getLog() );
         }

@@ -398,7 +398,7 @@ public class ApplicationMojo
             if ( fileSelector.isSelected( new ProjectFileInfo( new File( prj.getPath() ) ) ) )
             {
                 String path = Utils.convertToUnixStylePath( extern.getPath() + "/" + prj.getPath() );
-                path = Utils.convertToPropertyPath( path, pathProperties );
+                path = Utils.convertToPropertyPath( path, pathVariables );
                 prj.setPath( path );
 
                 getLog().debug( "Adding External App Project: " + prj );
@@ -476,11 +476,11 @@ public class ApplicationMojo
     }
 
     /**
-     * @param thePathProperties the pathProperties to set
+     * @param thePathProperties the pathVariables to set
      */
     public void setPathProperties ( Map thePathProperties )
     {
-        this.pathProperties = thePathProperties;
+        this.pathVariables = thePathProperties;
     }
 
 }
