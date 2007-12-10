@@ -93,7 +93,9 @@ public interface OunceCore
      * @param assessmentName A name for the assessment.
      * @param assessmentOutput The location to store the assessment results.
      * @param caller A name to use for auditing purposes.
-     * @param reportType store the reports in this format.
+     * @param reportType generate this type of report
+     * @param reportOutputType use this output type for the report
+     * @param reportOutputLocation output the report to this location
      * @param publish automatically publish the results.
      * @param ounceOptions Extra Ounce options
      * @param installDir location of ounce client
@@ -102,7 +104,7 @@ public interface OunceCore
      * @throws OunceCoreException
      */
     void scan( String applicationName, String applicationFile, String assessmentName, String assessmentOutput,
-               String caller, String reportType, boolean publish, Map ounceOptions, String installDir, boolean wait,
+               String caller, String reportType, String reportOutputType, String reportOutputLocation, boolean publish, Map ounceOptions, String installDir, boolean wait,
                Log log )
         throws OunceCoreException;
 

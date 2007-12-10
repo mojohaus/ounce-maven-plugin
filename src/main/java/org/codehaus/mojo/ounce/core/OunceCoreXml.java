@@ -205,7 +205,7 @@ public class OunceCoreXml
      *      org.apache.maven.plugin.logging.Log)
      */
     public void scan( String theApplicationName, String theApplicationFile, String theAssessmentName,
-                      String theAssessmentOutput, String theCaller, String theReportType, boolean thePublish,
+                      String theAssessmentOutput, String theCaller, String theReportType, String theReportOutputType, String theReportOutputLocation, boolean thePublish,
                       Map theOunceOptions, String installDir, boolean wait, Log theLog )
         throws OunceCoreException
     {

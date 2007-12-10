@@ -410,7 +410,7 @@ public class OunceCoreXmlSerializer implements OunceCore {
 		return null;
 	}
 
-	public void scan(String applicationName, String applicationFile, String assessmentName, String assessmentOutput, String caller, String reportType, boolean publish, Map ounceOptions, String installDir, boolean wait, Log log) throws OunceCoreException {
+	public void scan(String applicationName, String applicationFile, String assessmentName, String assessmentOutput, String caller, String reportType, String reportOutputType, String reportOutputLocation, boolean publish, Map ounceOptions, String installDir, boolean wait, Log log) throws OunceCoreException {
 		
 		String command;
 		if (installDir == null) {
@@ -451,14 +451,7 @@ public class OunceCoreXmlSerializer implements OunceCore {
 					command += " -save \"" + assessmentOutput + "\"";
 				}
 				if (!StringUtils.isEmpty(reportType)) {
-					String[] split = reportType.split("[|]");
-					if (split.length != 3) {
-						throw new OunceCoreException("Invalid report type specification '" + reportType + "'.");
-					}
-					String type = split[0];
-					String format = split[1];
-					String location = split[2];
-					command += " -report \"" + type + "\" \"" + format + "\" " + "\"" + location + "\"";
+					command += " -report \"" + reportType + "\" \"" + reportOutputType + "\" " + "\"" + reportOutputLocation + "\"";
 				}
 				if (publish) {
 					command += " -publish";

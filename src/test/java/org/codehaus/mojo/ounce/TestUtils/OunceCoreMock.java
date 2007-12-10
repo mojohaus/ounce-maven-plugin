@@ -129,7 +129,7 @@ public class OunceCoreMock
      *      java.lang.String, java.lang.String, java.lang.String, boolean, org.apache.maven.plugin.logging.Log)
      */
     public void scan( String applicationName, String applicationFile, String assessmentName, String assessmentOutput,
-                      String caller, String reportType, boolean publish, Map ounceOptions, String installDir,
+                      String caller, String reportType, String reportOutputType, String reportOutputLocation, boolean publish, Map ounceOptions, String installDir,
                       boolean wait, Log log )
         throws OunceCoreException
     {

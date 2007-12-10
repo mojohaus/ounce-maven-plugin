@@ -87,13 +87,43 @@ public class ScanMojo
     String caller;
 
     /**
-     * Automatically generate a report for this assessment following the completion of the scan. For information on
-     * report types and output types see the 5.0.4 function spec overview. The arguments are identical to the CLI report
-     * command. Format: [report type]|[output type]|[output location]
+     * Automatically generate a report for this assessment following the completion of the scan.
+     * 
+     * The following report types are included in a default Ounce installation:
+     * 
+     * Findings Report Types:
+     * 		Findings By CWE
+     * 		Findings By API
+     * 		Findings By Classification
+     * 		Findings By File
+     * 		Findings By Type
+     * 		Findings By Bundle
+     * 		Findings
+     * SmartAudit Report Types:
+     * 		OWASP Top Ten
+     * 		PCI Data Security Standard
+     * 		Ounce Software Security Profile
+     * 		OWASP Top Ten 2007  
      * 
      * @parameter expression="${ounce.reportType}"
      */
     String reportType;
+    
+    /**
+     * The output type to use for the report.
+     * 
+     * Output type may be html, zip, pdf-summary, pdf-detailed, pdf-comprehensive, or pdf-annotated.
+     * 
+     * @parameter expression="${ounce.reportOutputType}"
+     */
+    String reportOutputType;
+    
+    /**
+     * The path to the output location for the report.
+     * 
+     * @parameter expression="${ounce.reportOutputLocation}"
+     */
+    String reportOutputLocation;
 
     /**
      * Automatically publish the assessment following the completion of the scan.
@@ -136,7 +166,7 @@ public class ScanMojo
 
             OunceCore core = getCore();
             core.scan( applicationName, Utils.convertToPropertyPath( applicationFile, pathProperties ), assessmentName,
-                       assessmentOutput, caller, reportType, publish, this.options, this.installDir, waitForScan,
+                       assessmentOutput, caller, reportType, reportOutputType, reportOutputLocation, publish, this.options, this.installDir, waitForScan,
                        getLog() );
         }
         catch ( ComponentLookupException e )

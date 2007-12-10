@@ -131,7 +131,13 @@ public class ReportMojo
     {
         this.getLog().warn( "Generating..." );
         this.waitForScan = true;
-        this.reportType = "Findings|html|" + reportOutputDirectory+File.separator+getOutputName()+".html";
+        if (this.reportType == null) {
+        	this.reportType = "Findings";
+        }
+        if (this.reportOutputType == null) {
+            this.reportOutputType = "html";
+        }
+        this.reportOutputLocation = reportOutputDirectory+File.separator+getOutputName()+".html";
 
         try
         {
