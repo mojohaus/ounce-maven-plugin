@@ -40,6 +40,7 @@ import org.codehaus.plexus.util.StringUtils;
  * 
  * @author <a href="mailto:brianf@apache.org">Brian Fox</a>
  * @goal scan
+ * @phase package
  */
 public class ScanMojo
     extends AbstractOunceMojo

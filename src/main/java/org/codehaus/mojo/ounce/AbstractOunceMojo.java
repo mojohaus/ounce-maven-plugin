@@ -71,7 +71,8 @@ public abstract class AbstractOunceMojo
     /**
      * List of paths and keys in the form key,path. Any paths
      * will be replaced with the appropriate key.
-     * @parameter
+     * 
+     * @parameter expression="${ounce.pathProperties}"
      */
     Map pathProperties;
     
