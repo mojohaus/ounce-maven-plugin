@@ -525,7 +525,7 @@ public class OunceCoreXmlSerializer implements OunceCore {
 				executeCommand(command, log);
 			}
 		} catch (Exception ex) {
-			throw new OunceCoreException(ex);
+			// drop this problem on the floor, it is not an issue to fail the build
 		}
 	}
 	

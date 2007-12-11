@@ -93,7 +93,7 @@ public class ProjectOnlyMojo
      * Whether the plugin should use the Ounce Automation Server to create any necessary variables (such as M2_REPO).
      * Requires that the Ounce Automation Server be installed.
      * 
-     * @parameter expression="${ounce.createVariables}" default-value="false"
+     * @parameter expression="${ounce.createVariables}" default-value="true"
      */
     protected boolean createVariables;
     
