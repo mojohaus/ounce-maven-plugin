@@ -92,18 +92,18 @@ public class ScanMojo
      * The following report types are included in a default Ounce installation:
      * 
      * Findings Report Types:
-     * 		Findings By CWE
-     * 		Findings By API
-     * 		Findings By Classification
-     * 		Findings By File
-     * 		Findings By Type
-     * 		Findings By Bundle
-     * 		Findings
+     * 		Findings By CWE, 
+     * 		Findings By API,
+     * 		Findings By Classification,
+     * 		Findings By File,
+     * 		Findings By Type,
+     * 		Findings By Bundle,
+     * 		Findings,
      * SmartAudit Report Types:
-     * 		OWASP Top Ten
-     * 		PCI Data Security Standard
-     * 		Ounce Software Security Profile
-     * 		OWASP Top Ten 2007  
+     * 		OWASP Top Ten,
+     * 		PCI Data Security Standard,
+     * 		Ounce Software Security Profile,
+     * 		OWASP Top Ten 2007
      * 
      * @parameter expression="${ounce.reportType}"
      */
@@ -140,8 +140,9 @@ public class ScanMojo
     String installDir;
 
     /**
-     * If the mojo should wait until the scan is complete. Used by the
-     * scan mojo only...ignored during report generation.
+     * If the mojo should wait until the scan is complete. If set to true the build will block until
+     * the scan has finished.  This is useful if the scan is being performed from the report mojo as part 
+     * of integration with the site target and the site is getting deployed.
      * 
      * @parameter expression="${ounce.wait}" default-value="false"
      */

@@ -31,8 +31,6 @@ Ounce Maven Plugin
 
    Instructions on how to use the ounce plugin goals:
    
-   *{{{setup.html}Setting up your Environment}}
-   
    *{{{usage/project.html}Create a Project file}}
    
    *{{{usage/application.html}Create an Application file}}

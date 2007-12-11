@@ -64,6 +64,8 @@ public class ReportMojo
     protected MavenProject project;
 
     /**
+     * For internal use only.
+     * 
      * @component
      * @required
      * @readonly
