@@ -126,15 +126,18 @@ public class OunceCoreConsole
     public OunceCoreProject readProject ( String thePath, Log log )
         throws OunceCoreException
     {
-        log.info( "Read Poject: Method not supported." );
+        log.info( "Read Project: Method not supported." );
         return null;
     }
 
     public void report ( Log log )
         throws OunceCoreException
     {
-        // TODO Auto-generated method stub
-
+    	log.info( "Report: Method not supproted." );
     }
+
+	public void createPathVariables(Map pathVariableMap, String installDir, Log log) throws OunceCoreException {
+		log.info( "Create Path Variables: Method not supported." );
+	}
 
 }

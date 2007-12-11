@@ -108,4 +108,11 @@ public interface OunceCore
                Log log )
         throws OunceCoreException;
 
+    /**
+     * Creates any required path variables.
+     *  
+     * @param pathVariableMap
+     * @throws OunceCoreException
+     */
+    void createPathVariables(Map pathVariableMap, String installDir, Log log) throws OunceCoreException;
 }

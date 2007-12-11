@@ -26,6 +26,7 @@
  */
 package org.codehaus.mojo.ounce;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -87,6 +88,21 @@ public class ProjectOnlyMojo
      * @parameter expression="${ounce.includeTestSources}" default-value="false"
      */
     protected boolean includeTestSources;
+    
+    /**
+     * Whether the plugin should use the Ounce Automation Server to create any necessary variables (such as M2_REPO).
+     * Requires that the Ounce Automation Server be installed.
+     * 
+     * @parameter expression="${ounce.createVariables}" default-value="false"
+     */
+    protected boolean createVariables;
+    
+    /**
+     * The location of the Ounce client installation directory if the Ounce client is not on the path.
+     * 
+     * @parameter expression="${ounce.installDir}"
+     */
+    String installDir;
 
     /**
      * The directory where the webapp is built for war projects.
@@ -140,6 +156,16 @@ public class ProjectOnlyMojo
 
                 core.createProject( getProjectRoot(), name, projectRoot, sourceRoots, webappDirectory, classPath,
                                     jdkName, javaCompilerOptions, project.getPackaging(), this.options, this.getLog() );
+                
+                if (createVariables) {
+                	if (pathVariableMap == null) {
+                		pathVariableMap = new HashMap();
+                	}
+                	if (pathVariableMap.get(ProjectOnlyMojo.M2_REPO) == null) {
+                		pathVariableMap.put(ProjectOnlyMojo.M2_REPO, local.getBasedir());
+                	}
+                	core.createPathVariables(pathVariableMap, installDir, this.getLog());
+                }
             }
             catch ( ComponentLookupException e )
             {

@@ -500,6 +500,34 @@ public class OunceCoreXmlSerializer implements OunceCore {
 			throw new OunceCoreException(ex);
 		}
 	}
+
+	public void createPathVariables(Map pathVariableMap, String installDir, Log log) throws OunceCoreException {
+		String command;
+		if (installDir == null) {
+			// just assume it's on the path
+			command = "ounceauto";
+		} else {
+			command = installDir + File.separator + "bin" + File.separator + "ounceauto";
+		}
+		
+		try {
+			command += " setvars";
+			if (pathVariableMap != null) {
+				Set keys = pathVariableMap.keySet();
+				Iterator it = keys.iterator();
+				while (it.hasNext()) {
+					String key = (String) it.next();
+					String value = (String) pathVariableMap.get(key);
+					
+					command += " -" + key + " " + value;
+				}
+				System.out.println(command);
+				executeCommand(command, log);
+			}
+		} catch (Exception ex) {
+			throw new OunceCoreException(ex);
+		}
+	}
 	
 	private int executeCommand(String command, Log log) throws IOException, InterruptedException {
 		Process p = Runtime.getRuntime().exec(command);

@@ -213,4 +213,8 @@ public class OunceCoreXml
 
     }
 
+	public void createPathVariables(Map pathVariableMap, String installDir, Log log) throws OunceCoreException {
+		// TODO Auto-generated method stub
+		
+	}
 }
