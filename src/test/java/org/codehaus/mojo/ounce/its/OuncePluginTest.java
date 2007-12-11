@@ -145,5 +145,12 @@ public class OuncePluginTest
         // test config bound in pom
         testProject( "application7", props, "org.codehaus.mojo:ounce-maven-plugin:test:application" );
     }
+    
+    public void testApplication8 ()
+    throws Exception
+{
+    // test config bound in pom
+    testProject( "application8", props, "org.codehaus.mojo:ounce-maven-plugin:test:application" );
+}
 
 }

@@ -1,6 +1,6 @@
 <object-stream>
   <application>
-    <name>ounce-application-7</name>
+    <name>ounce-application-8</name>
     <applicationRoot>.</applicationRoot>
     <projects>
       <project>
@@ -9,11 +9,7 @@
       </project>
       <project>
         <name>ounce-application-c</name>
-        <path>${basedir}/../externalApps/1/c</path>
-      </project>
-      <project>
-        <name>ounce-application-e</name>
-        <path>../externalApps/2/uis/e</path>
+        <path>%extApp%/1/c</path>
       </project>
       <project>
         <name>ounce-test-b</name>
@@ -21,13 +17,8 @@
       </project>
       <project>
         <name>ounce-test-d</name>
-        <path>${basedir}/../externalApps/1/d</path>
-      </project>
-      <project>
-        <name>ounce-test-i</name>
-        <path>../externalApps/3/services/i</path>
+        <path>%extApp%/1/d</path>
       </project>
     </projects>
-    <preserveApp>false</preserveApp>
   </application>
 </object-stream>

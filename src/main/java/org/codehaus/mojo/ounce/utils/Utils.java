@@ -78,7 +78,7 @@ public class Utils
     /**
      * 
      * @param path
-     * @param pathVariables
+     * @param pathVariableMap
      * @return
      */
     static public String convertToPropertyPath ( String path, Map pathProperties )
@@ -102,7 +102,7 @@ public class Utils
      * Performs the path/key substitution for all paths.
      * 
      * @param paths
-     * @param pathVariables map of key/path pairs to
+     * @param pathVariableMap map of key/path pairs to
      *            replace
      * @return processed list
      */

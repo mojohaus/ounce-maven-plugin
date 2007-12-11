@@ -72,9 +72,9 @@ public abstract class AbstractOunceMojo
      * List of paths and keys in the form key,path. Any paths
      * will be replaced with the appropriate key.
      * 
-     * @parameter expression="${ounce.pathVariables}"
+     * @parameter
      */
-    Map pathVariables;
+    Map pathVariableMap;
     
     /**
      * The name of the project set in the pom.

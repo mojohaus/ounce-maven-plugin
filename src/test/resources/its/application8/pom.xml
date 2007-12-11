@@ -7,7 +7,7 @@
 	<version>1</version>
   </parent>
   
-  <artifactId>ounce-application-7</artifactId>
+  <artifactId>ounce-application-8</artifactId>
   <packaging>pom</packaging>
 
   <modules>
@@ -21,13 +21,12 @@
 	    <groupId>org.codehaus.mojo</groupId>
 		<artifactId>ounce-maven-plugin</artifactId>
 					<configuration>
+                      <pathVariableMap>
+                        <extApp>${basedir}/../externalApps</extApp>
+                      </pathVariableMap>
 					  <externalApplications>
 					    <!--include all-->
 					    <externalApplication>${basedir}/../externalApps/1</externalApplication>
-						<!--include only e-->
-						<externalApplication>../externalApps/2,**/e</externalApplication>
-						<!--exclude uis-->
-						<externalApplication>../externalApps/3,**/*,**/uis/**</externalApplication>
 					  </externalApplications>
 					</configuration>
 	  </plugin>
