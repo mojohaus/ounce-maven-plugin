@@ -127,7 +127,7 @@ public class OunceCoreXml
         log.info( "Writing parameters to xml." );
         OunceCoreProject bean =
             new OunceCoreProject( theName, theProjectRoot, theSourceRoots, theWebRoot, theClassPath, theJdkName,
-                                  packaging,  theCompilerOptions, ounceOptions );
+                                  packaging, theCompilerOptions, ounceOptions );
         XStream xs = new XStream();
         xs.alias( "project", OunceCoreProject.class );
         try
@@ -205,12 +205,35 @@ public class OunceCoreXml
      *      org.apache.maven.plugin.logging.Log)
      */
     public void scan( String theApplicationName, String theApplicationFile, String theAssessmentName,
-                      String theAssessmentOutput, String theCaller, String theReportType, String theReportOutputType, String theReportOutputLocation, boolean thePublish,
-                      Map theOunceOptions, String installDir, boolean wait, Log theLog )
+                      String theAssessmentOutput, String theCaller, String theReportType, String theReportOutputType,
+                      String theReportOutputLocation, boolean thePublish, Map theOunceOptions, String installDir,
+                      boolean wait, Log theLog )
         throws OunceCoreException
     {
-        // TODO Auto-generated method stub
 
+        OunceCoreScan bean =
+            new OunceCoreScan( theApplicationName, theApplicationFile, theAssessmentName, theAssessmentOutput,
+                               theCaller, theReportType, theReportOutputType, theReportOutputLocation, thePublish,
+                               theOunceOptions );
+        
+        {
+            XStream xs = new XStream();
+            xs.alias( "scan", OunceCoreScan.class );
+            try
+            {
+                File outFile = new File( "./target", "scan.xml" );
+                outFile.getParentFile().mkdirs();
+                outFile.createNewFile();
+                ObjectOutputStream out = xs.createObjectOutputStream( new FileWriter( outFile ) );
+                out.writeObject( bean );
+                out.close();
+            }
+            catch ( IOException e )
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
 
 	public void createPathVariables(Map pathVariableMap, String installDir, Log log) throws OunceCoreException {

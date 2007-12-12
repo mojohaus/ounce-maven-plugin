@@ -27,6 +27,9 @@
 
 package org.codehaus.mojo.ounce;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.codehaus.mojo.ounce.core.OunceCore;
@@ -41,6 +44,7 @@ import org.codehaus.plexus.util.StringUtils;
  * @author <a href="mailto:brianf@apache.org">Brian Fox</a>
  * @goal scan
  * @phase package
+ * @aggregator
  */
 public class ScanMojo
     extends AbstractOunceMojo
@@ -57,7 +61,7 @@ public class ScanMojo
     /**
      * The location of the application file to scan. Either the applicationName or applicationFile must be populated.
      * 
-     * @parameter expression="${ounce.applicationFile}"
+     * @parameter expression="${ounce.applicationFile}" default-value="${basedir}/${project.artifactId}.paf"
      */
     String applicationFile;
 
@@ -88,7 +92,6 @@ public class ScanMojo
 
     /**
      * Automatically generate a report for this assessment following the completion of the scan.
-     * 
      * The following report types are included in a default Ounce installation:
      * 
      * Findings Report Types:
@@ -108,16 +111,15 @@ public class ScanMojo
      * @parameter expression="${ounce.reportType}"
      */
     String reportType;
-    
+
     /**
-     * The output type to use for the report.
-     * 
-     * Output type may be html, zip, pdf-summary, pdf-detailed, pdf-comprehensive, or pdf-annotated.
+     * The output type to use for the report. Output type may be html, zip, pdf-summary, pdf-detailed,
+     * pdf-comprehensive, or pdf-annotated.
      * 
      * @parameter expression="${ounce.reportOutputType}"
      */
     String reportOutputType;
-    
+
     /**
      * The path to the output location for the report.
      * 
@@ -148,6 +150,11 @@ public class ScanMojo
      */
     boolean waitForScan;
 
+    /**
+     * This is a static variable used to persist the cached results across plugin invocations.
+     */
+    protected static Set cache = new HashSet();
+
     // private List projects;
     /*
      * (non-Javadoc)
@@ -158,26 +165,112 @@ public class ScanMojo
         throws MojoExecutionException, MojoFailureException
     {
 
+        if ( StringUtils.isEmpty( applicationName ) && StringUtils.isEmpty( applicationFile ) )
+        {
+            throw new MojoExecutionException( "One of \'applicationName\' or \'applicationFile\' must be defined." );
+        }
+
+        // check my cache to see if this particular set of params has already been scanned.
+        if ( shouldExecute() )
+        {
+            try
+            {
+                OunceCore core = getCore();
+                core.scan( applicationName, Utils.convertToPropertyPath( applicationFile, pathVariableMap ),
+                           assessmentName, assessmentOutput, caller, reportType, reportOutputType,
+                           Utils.convertToPropertyPath(reportOutputLocation,pathVariableMap), publish, this.options, this.installDir, waitForScan, getLog() );
+            }
+            catch ( ComponentLookupException e )
+            {
+                throw new MojoExecutionException( "Unable to lookup the core interface for hint: " + coreHint, e );
+            }
+            catch ( OunceCoreException e )
+            {
+                throw new MojoExecutionException( "Nested Ouncecore exception: " + e.getLocalizedMessage(), e );
+            }
+        }
+        else
+        {
+            this.getLog().info( "Skipping Scan because these same parameters where already used in a scan for this project during this build. (build was probably forked)" );
+        }
+    }
+
+    /**
+     * This method checks the cache to see if the scan should be run. It is used to avoid multiple invocations of scan
+     * in the instance of a forked build.
+     * 
+     * @return
+     */
+    protected boolean shouldExecute()
+    {
+        // get the hash and try to add it.
+        // if it was added, then we need to execute, otherwise it was already there
+        // and we don't.
+        return ( cache.add( getParameterHash() ) );
+    }
+
+    /**
+     * This method returns a hash of the parameters that may influence scan results. The result of this is used to
+     * determine if a scan should be rerun within the same build lifetime. If any parameters change, then the scan will
+     * continue. This allows multiple executions to be defined with slightly different parameters.
+     * 
+     * @return String of hashCodes
+     */
+    protected String getParameterHash()
+    {
+        StringBuffer buf = new StringBuffer();
         try
         {
-            if ( StringUtils.isEmpty( applicationName ) && StringUtils.isEmpty( applicationFile ) )
-            {
-                throw new MojoExecutionException( "One of \'applicationName\' or \'applicationFile\' must be defined." );
-            }
-
-            OunceCore core = getCore();
-            core.scan( applicationName, Utils.convertToPropertyPath( applicationFile, pathVariableMap ), assessmentName,
-                       assessmentOutput, caller, reportType, reportOutputType, reportOutputLocation, publish, this.options, this.installDir, waitForScan,
-                       getLog() );
+            buf.append( this.project.getId() );
         }
-        catch ( ComponentLookupException e )
+        catch (NullPointerException e)
         {
-            throw new MojoExecutionException( "Unable to lookup the core interface for hint: " + coreHint, e );
+            buf.append( "unknown_project" );    
         }
-        catch ( OunceCoreException e )
-        {
-            throw new MojoExecutionException( "Nested Ouncecore exception: " + e.getLocalizedMessage(), e );
-        }
-
+        buf.append( "-" );
+        buf.append( getSafeHash( this.applicationFile ) );
+        buf.append( "-" );
+        buf.append( getSafeHash( this.applicationName ) );
+        buf.append( "-" );
+        buf.append( getSafeHash( this.assessmentName ) );
+        buf.append( "-" );
+        buf.append( getSafeHash( this.assessmentOutput ) );
+        buf.append( "-" );
+        buf.append( getSafeHash( this.caller ) );
+        buf.append( "-" );
+        buf.append( getSafeHash( this.coreHint ) );
+        buf.append( "-" );
+        buf.append( getSafeHash( this.installDir ) );
+        buf.append( "-" );
+        buf.append( getSafeHash( this.options ) );
+        buf.append( "-" );
+        buf.append( getSafeHash( this.pathVariableMap ) );
+        buf.append( "-" );
+        buf.append( getSafeHash( this.reportOutputLocation ) );
+        buf.append( "-" );
+        buf.append( getSafeHash( this.reportOutputType ) );
+        buf.append( "-" );
+        buf.append( getSafeHash( this.reportType ) );
+        this.getLog().debug( "Parameter Hash: "+buf.toString() );
+        return buf.toString();
     }
+
+    /**
+     * Simple helper to handle null parameters for hash checking.
+     * 
+     * @param o
+     * @return
+     */
+    private final int getSafeHash( Object o )
+    {
+        if ( o != null )
+        {
+            return o.hashCode();
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
 }

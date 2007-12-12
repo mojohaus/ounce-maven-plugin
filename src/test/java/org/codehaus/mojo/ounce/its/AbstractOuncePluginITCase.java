@@ -99,6 +99,8 @@ public abstract class AbstractOuncePluginITCase
     private static final String BUILD_OUTPUT_DIRECTORY = "target/surefire-reports/build-output";
 
     private static boolean installed = false;
+    
+    Properties props = new Properties();
 
     /**
      * @see org.codehaus.plexus.PlexusTestCase#setUp()
@@ -112,6 +114,8 @@ public abstract class AbstractOuncePluginITCase
                 + BUILD_OUTPUT_DIRECTORY + "\n" );
         }
 
+        props.setProperty( "ounce.core", "test-xml" );
+        
         super.setUp();
 
         buildTool = (BuildTool) lookup( BuildTool.ROLE, "default" );

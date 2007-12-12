@@ -134,7 +134,7 @@ public class OunceCoreMock
         throws OunceCoreException
     {
         scan =
-            new OunceCoreScan( applicationName, applicationFile, assessmentName, assessmentOutput, caller, reportType,
+            new OunceCoreScan( applicationName, applicationFile, assessmentName, assessmentOutput, caller, reportType, reportOutputType, reportOutputLocation,
                                publish, ounceOptions );
     }
 

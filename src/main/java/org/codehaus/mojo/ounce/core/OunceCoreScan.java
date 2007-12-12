@@ -1,36 +1,35 @@
 /*
-* Copyright (c) 2007, Ounce Labs, Inc.
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:
-*     * Redistributions of source code must retain the above copyright
-*       notice, this list of conditions and the following disclaimer.
-*     * Redistributions in binary form must reproduce the above copyright
-*       notice, this list of conditions and the following disclaimer in the
-*       documentation and/or other materials provided with the distribution.
-*     * Neither the name of the <organization> nor the
-*       names of its contributors may be used to endorse or promote products
-*       derived from this software without specific prior written permission.
-*
-* THIS SOFTWARE IS PROVIDED BY OUNCE LABS, INC. ``AS IS'' AND ANY
-* EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-* WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL OUNCE LABS, INC. BE LIABLE FOR ANY
-* DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-* (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-* LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-* ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-* (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ * Copyright (c) 2007, Ounce Labs, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the <organization> nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY OUNCE LABS, INC. ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL OUNCE LABS, INC. BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package org.codehaus.mojo.ounce.core;
 
 import java.util.Map;
 
 /**
  * @author <a href="mailto:brianf@apache.org">Brian Fox</a>
- * 
  */
 public class OunceCoreScan
 {
@@ -46,12 +45,17 @@ public class OunceCoreScan
 
     String reportType;
 
+    String reportOutputType;
+
+    String reportOutputLocation;
+
     boolean publish;
 
     Map OunceOptions;
 
     public OunceCoreScan( String theApplicationName, String theApplicationFile, String theAssessmentName,
-                          String theAssessmentOutput, String theCaller, String theReportType, boolean thePublish,
+                          String theAssessmentOutput, String theCaller, String theReportType,
+                          String theReportOutputType, String theReportOutputLocation, boolean thePublish,
                           Map theOunceOptions )
     {
         super();
@@ -61,6 +65,8 @@ public class OunceCoreScan
         this.assessmentOutput = theAssessmentOutput;
         this.caller = theCaller;
         this.reportType = theReportType;
+        this.reportOutputLocation = theReportOutputLocation;
+        this.reportOutputType = theReportOutputType;
         this.publish = thePublish;
         this.OunceOptions = theOunceOptions;
     }
@@ -68,7 +74,7 @@ public class OunceCoreScan
     /**
      * @return the applicationName
      */
-    public String getApplicationName ()
+    public String getApplicationName()
     {
         return this.applicationName;
     }
@@ -76,7 +82,7 @@ public class OunceCoreScan
     /**
      * @return the assessmentName
      */
-    public String getAssessmentName ()
+    public String getAssessmentName()
     {
         return this.assessmentName;
     }
@@ -84,7 +90,7 @@ public class OunceCoreScan
     /**
      * @return the assessmentOutput
      */
-    public String getAssessmentOutput ()
+    public String getAssessmentOutput()
     {
         return this.assessmentOutput;
     }
@@ -92,7 +98,7 @@ public class OunceCoreScan
     /**
      * @return the caller
      */
-    public String getCaller ()
+    public String getCaller()
     {
         return this.caller;
     }
@@ -100,7 +106,7 @@ public class OunceCoreScan
     /**
      * @return the reportType
      */
-    public String getReportType ()
+    public String getReportType()
     {
         return this.reportType;
     }
@@ -108,7 +114,7 @@ public class OunceCoreScan
     /**
      * @return the publish
      */
-    public boolean isPublish ()
+    public boolean isPublish()
     {
         return this.publish;
     }
@@ -116,7 +122,7 @@ public class OunceCoreScan
     /**
      * @return the applicationFile
      */
-    public String getApplicationFile ()
+    public String getApplicationFile()
     {
         return this.applicationFile;
     }
@@ -124,9 +130,19 @@ public class OunceCoreScan
     /**
      * @return the ounceOptions
      */
-    public Map getOunceOptions ()
+    public Map getOunceOptions()
     {
         return this.OunceOptions;
+    }
+
+    public String getReportOutputType()
+    {
+        return reportOutputType;
+    }
+
+    public String getReportOutputLocation()
+    {
+        return reportOutputLocation;
     }
 
 }

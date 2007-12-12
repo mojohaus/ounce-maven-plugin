@@ -59,9 +59,9 @@ public abstract class AbstractOunceMojo
 
     /**
      * This hint provides a way to switch the core
-     * implementation. 
+     * implementation. Consult Ounce support for details, most users should leave this set to the default.
      * Use -Dounce.core=console to have have the output displayed
-     * instead of written to the file.
+     * instead of written to the file for debugging purposes.
      * 
      * @parameter default-value="ouncexml"
      *            expression="${ounce.core}
@@ -100,6 +100,9 @@ public abstract class AbstractOunceMojo
      * This is true by default because typically the
      * application or projects will be created at a pom
      * level and the poms have no source to be analyzed
+     * 
+     * Only set this if you have source in your "pom" packaging
+     * projects that needs to be scanned.
      * 
      * @parameter expression="${ounce.skipPoms}"
      *            default-value="true"

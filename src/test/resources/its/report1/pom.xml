@@ -22,6 +22,7 @@
       <plugin>
 	    <groupId>org.codehaus.mojo</groupId>
 		<artifactId>ounce-maven-plugin</artifactId>
+        <version>test</version>
 		<configuration>
 		  <applicationName>test</applicationName>
 		</configuration>

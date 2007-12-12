@@ -119,7 +119,15 @@ public class ApplicationMojo
     protected List externalProjects;
 
     /**
-     * List of external applications to be included.
+     * List of external applications to be included. If you have a separate
+     * tree of source projects that should be included for scanning, you may include those
+     * projects using this parameter. This causes the mojo to include the other projects from 
+     * the external application for scanning as if they where part of this same build tree. The external
+     * application properties are not inherited, only the projects are pulled in. 
+     * The other tree must already have the application file created, otherwise the projects cannot be included.
+     * The path is the path to 
+     * the application file containing the projects you want to include. The actual projects included
+     * may be filtered using the optional includes/excludes syntax.   
      * 
      * The application shall be defined as:
      * path,[includes|includes],[excludes|excludes]
