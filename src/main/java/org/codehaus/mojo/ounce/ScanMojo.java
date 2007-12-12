@@ -51,81 +51,81 @@ public class ScanMojo
 {
 
     /**
-     * The name of the application to scan as known by the automation server. Either the applicationName or
-     * applicationFile must be populated.
+     * The name of the application to scan as known by the Ounce Automation Server.
+     * <br/>
+     * Specify applicationFile or applicationName, but not both.
+     * <br/>
+     * If neither applicationName nor applicationFile is specified, Ounce/Maven uses the applicationFile default. 
      * 
      * @parameter expression="${ounce.applicationName}"
      */
     String applicationName;
 
     /**
-     * The location of the application file to scan. Either the applicationName or applicationFile must be populated.
+     * The location of the application file (.paf) to scan. 
+     * <br/> 
+     * Specify applicationFile or applicationName, but not both.
+     * <br/>
+     * Default value is ${basedir}/${project.artifactId}.paf
      * 
      * @parameter expression="${ounce.applicationFile}" default-value="${basedir}/${project.artifactId}.paf"
      */
     String applicationFile;
 
     /**
-     * A name for the assessment.
+     * A name to help identify the assessment.
      * 
      * @parameter expression="${project.name}-${project.version}"
      */
     String assessmentName;
 
     /**
-     * A file name may be specified where to save the file otherwise the automation server will place the assessment in
-     * a temporary location pending other operations. The temporary location will delete files upon startup and after a
-     * configurable period of time.
+     * A filename to which to save the assessment.
+     * <br/> 
+     * If filename is not specified, Ounce/Maven generates a name based on the application name and timestamp and saves it to the application’s working directory.
      * 
      * @parameter expression="${ounce.assessmentOutput}"
      */
     String assessmentOutput;
 
     /**
-     * Assigns a caller to the assessment. Caller is an arbitrary string and may or may not correspond with any actual
-     * user of any system. Caller is written to ounceautos log file. In the future this functionality will aid in
-     * auditing.
+     * A short  string to help identify the corresponding entries in the ounceauto log file. 
      * 
      * @parameter expression="${ounce.caller}"
      */
     String caller;
 
     /**
-     * Automatically generate a report for this assessment following the completion of the scan.
-     * The following report types are included in a default Ounce installation:
-     * 
-     * Findings Report Types:
-     * 		Findings By CWE, 
-     * 		Findings By API,
-     * 		Findings By Classification,
-     * 		Findings By File,
-     * 		Findings By Type,
-     * 		Findings By Bundle,
-     * 		Findings,
-     * SmartAudit Report Types:
-     * 		OWASP Top Ten,
-     * 		PCI Data Security Standard,
-     * 		Ounce Software Security Profile,
-     * 		OWASP Top Ten 2007
+     * Generates an Ounce report of the specified type, including findings reports, SmartAudit 
+     * Reports, and, if available, custom reports. Ounce/Maven generates a report for this assessment 
+     * after the scan completes. 
+     * <br/>
+     * The following report types are included: Findings, Findings By CWE, Findings By API, 
+     * Findings By Classification, Findings By File, Findings By Type, Findings By Bundle, 
+     * OWASP Top Ten, PCI Data Security Standard, Ounce Software Security Profile, or 
+     * OWASP Top Ten 2007
+     * <br/>
+     * If you specify reportType, then reportOutputType and reportOutputPath are required. 
      * 
      * @parameter expression="${ounce.reportType}"
      */
     String reportType;
 
     /**
-     * The output type to use for the report. Output type may be html, zip, pdf-summary, pdf-detailed,
-     * pdf-comprehensive, or pdf-annotated.
+     * The output to generate for the report specified in reportType. Required with reportType. 
+     * 
+     * Output type may be html, zip, pdf-summary, pdf-detailed, pdf-comprehensive, or pdf-annotated.
      * 
      * @parameter expression="${ounce.reportOutputType}"
      */
     String reportOutputType;
 
     /**
-     * The path to the output location for the report.
+     * The path to which to write the report specified in reportType. Required with reportType.
      * 
-     * @parameter expression="${ounce.reportOutputLocation}"
+     * @parameter expression="${ounce.reportOutputPath}"
      */
-    String reportOutputLocation;
+    String reportOutputPath;
 
     /**
      * Automatically publish the assessment following the completion of the scan.
@@ -142,8 +142,9 @@ public class ScanMojo
     String installDir;
 
     /**
-     * If the mojo should wait until the scan is complete. If set to true the build will block until
-     * the scan has finished.  This is useful if the scan is being performed from the report mojo as part 
+     * Forces the goal to wait until the scan finishes, thus blocking the Maven build. 
+     * 
+     * This is useful if the scan is being performed from the report mojo as part 
      * of integration with the site target and the site is getting deployed.
      * 
      * @parameter expression="${ounce.wait}" default-value="false"
@@ -178,7 +179,7 @@ public class ScanMojo
                 OunceCore core = getCore();
                 core.scan( applicationName, Utils.convertToPropertyPath( applicationFile, pathVariableMap ),
                            assessmentName, assessmentOutput, caller, reportType, reportOutputType,
-                           Utils.convertToPropertyPath(reportOutputLocation,pathVariableMap), publish, this.options, this.installDir, waitForScan, getLog() );
+                           Utils.convertToPropertyPath(reportOutputPath,pathVariableMap), publish, this.options, this.installDir, waitForScan, getLog() );
             }
             catch ( ComponentLookupException e )
             {
@@ -246,7 +247,7 @@ public class ScanMojo
         buf.append( "-" );
         buf.append( getSafeHash( this.pathVariableMap ) );
         buf.append( "-" );
-        buf.append( getSafeHash( this.reportOutputLocation ) );
+        buf.append( getSafeHash( this.reportOutputPath ) );
         buf.append( "-" );
         buf.append( getSafeHash( this.reportOutputType ) );
         buf.append( "-" );

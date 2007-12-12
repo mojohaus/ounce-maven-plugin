@@ -34,8 +34,9 @@ public class ReportMojo
     private File reportOutputDirectory;
 
     /**
-     * Existing assessment file to generate a report for.  
-     * If specified the report will be run on an existing assessment rather than a new scan.
+     * Specify the name of an existing assessment for which to generate a report. 
+     * If not specified, Ounce/Maven scans the application and generates the report 
+     * from that assessment.
      * 
      * @parameter expression="${ounce.existingAssessmentFile}"
      */
@@ -139,7 +140,7 @@ public class ReportMojo
         if (this.reportOutputType == null) {
             this.reportOutputType = "html";
         }
-        this.reportOutputLocation = reportOutputDirectory+File.separator+getOutputName()+".html";
+        this.reportOutputPath = reportOutputDirectory+File.separator+getOutputName()+".html";
 
         try
         {

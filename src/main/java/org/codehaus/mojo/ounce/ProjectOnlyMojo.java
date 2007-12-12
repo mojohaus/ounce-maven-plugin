@@ -59,9 +59,10 @@ public class ProjectOnlyMojo
     public static final String M2_REPO = "M2_REPO";
 
     /**
-     * This is the scope of the classpath used to analyze this project. The default value is "compile." Valid choices are:
-     * compile, test, runtime, system. If includeTestSources is true, then the classpathScope will automatically revert
-     * to test, otherwise it is likely that the source will fail to compile.
+     * The scope of the classpath used to analyze this project.  
+     * <br/>
+     * Valid choices are: compile, test, runtime, or system.  If includeTestSources is true, then the classpathScope 
+     * reverts to test. Otherwise, the default is compile.
      * 
      * @parameter default-value="compile" expression="${ounce.classpathScope}";
      */
@@ -98,14 +99,14 @@ public class ProjectOnlyMojo
     protected boolean createVariables;
     
     /**
-     * The location of the Ounce client installation directory if the Ounce client is not on the path.
+     * The location of the Ounce client installation directory.  Required if ounceauto is not on the path.
      * 
      * @parameter expression="${ounce.installDir}"
      */
     String installDir;
 
     /**
-     * The directory where the webapp is built for war projects.
+     * The location of the web context root, if needed.
      * 
      * @parameter expression="${project.build.directory}/${project.build.finalName}"
      */

@@ -78,63 +78,54 @@ public class ApplicationMojo
     private List projects;
 
     /**
-     * Set of project path include patterns.
-     * 
-     * Only applies to inherited modules, not external
-     * projects. The current project is not filtered using
-     * includes or excludes.
-     * 
-     * The pattern may contain two special characters:
-     * '*' means zero or more characters (** means any
-     * folders)
-     * '?' means one and only one character
+     * An array of directories containing the pom file of any projects to include. If an include pattern is 
+     * specified, projects not specifed by include patterns are excluded.
+     * <br/>
+     * Include only applies to inherited modules, not external projects. The current project is not filtered. 
+     * <br/>
+     * The include pattern may contain the following wildcard characters:<br/>
+     * *: Zero or more characters<br/>
+     * **: Any folders<br/>
+     * ?: One and only one character<br/>
      * 
      * @parameter
      */
     protected String[] includes;
 
     /**
-     * Set of project path exclude patterns. Only applies to
-     * inherited modules, not external projects. The current
-     * project is not filtered using includes or excludes.
-     * 
-     * The pattern may contain two special characters:
-     * '*' means zero or more characters (** means any
-     * folders)
-     * '?' means one and only one character
+     * An array of directories containing the pom file of any projects to exclude. Excludes can contain standard 
+     * Ant-style wildcards.Exclude only applies to inherited modules, not external projects. The current project 
+     * is not filtered.  
      * 
      * @parameter
      */
     protected String[] excludes;
 
     /**
-     * List of external projects to be included. This
-     * inclusion is done after the processing of
-     * includes/excludes. The project shall be defined as:
-     * [name],path. For example: foo,${basedir}/somepath
-     * foo2,${path_of_foo2}
+     * List of external projects to include.  These projects are included after any other projects have been 
+     * included or excluded. 
+     * <br/>
+     * The format is: name,path<br/>
+     * Where:<br/>
+     * <li>name is the artifact ID of the project to include.</li>
+     * <li>path is the pathname to the project.</li>
      * 
      * @parameter
      */
     protected List externalProjects;
 
     /**
-     * List of external applications to be included. If you have a separate
-     * tree of source projects that should be included for scanning, you may include those
-     * projects using this parameter. This causes the mojo to include the other projects from 
-     * the external application for scanning as if they where part of this same build tree. The external
-     * application properties are not inherited, only the projects are pulled in. 
-     * The other tree must already have the application file created, otherwise the projects cannot be included.
-     * The path is the path to 
-     * the application file containing the projects you want to include. The actual projects included
-     * may be filtered using the optional includes/excludes syntax.   
-     * 
-     * The application shall be defined as:
-     * path,[includes|includes],[excludes|excludes]
-     * 
-     * The includes and excludes defined will be applied to
-     * the projects of the application file located at path.
-     * 
+     * Allows you to include projects from multiple appli-cations. The external application 
+     * properties are not inherited, and the external application must already exist.
+     * <br/>
+     * externalApplications is a list of directories contain-ing top-level pom files.
+     * <br/>
+     * The format for externalApplications is: pathname,[includes|includes],[excludes|excludes]
+     * <br/>
+     * Where:<br/>
+     * <li>pathname, includes, and excludes are comma delimited; if you have excludes, but no includes, use two commas.</li>
+     * <li>Multiple includes or excludes are separated by pipes (\x7c).</li>
+     * <li>Excludes can contain standard Ant-style wild-cards.</li>
      * @parameter
      */
     protected List externalApplications;

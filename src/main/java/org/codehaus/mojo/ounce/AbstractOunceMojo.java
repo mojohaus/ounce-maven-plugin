@@ -69,8 +69,9 @@ public abstract class AbstractOunceMojo
     protected String coreHint;
 
     /**
-     * List of paths and keys in the form key,path. Any paths
-     * will be replaced with the appropriate key.
+     * Map of Ounce variable names and paths.<br/>
+     * pathVariableMap variables are automatically registered with Ounce by the Ounce/Maven 
+     * plugin if the Ounce Automation Server is installed.
      * 
      * @parameter
      */
