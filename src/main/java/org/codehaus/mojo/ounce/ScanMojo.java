@@ -177,9 +177,9 @@ public class ScanMojo
             try
             {
                 OunceCore core = getCore();
-                core.scan( applicationName, Utils.convertToPropertyPath( applicationFile, pathVariableMap ),
+                core.scan( applicationName, Utils.convertToVariablePath( applicationFile, pathVariableMap ),
                            assessmentName, assessmentOutput, caller, reportType, reportOutputType,
-                           Utils.convertToPropertyPath(reportOutputPath,pathVariableMap), publish, this.options, this.installDir, waitForScan, getLog() );
+                           Utils.convertToVariablePath(reportOutputPath,pathVariableMap), publish, this.options, this.installDir, waitForScan, getLog() );
             }
             catch ( ComponentLookupException e )
             {

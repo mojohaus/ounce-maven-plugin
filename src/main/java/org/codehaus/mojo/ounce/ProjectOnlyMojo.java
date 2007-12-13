@@ -29,6 +29,7 @@ package org.codehaus.mojo.ounce;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
@@ -149,6 +150,8 @@ public class ProjectOnlyMojo
                 // remove repo from the classpath
                 classPath = Utils.convertToRelativePath( classPath, local.getBasedir(), ProjectOnlyMojo.M2_REPO );
 
+                Utils.convertToVariablePath( classPath, pathVariableMap );
+                
                 sourceRoots = Utils.convertToRelativePaths( sourceRoots, projectRoot, "" );
 
                 projectRoot = ".";
@@ -158,14 +161,17 @@ public class ProjectOnlyMojo
                 core.createProject( getProjectRoot(), name, projectRoot, sourceRoots, webappDirectory, classPath,
                                     jdkName, javaCompilerOptions, project.getPackaging(), this.options, this.getLog() );
                 
-                if (createVariables) {
-                	if (pathVariableMap == null) {
-                		pathVariableMap = new HashMap();
-                	}
-                	if (pathVariableMap.get(ProjectOnlyMojo.M2_REPO) == null) {
-                		pathVariableMap.put(ProjectOnlyMojo.M2_REPO, local.getBasedir());
-                	}
-                	core.createPathVariables(pathVariableMap, installDir, this.getLog());
+                if ( createVariables )
+                {
+                    if ( pathVariableMap == null )
+                    {
+                        pathVariableMap = new HashMap();
+                    }
+                    if ( pathVariableMap.get( ProjectOnlyMojo.M2_REPO ) == null )
+                    {
+                        pathVariableMap.put( ProjectOnlyMojo.M2_REPO, local.getBasedir() );
+                    }
+                    core.createPathVariables( pathVariableMap, installDir, this.getLog() );
                 }
             }
             catch ( ComponentLookupException e )
@@ -215,6 +221,7 @@ public class ProjectOnlyMojo
         StringBuffer sb = new StringBuffer();
         Iterator i = classpathElements.iterator();
 
+                    
         if ( i.hasNext() )
         {
             // first one, no separator needed

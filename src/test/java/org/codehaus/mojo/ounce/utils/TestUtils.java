@@ -103,11 +103,11 @@ public class TestUtils
         properties.put( "M2_REPO", "/repo" );
         properties.put( "SOMEPLACE", "someplace" );
 
-        assertEquals( "%M2_REPO%", Utils.convertToPropertyPath( "/repo", properties ) );
-        assertEquals( "%SOMEPLACE%", Utils.convertToPropertyPath( "someplace", properties ) );
-        assertEquals( "%M2_REPO%/%SOMEPLACE%", Utils.convertToPropertyPath( "/repo/someplace", properties ) );
-        assertEquals( "/repo/someplace", Utils.convertToPropertyPath( "/repo/someplace", null ) );
-        assertEquals( "/repo/someplace", Utils.convertToPropertyPath( "/repo/someplace", new HashMap() ) );
+        assertEquals( "%M2_REPO%", Utils.convertToVariablePath( "/repo", properties ) );
+        assertEquals( "%SOMEPLACE%", Utils.convertToVariablePath( "someplace", properties ) );
+        assertEquals( "%M2_REPO%/%SOMEPLACE%", Utils.convertToVariablePath( "/repo/someplace", properties ) );
+        assertEquals( "/repo/someplace", Utils.convertToVariablePath( "/repo/someplace", null ) );
+        assertEquals( "/repo/someplace", Utils.convertToVariablePath( "/repo/someplace", new HashMap() ) );
 
         List list = new ArrayList( 3 );
         list.add( "/repo" );

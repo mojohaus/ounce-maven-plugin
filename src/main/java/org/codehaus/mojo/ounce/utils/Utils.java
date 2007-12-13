@@ -81,7 +81,7 @@ public class Utils
      * @param pathVariableMap
      * @return
      */
-    static public String convertToPropertyPath ( String path, Map pathProperties )
+    static public String convertToVariablePath ( String path, Map pathProperties )
     {
         if ( path !=null && pathProperties != null && pathProperties.size() > 0 )
         {

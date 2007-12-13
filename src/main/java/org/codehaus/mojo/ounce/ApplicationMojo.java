@@ -397,7 +397,7 @@ public class ApplicationMojo
             if ( fileSelector.isSelected( new ProjectFileInfo( new File( prj.getPath() ) ) ) )
             {
                 String path = Utils.convertToUnixStylePath( extern.getPath() + "/" + prj.getPath() );
-                path = Utils.convertToPropertyPath( path, pathVariableMap );
+                path = Utils.convertToVariablePath( path, pathVariableMap );
                 prj.setPath( path );
 
                 getLog().debug( "Adding External App Project: " + prj );
