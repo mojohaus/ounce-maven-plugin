@@ -43,20 +43,6 @@ public class ReportMojo
     String existingAssessmentFile;
     
     /**
-     * Number of lines of source code to include in the report before each finding.
-     * 
-     * @parameter expression="${ounce.includeSrcBefore}"
-     */
-    int includeSrcBefore = -1;
-    
-    /**
-     * Number of lines of source code to include in the report after each finding.
-     * 
-     * @parameter expression="${ounce.includeSrcAfter}"
-     */
-    int includeSrcAfter = -1;
-    
-    /**
      * The current Project.
      * 
      * @parameter expression="${project}"
@@ -109,16 +95,13 @@ public class ReportMojo
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
-    	System.out.println("execute");
     	this.getLog().warn( "Generating..." );
         
-        if (existingAssessmentFile != null || includeSrcAfter != -1 || includeSrcBefore != -1) {
+        if (existingAssessmentFile != null) {
         	if (options == null) {
         		options = new HashMap();
         	}
         	options.put("existingAssessmentFile", existingAssessmentFile);
-        	options.put("includeSrcAfter", new Integer(includeSrcAfter));
-        	options.put("includeSrcBefore", new Integer(includeSrcBefore));
         }
 
         super.execute();

@@ -27,6 +27,7 @@
 
 package org.codehaus.mojo.ounce;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -126,7 +127,21 @@ public class ScanMojo
      * @parameter expression="${ounce.reportOutputPath}"
      */
     String reportOutputPath;
-
+    
+    /**
+     * Number of lines of source code to include in the report before each finding.
+     * 
+     * @parameter expression="${ounce.includeSrcBefore}"
+     */
+    int includeSrcBefore = -1;
+    
+    /**
+     * Number of lines of source code to include in the report after each finding.
+     * 
+     * @parameter expression="${ounce.includeSrcAfter}"
+     */
+    int includeSrcAfter = -1;
+    
     /**
      * Automatically publish the assessment following the completion of the scan.
      * 
@@ -176,6 +191,13 @@ public class ScanMojo
         {
             try
             {
+            	if (includeSrcAfter != -1 || includeSrcBefore != -1) {
+                	if (options == null) {
+                		options = new HashMap();
+                	}
+                	options.put("includeSrcAfter", new Integer(includeSrcAfter));
+                	options.put("includeSrcBefore", new Integer(includeSrcBefore));
+            	}
                 OunceCore core = getCore();
                 core.scan( applicationName, Utils.convertToVariablePath( applicationFile, pathVariableMap ),
                            assessmentName, assessmentOutput, caller, reportType, reportOutputType,
