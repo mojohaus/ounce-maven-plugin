@@ -220,30 +220,13 @@ public class ScanMojo
     protected String getParameterHash()
     {
         StringBuffer buf = new StringBuffer();
-        try
-        {
-            buf.append( this.project.getId() );
-        }
-        catch (NullPointerException e)
-        {
-            buf.append( "unknown_project" );    
-        }
-        buf.append( "-" );
         buf.append( getSafeHash( this.applicationFile ) );
         buf.append( "-" );
         buf.append( getSafeHash( this.applicationName ) );
         buf.append( "-" );
-        buf.append( getSafeHash( this.assessmentName ) );
-        buf.append( "-" );
         buf.append( getSafeHash( this.assessmentOutput ) );
         buf.append( "-" );
         buf.append( getSafeHash( this.caller ) );
-        buf.append( "-" );
-        buf.append( getSafeHash( this.coreHint ) );
-        buf.append( "-" );
-        buf.append( getSafeHash( this.installDir ) );
-        buf.append( "-" );
-        buf.append( getSafeHash( this.options ) );
         buf.append( "-" );
         buf.append( getSafeHash( this.pathVariableMap ) );
         buf.append( "-" );
