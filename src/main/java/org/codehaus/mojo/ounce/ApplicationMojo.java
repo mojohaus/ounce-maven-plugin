@@ -115,10 +115,10 @@ public class ApplicationMojo
     protected List externalProjects;
 
     /**
-     * Allows you to include projects from multiple appli-cations. The external application 
+     * Allows you to include projects from multiple applications. The external application 
      * properties are not inherited, and the external application must already exist.
      * <br/>
-     * externalApplications is a list of directories contain-ing top-level pom files.
+     * externalApplications is a list of directories containing top-level pom files.
      * <br/>
      * The format for externalApplications is: pathname,[includes|includes],[excludes|excludes]
      * <br/>
