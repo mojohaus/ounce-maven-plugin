@@ -150,7 +150,7 @@ public class ProjectOnlyMojo
                 // remove repo from the classpath
                 classPath = Utils.convertToRelativePath( classPath, local.getBasedir(), ProjectOnlyMojo.M2_REPO );
 
-                Utils.convertToVariablePath( classPath, pathVariableMap );
+                classPath = Utils.convertToVariablePath( classPath, pathVariableMap );
                 
                 sourceRoots = Utils.convertToRelativePaths( sourceRoots, projectRoot, "" );
 
