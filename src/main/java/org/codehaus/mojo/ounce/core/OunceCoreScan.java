@@ -33,8 +33,6 @@ import java.util.Map;
  */
 public class OunceCoreScan
 {
-    String applicationName;
-
     String applicationFile;
 
     String assessmentName;
@@ -53,13 +51,12 @@ public class OunceCoreScan
 
     Map OunceOptions;
 
-    public OunceCoreScan( String theApplicationName, String theApplicationFile, String theAssessmentName,
+    public OunceCoreScan( String theApplicationFile, String theAssessmentName,
                           String theAssessmentOutput, String theCaller, String theReportType,
                           String theReportOutputType, String theReportOutputLocation, boolean thePublish,
                           Map theOunceOptions )
     {
         super();
-        this.applicationName = theApplicationName;
         this.applicationFile = theApplicationFile;
         this.assessmentName = theAssessmentName;
         this.assessmentOutput = theAssessmentOutput;
@@ -69,14 +66,6 @@ public class OunceCoreScan
         this.reportOutputType = theReportOutputType;
         this.publish = thePublish;
         this.OunceOptions = theOunceOptions;
-    }
-
-    /**
-     * @return the applicationName
-     */
-    public String getApplicationName()
-    {
-        return this.applicationName;
     }
 
     /**

@@ -24,7 +24,7 @@
 		<artifactId>ounce-maven-plugin</artifactId>
         <version>test</version>
 		<configuration>
-		  <applicationName>test</applicationName>
+		  <applicationFile>${basedir}/ounce-site-1.paf</applicationFile>
 		</configuration>
       </plugin>
     </plugins>

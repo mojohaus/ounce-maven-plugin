@@ -493,7 +493,7 @@ public class OunceCoreXmlSerializer
         return null;
     }
 
-    public void scan( String applicationName, String applicationFile, String assessmentName, String assessmentOutput,
+    public void scan( String applicationFile, String assessmentName, String assessmentOutput,
                       String caller, String reportType, String reportOutputType, String reportOutputLocation,
                       boolean publish, Map ounceOptions, String installDir, boolean wait, Log log )
         throws OunceCoreException
@@ -538,10 +538,6 @@ public class OunceCoreXmlSerializer
                 if ( !StringUtils.isEmpty( applicationFile ) )
                 {
                     command += " -application_file \"" + applicationFile + "\"";
-                }
-                else if ( !StringUtils.isEmpty( applicationName ) )
-                {
-                    command += " -application \"" + applicationName + "\"";
                 }
                 if ( !StringUtils.isEmpty( assessmentName ) )
                 {

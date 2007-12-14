@@ -61,7 +61,6 @@ public class TestScanMojo
         }
 
         mojo.applicationFile = "my\\path/is/messed\\up";
-        mojo.applicationName = "appName";
         mojo.assessmentName = "assessName";
         mojo.assessmentOutput = "assessOut";
         mojo.caller = "caller";
@@ -74,7 +73,6 @@ public class TestScanMojo
         OunceCoreScan scan = core.getScan();
 
         assertEquals( "my/path/is/messed/up", scan.getApplicationFile() );
-        assertEquals( "appName", scan.getApplicationName() );
         assertEquals( "assessName", scan.getAssessmentName() );
         assertEquals( "assessOut", scan.getAssessmentOutput() );
         assertEquals( "caller", scan.getCaller() );

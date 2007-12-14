@@ -88,7 +88,6 @@ public interface OunceCore
     /**
      * Initiate a scan on the assessment server.
      * 
-     * @param applicationName the name of the application to scan. Must be known to the Automation Server
      * @param applicationFile the application file to scan (if name is not used)
      * @param assessmentName A name for the assessment.
      * @param assessmentOutput The location to store the assessment results.
@@ -103,7 +102,7 @@ public interface OunceCore
      * @param log
      * @throws OunceCoreException
      */
-    void scan( String applicationName, String applicationFile, String assessmentName, String assessmentOutput,
+    void scan( String applicationFile, String assessmentName, String assessmentOutput,
                String caller, String reportType, String reportOutputType, String reportOutputLocation, boolean publish,
                Map ounceOptions, String installDir, boolean wait, Log log )
         throws OunceCoreException;

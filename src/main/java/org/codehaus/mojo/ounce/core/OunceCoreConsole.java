@@ -85,12 +85,11 @@ public class OunceCoreConsole
      * 
      * @see com.ouncelabs.plugins.OunceCoreInterface#scan()
      */
-    public void scan( String applicationName, String applicationFile, String assessmentName, String assessmentOutput,
+    public void scan( String applicationFile, String assessmentName, String assessmentOutput,
                       String caller, String reportType, String reportOutputType, String reportOutputLocation,
                       boolean publish, Map ounceOptions, String installDir, boolean wait, Log log )
         throws OunceCoreException
     {
-        System.out.println( "ApplicationName: " + applicationName );
         System.out.println( "ApplicationFile: " + applicationFile );
         System.out.println( "AssessmentName: " + assessmentName );
         System.out.println( "AssessmentOutput: " + assessmentOutput );

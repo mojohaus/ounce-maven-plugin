@@ -52,21 +52,8 @@ public class ScanMojo
 {
 
     /**
-     * The name of the application to scan as known by the Ounce Automation Server.
-     * <br/>
-     * Specify applicationFile or applicationName, but not both.
-     * <br/>
-     * If neither applicationName nor applicationFile is specified, Ounce/Maven uses the applicationFile default. 
-     * 
-     * @parameter expression="${ounce.applicationName}"
-     */
-    String applicationName;
-
-    /**
      * The location of the application file (.paf) to scan. 
      * <br/> 
-     * Specify applicationFile or applicationName, but not both.
-     * <br/>
      * Default value is ${basedir}/${project.artifactId}.paf
      * 
      * @parameter expression="${ounce.applicationFile}" default-value="${basedir}/${project.artifactId}.paf"
@@ -181,9 +168,9 @@ public class ScanMojo
         throws MojoExecutionException, MojoFailureException
     {
 
-        if ( StringUtils.isEmpty( applicationName ) && StringUtils.isEmpty( applicationFile ) )
+        if ( StringUtils.isEmpty( applicationFile ) )
         {
-            throw new MojoExecutionException( "One of \'applicationName\' or \'applicationFile\' must be defined." );
+            throw new MojoExecutionException( "\'applicationFile\' must be defined." );
         }
 
         // check my cache to see if this particular set of params has already been scanned.
@@ -199,7 +186,7 @@ public class ScanMojo
                 	options.put("includeSrcBefore", new Integer(includeSrcBefore));
             	}
                 OunceCore core = getCore();
-                core.scan( applicationName, Utils.convertToVariablePath( applicationFile, pathVariableMap ),
+                core.scan( Utils.convertToVariablePath( applicationFile, pathVariableMap ),
                            assessmentName, assessmentOutput, caller, reportType, reportOutputType,
                            Utils.convertToVariablePath(reportOutputPath,pathVariableMap), publish, this.options, this.installDir, waitForScan, getLog() );
             }
@@ -243,8 +230,6 @@ public class ScanMojo
     {
         StringBuffer buf = new StringBuffer();
         buf.append( getSafeHash( this.applicationFile ) );
-        buf.append( "-" );
-        buf.append( getSafeHash( this.applicationName ) );
         buf.append( "-" );
         buf.append( getSafeHash( this.assessmentOutput ) );
         buf.append( "-" );

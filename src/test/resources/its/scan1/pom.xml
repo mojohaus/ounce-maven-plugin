@@ -28,7 +28,7 @@
                         <!--include all-->
                         <externalApplication>${basedir}/../externalApps/1</externalApplication>
                     </externalApplications>
-                    <applicationName>foo</applicationName>
+                    <applicationFile>${basedir}/ounce-scan-1.paf</applicationFile>
                 </configuration>
             </plugin>
         </plugins>

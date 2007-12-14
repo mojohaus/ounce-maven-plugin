@@ -204,7 +204,7 @@ public class OunceCoreXml
      *      java.lang.String, java.lang.String, java.lang.String, boolean, java.util.Map, java.lang.String, boolean,
      *      org.apache.maven.plugin.logging.Log)
      */
-    public void scan( String theApplicationName, String theApplicationFile, String theAssessmentName,
+    public void scan( String theApplicationFile, String theAssessmentName,
                       String theAssessmentOutput, String theCaller, String theReportType, String theReportOutputType,
                       String theReportOutputLocation, boolean thePublish, Map theOunceOptions, String installDir,
                       boolean wait, Log theLog )
@@ -212,7 +212,7 @@ public class OunceCoreXml
     {
 
         OunceCoreScan bean =
-            new OunceCoreScan( theApplicationName, theApplicationFile, theAssessmentName, theAssessmentOutput,
+            new OunceCoreScan( theApplicationFile, theAssessmentName, theAssessmentOutput,
                                theCaller, theReportType, theReportOutputType, theReportOutputLocation, thePublish,
                                theOunceOptions );
 
