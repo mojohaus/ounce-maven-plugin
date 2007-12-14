@@ -175,6 +175,13 @@ public class ApplicationMojo
             {
                 coreProjects.addAll( externs );
             }
+            
+            // perform variable substitution
+            Iterator it = coreProjects.iterator();
+            while ( it.hasNext() ) {
+            	OunceProjectBean projectBean = (OunceProjectBean) it.next();
+            	projectBean.setPath( Utils.convertToVariablePath( projectBean.getPath(), pathVariableMap ));
+            }
 
             core.createApplication( getProjectRoot(), name, ".", coreProjects, options, getLog() );
         }
