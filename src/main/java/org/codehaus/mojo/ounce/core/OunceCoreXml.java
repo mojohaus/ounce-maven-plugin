@@ -215,7 +215,7 @@ public class OunceCoreXml
             new OunceCoreScan( theApplicationName, theApplicationFile, theAssessmentName, theAssessmentOutput,
                                theCaller, theReportType, theReportOutputType, theReportOutputLocation, thePublish,
                                theOunceOptions );
-        
+
         {
             XStream xs = new XStream();
             xs.alias( "scan", OunceCoreScan.class );
@@ -236,8 +236,10 @@ public class OunceCoreXml
         }
     }
 
-	public void createPathVariables(Map pathVariableMap, String installDir, Log log) throws OunceCoreException {
-		// TODO Auto-generated method stub
-		
-	}
+    public void createPathVariables( Map pathVariableMap, String installDir, Log log )
+        throws OunceCoreException
+    {
+        // TODO Auto-generated method stub
+
+    }
 }

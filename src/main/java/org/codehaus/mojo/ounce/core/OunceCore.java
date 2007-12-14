@@ -104,15 +104,16 @@ public interface OunceCore
      * @throws OunceCoreException
      */
     void scan( String applicationName, String applicationFile, String assessmentName, String assessmentOutput,
-               String caller, String reportType, String reportOutputType, String reportOutputLocation, boolean publish, Map ounceOptions, String installDir, boolean wait,
-               Log log )
+               String caller, String reportType, String reportOutputType, String reportOutputLocation, boolean publish,
+               Map ounceOptions, String installDir, boolean wait, Log log )
         throws OunceCoreException;
 
     /**
      * Creates any required path variables.
-     *  
+     * 
      * @param pathVariableMap
      * @throws OunceCoreException
      */
-    void createPathVariables(Map pathVariableMap, String installDir, Log log) throws OunceCoreException;
+    void createPathVariables( Map pathVariableMap, String installDir, Log log )
+        throws OunceCoreException;
 }

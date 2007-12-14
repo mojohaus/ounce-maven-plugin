@@ -26,7 +26,6 @@
  */
 package org.codehaus.mojo.ounce.its;
 
-
 /**
  * This class executes the IT tests. The setup will create a pom-test.xml from the plugin pom. The version is changed to
  * "test" and the tests themselves turned off to avoid an infinite loop. The test version of the plugin is then built
@@ -88,4 +87,4 @@ public class OunceApplicationMojoITTest
         // test config bound in pom
         testProject( "application8", props, "org.codehaus.mojo:ounce-maven-plugin:test:application" );
     }
- }
+}

@@ -1,29 +1,29 @@
 /*
-* Copyright (c) 2007, Ounce Labs, Inc.
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:
-*     * Redistributions of source code must retain the above copyright
-*       notice, this list of conditions and the following disclaimer.
-*     * Redistributions in binary form must reproduce the above copyright
-*       notice, this list of conditions and the following disclaimer in the
-*       documentation and/or other materials provided with the distribution.
-*     * Neither the name of the <organization> nor the
-*       names of its contributors may be used to endorse or promote products
-*       derived from this software without specific prior written permission.
-*
-* THIS SOFTWARE IS PROVIDED BY OUNCE LABS, INC. ``AS IS'' AND ANY
-* EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-* WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL OUNCE LABS, INC. BE LIABLE FOR ANY
-* DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-* (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-* LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-* ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-* (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ * Copyright (c) 2007, Ounce Labs, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the <organization> nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY OUNCE LABS, INC. ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL OUNCE LABS, INC. BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package org.codehaus.mojo.ounce.its;
 
 import java.io.BufferedReader;
@@ -54,13 +54,9 @@ import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.StringUtils;
 
-
 /**
- * @author <a href="mailto:brianf@apache.org">Brian Fox</a>
- *         Copied from the Eclipse
- *         AbstractEclipsePluginTestCase v2.4
- * @version $Id: AbstractDependencyPluginITCase.java 556442
- *          2007-07-15 20:20:23Z dantran $
+ * @author <a href="mailto:brianf@apache.org">Brian Fox</a> Copied from the Eclipse AbstractEclipsePluginTestCase v2.4
+ * @version $Id: AbstractDependencyPluginITCase.java 556442 2007-07-15 20:20:23Z dantran $
  */
 public abstract class AbstractOuncePluginITCase
     extends PlexusTestCase
@@ -91,31 +87,30 @@ public abstract class AbstractOuncePluginITCase
     protected static final String ARTIFACT_ID = "ounce-maven-plugin";
 
     /**
-     * Version under which the plugin was installed to the
-     * test-time local repository for running test builds.
+     * Version under which the plugin was installed to the test-time local repository for running test builds.
      */
     protected static final String VERSION = "test";
 
     private static final String BUILD_OUTPUT_DIRECTORY = "target/surefire-reports/build-output";
 
     private static boolean installed = false;
-    
+
     Properties props = new Properties();
 
     /**
      * @see org.codehaus.plexus.PlexusTestCase#setUp()
      */
-    protected void setUp ()
+    protected void setUp()
         throws Exception
     {
         if ( !installed )
         {
-            System.out.println( "*** Running integation test builds; output will be directed to: "
-                + BUILD_OUTPUT_DIRECTORY + "\n" );
+            System.out.println( "*** Running integation test builds; output will be directed to: " +
+                BUILD_OUTPUT_DIRECTORY + "\n" );
         }
 
         props.setProperty( "ounce.core", "test-xml" );
-        
+
         super.setUp();
 
         buildTool = (BuildTool) lookup( BuildTool.ROLE, "default" );
@@ -152,11 +147,12 @@ public abstract class AbstractOuncePluginITCase
             {
                 PluginTestTool pluginTestTool = (PluginTestTool) lookup( PluginTestTool.ROLE, "default" );
 
-                localRepositoryDirectory = pluginTestTool
-                    .preparePluginForUnitTestingWithMavenBuilds( PomFile, "test", localRepositoryDirectory );
+                localRepositoryDirectory =
+                    pluginTestTool.preparePluginForUnitTestingWithMavenBuilds( PomFile, "test",
+                                                                               localRepositoryDirectory );
 
-                System.out.println( "*** Installed test-version of the Ounce plugin to: " + localRepositoryDirectory
-                    + "\n" );
+                System.out.println( "*** Installed test-version of the Ounce plugin to: " + localRepositoryDirectory +
+                    "\n" );
 
                 installed = true;
             }
@@ -167,7 +163,7 @@ public abstract class AbstractOuncePluginITCase
     /**
      * @see org.codehaus.plexus.PlexusTestCase#tearDown()
      */
-    protected void tearDown ()
+    protected void tearDown()
         throws Exception
     {
         super.tearDown();
@@ -198,11 +194,10 @@ public abstract class AbstractOuncePluginITCase
      * Execute the plugin with no properties
      * 
      * @param projectName project directory
-     * @param goalList comma separated list of goals to
-     *            execute
+     * @param goalList comma separated list of goals to execute
      * @throws Exception any exception generated during test
      */
-    protected void testProject ( String projectName, String goalList )
+    protected void testProject( String projectName, String goalList )
         throws Exception
     {
         Properties props = new Properties();
@@ -214,11 +209,10 @@ public abstract class AbstractOuncePluginITCase
      * 
      * @param projectName project directory
      * @param properties additional properties
-     * @param goalList comma separated list of goals to
-     *            execute
+     * @param goalList comma separated list of goals to execute
      * @throws Exception any exception generated during test
      */
-    protected void testProject ( String projectName, Properties properties, String goalList )
+    protected void testProject( String projectName, Properties properties, String goalList )
         throws Exception
     {
         System.out.println( "Executing Test Project: " + projectName + "..." );
@@ -245,18 +239,18 @@ public abstract class AbstractOuncePluginITCase
         System.out.println( "Success!" );
     }
 
-    protected File getOutputDirectory ( String projectName )
+    protected File getOutputDirectory( String projectName )
     {
         return getTestFile( "target/test-classes/projects/" + projectName );
     }
 
-    protected void executeMaven ( File pom, Properties properties, List goals )
+    protected void executeMaven( File pom, Properties properties, List goals )
         throws TestToolsException, ExecutionFailedException
     {
         executeMaven( pom, properties, goals, true );
     }
 
-    protected void executeMaven ( File pom, Properties properties, List goals, boolean switchLocalRepo )
+    protected void executeMaven( File pom, Properties properties, List goals, boolean switchLocalRepo )
         throws TestToolsException, ExecutionFailedException
     {
         // insert the test property to activate the test
@@ -315,26 +309,26 @@ public abstract class AbstractOuncePluginITCase
             {
             }
 
-            throw new ExecutionFailedException( "Failed to execute build.\nPOM: " + pom + "\nGoals: "
-                + StringUtils.join( goals.iterator(), ", " ) + "\nExit Code: " + result.getExitCode() + "\nError: "
-                + result.getExecutionException() + "\nBuild Log: " + buildLogUrl + "\n", result );
+            throw new ExecutionFailedException( "Failed to execute build.\nPOM: " + pom + "\nGoals: " +
+                StringUtils.join( goals.iterator(), ", " ) + "\nExit Code: " + result.getExitCode() + "\nError: " +
+                result.getExecutionException() + "\nBuild Log: " + buildLogUrl + "\n", result );
         }
     }
 
-    protected MavenProject readProject ( File pom )
+    protected MavenProject readProject( File pom )
         throws TestToolsException
     {
         return projectTool.readProject( pom, localRepositoryDirectory );
     }
 
-    protected String getPluginCLISpecification ()
+    protected String getPluginCLISpecification()
     {
         String pluginSpec = GROUP_ID + ":" + ARTIFACT_ID + ":" + VERSION + ":";
 
         return pluginSpec;
     }
 
-    protected void assertFileEquals ( String mavenRepo, File expectedFile, File actualFile, File baseDir )
+    protected void assertFileEquals( String mavenRepo, File expectedFile, File actualFile, File baseDir )
         throws IOException
     {
         List expectedLines = getLines( mavenRepo, expectedFile );
@@ -355,17 +349,19 @@ public abstract class AbstractOuncePluginITCase
             // account
             // for absolute paths that are different on each
             // installation.
-            expected = StringUtils.replace( expected, "${basedir}", Utils.convertToUnixStylePath( baseDir.getCanonicalPath()) );
-            expected = StringUtils.replace( expected, "${M2_TEST_REPO}", Utils.convertToUnixStylePath( localRepositoryDirectory.getCanonicalPath() ));
+            expected =
+                StringUtils.replace( expected, "${basedir}", Utils.convertToUnixStylePath( baseDir.getCanonicalPath() ) );
+            expected =
+                StringUtils.replace( expected, "${M2_TEST_REPO}",
+                                     Utils.convertToUnixStylePath( localRepositoryDirectory.getCanonicalPath() ) );
 
             if ( actualLines.size() <= i )
             {
-                fail( "Too few lines in the actual file. Was " + actualLines.size() + ", expected: "
-                    + expectedLines.size() );
+                fail( "Too few lines in the actual file. Was " + actualLines.size() + ", expected: " +
+                    expectedLines.size() );
             }
 
             String actual = actualLines.get( i ).toString();
-
 
             if ( expected.startsWith( "#" ) && actual.startsWith( "#" ) )
             {
@@ -379,7 +375,7 @@ public abstract class AbstractOuncePluginITCase
         assertTrue( "Unequal number of lines.", expectedLines.size() == actualLines.size() );
     }
 
-    private List getLines ( String mavenRepo, File file )
+    private List getLines( String mavenRepo, File file )
         throws IOException
     {
         List lines = new ArrayList();
@@ -403,7 +399,7 @@ public abstract class AbstractOuncePluginITCase
      * @param projectOutputDir
      * @throws IOException
      */
-    private void compareDirectoryContent ( File basedir, File projectOutputDir, String additionalDir )
+    private void compareDirectoryContent( File basedir, File projectOutputDir, String additionalDir )
         throws IOException
     {
 
@@ -412,7 +408,7 @@ public abstract class AbstractOuncePluginITCase
         {
             File[] files = expectedConfigDir.listFiles( new FileFilter()
             {
-                public boolean accept ( File file )
+                public boolean accept( File file )
                 {
                     return !file.isDirectory();
                 }
@@ -421,8 +417,8 @@ public abstract class AbstractOuncePluginITCase
             for ( int j = 0; j < files.length; j++ )
             {
                 File expectedFile = files[j];
-                File actualFile = new File( projectOutputDir, additionalDir + expectedFile.getName() )
-                    .getCanonicalFile();
+                File actualFile =
+                    new File( projectOutputDir, additionalDir + expectedFile.getName() ).getCanonicalFile();
 
                 if ( !actualFile.exists() )
                 {

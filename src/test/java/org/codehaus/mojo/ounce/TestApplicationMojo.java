@@ -1,29 +1,29 @@
 /*
-* Copyright (c) 2007, Ounce Labs, Inc.
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:
-*     * Redistributions of source code must retain the above copyright
-*       notice, this list of conditions and the following disclaimer.
-*     * Redistributions in binary form must reproduce the above copyright
-*       notice, this list of conditions and the following disclaimer in the
-*       documentation and/or other materials provided with the distribution.
-*     * Neither the name of the <organization> nor the
-*       names of its contributors may be used to endorse or promote products
-*       derived from this software without specific prior written permission.
-*
-* THIS SOFTWARE IS PROVIDED BY OUNCE LABS, INC. ``AS IS'' AND ANY
-* EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-* WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL OUNCE LABS, INC. BE LIABLE FOR ANY
-* DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-* (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-* LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-* ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-* (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ * Copyright (c) 2007, Ounce Labs, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the <organization> nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY OUNCE LABS, INC. ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL OUNCE LABS, INC. BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package org.codehaus.mojo.ounce;
 
 import java.io.File;
@@ -38,7 +38,6 @@ import junit.framework.TestCase;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
-import org.codehaus.mojo.ounce.ApplicationMojo;
 import org.codehaus.mojo.ounce.TestUtils.ApplicationMojoMock;
 import org.codehaus.mojo.ounce.TestUtils.MockProject;
 import org.codehaus.mojo.ounce.TestUtils.OunceCoreMock;
@@ -48,16 +47,14 @@ import org.codehaus.mojo.ounce.core.OunceProjectBean;
 import org.codehaus.mojo.ounce.utils.ExternalApplication;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 
-
 /**
  * @author <a href="mailto:brianf@apache.org">Brian Fox</a>
- * 
  */
 public class TestApplicationMojo
     extends TestCase
 {
 
-    public void testApplicationRelative ()
+    public void testApplicationRelative()
         throws ComponentLookupException, MojoExecutionException, MojoFailureException
     {
 
@@ -96,7 +93,7 @@ public class TestApplicationMojo
 
     }
 
-    public void testApplicationSkipCurrent ()
+    public void testApplicationSkipCurrent()
         throws ComponentLookupException, MojoExecutionException, MojoFailureException
     {
 
@@ -130,7 +127,7 @@ public class TestApplicationMojo
 
     }
 
-    public void testApplicationExcludes ()
+    public void testApplicationExcludes()
         throws MojoExecutionException, MojoFailureException, ComponentLookupException
     {
         ApplicationMojoMock mojo = new ApplicationMojoMock();
@@ -162,7 +159,7 @@ public class TestApplicationMojo
         assertContains( ounceProjects, ".", mojo.getProjectRoot(), "MyName" );
     }
 
-    public void testApplicationIncludes ()
+    public void testApplicationIncludes()
         throws MojoExecutionException, MojoFailureException, ComponentLookupException
     {
         ApplicationMojoMock mojo = new ApplicationMojoMock();
@@ -194,7 +191,7 @@ public class TestApplicationMojo
         assertContains( ounceProjects, "foo", mojo.getProjectRoot(), "foo" );
     }
 
-    public void testApplicationExcludePath ()
+    public void testApplicationExcludePath()
         throws MojoExecutionException, MojoFailureException, ComponentLookupException
     {
         ApplicationMojoMock mojo = new ApplicationMojoMock();
@@ -235,7 +232,7 @@ public class TestApplicationMojo
 
     }
 
-    public void testExternals ()
+    public void testExternals()
         throws MojoExecutionException, MojoFailureException, ComponentLookupException
     {
         ApplicationMojoMock mojo = new ApplicationMojoMock();
@@ -281,7 +278,7 @@ public class TestApplicationMojo
         assertContains( ounceProjects, "/mypath2", mojo.getProjectRoot(), "name2" );
     }
 
-    public void testExternalApplications ()
+    public void testExternalApplications()
         throws MojoExecutionException
     {
         ApplicationMojo mojo = new ApplicationMojo();
@@ -334,7 +331,7 @@ public class TestApplicationMojo
         }
     }
 
-    public void testIncludeExternalProjectsFromApplication ()
+    public void testIncludeExternalProjectsFromApplication()
         throws MojoExecutionException, OunceCoreException, IOException
     {
         ApplicationMojo mojo = new ApplicationMojo();
@@ -375,8 +372,8 @@ public class TestApplicationMojo
         assertEquals( 1, projects.size() );
         assertContains( projects, "myExternalApp/e", "myExternalApp", "e" );
     }
-   
-    public void testPropertyReplacements ()
+
+    public void testPropertyReplacements()
         throws MojoExecutionException, OunceCoreException, IOException
     {
         ApplicationMojo mojo = new ApplicationMojo();
@@ -405,7 +402,7 @@ public class TestApplicationMojo
         assertContains( projects, "%pathToExtern2%/g", "myExternalApp", "g" );
     }
 
-    public List getProjects ()
+    public List getProjects()
     {
         List projects = new ArrayList();
         MockProject project = new MockProject();
@@ -422,12 +419,12 @@ public class TestApplicationMojo
         return projects;
     }
 
-    private String getCanonicalName ( String pName )
+    private String getCanonicalName( String pName )
     {
         return pName.replace( '/', File.separatorChar ).replace( '\\', File.separatorChar );
     }
 
-    public void assertContains ( List list, String path, String projectRoot, String name )
+    public void assertContains( List list, String path, String projectRoot, String name )
     {
         // this is done to handle weird ways that windows
         // creates the paths.

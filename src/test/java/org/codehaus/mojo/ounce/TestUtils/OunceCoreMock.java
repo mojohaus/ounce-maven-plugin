@@ -129,13 +129,13 @@ public class OunceCoreMock
      *      java.lang.String, java.lang.String, java.lang.String, boolean, org.apache.maven.plugin.logging.Log)
      */
     public void scan( String applicationName, String applicationFile, String assessmentName, String assessmentOutput,
-                      String caller, String reportType, String reportOutputType, String reportOutputLocation, boolean publish, Map ounceOptions, String installDir,
-                      boolean wait, Log log )
+                      String caller, String reportType, String reportOutputType, String reportOutputLocation,
+                      boolean publish, Map ounceOptions, String installDir, boolean wait, Log log )
         throws OunceCoreException
     {
         scan =
-            new OunceCoreScan( applicationName, applicationFile, assessmentName, assessmentOutput, caller, reportType, reportOutputType, reportOutputLocation,
-                               publish, ounceOptions );
+            new OunceCoreScan( applicationName, applicationFile, assessmentName, assessmentOutput, caller, reportType,
+                               reportOutputType, reportOutputLocation, publish, ounceOptions );
     }
 
     /**
@@ -170,8 +170,10 @@ public class OunceCoreMock
         return this.scan;
     }
 
-	public void createPathVariables(Map pathVariableMap, String installDir, Log log) throws OunceCoreException {
-		// TODO Auto-generated method stub
-		
-	}
+    public void createPathVariables( Map pathVariableMap, String installDir, Log log )
+        throws OunceCoreException
+    {
+        // TODO Auto-generated method stub
+
+    }
 }
