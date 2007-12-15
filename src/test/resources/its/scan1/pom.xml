@@ -21,13 +21,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>ounce-maven-plugin</artifactId>
                 <configuration>
-                    <pathVariableMap>
-                        <extApp>${basedir}/../externalApps</extApp>
-                    </pathVariableMap>
-                    <externalApplications>
-                        <!--include all-->
-                        <externalApplication>${basedir}/../externalApps/1</externalApplication>
-                    </externalApplications>
+         
                     <applicationFile>${basedir}/ounce-scan-1.paf</applicationFile>
                 </configuration>
             </plugin>

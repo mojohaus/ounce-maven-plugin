@@ -22,7 +22,7 @@
       <plugin>
 	    <groupId>org.codehaus.mojo</groupId>
 		<artifactId>ounce-maven-plugin</artifactId>
-        <version>test</version>
+                <version>test</version>
 		<configuration>
 		  <applicationFile>${basedir}/ounce-site-1.paf</applicationFile>
 		</configuration>

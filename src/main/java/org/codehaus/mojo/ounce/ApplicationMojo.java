@@ -1,29 +1,29 @@
 /*
-* Copyright (c) 2007, Ounce Labs, Inc.
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:
-*     * Redistributions of source code must retain the above copyright
-*       notice, this list of conditions and the following disclaimer.
-*     * Redistributions in binary form must reproduce the above copyright
-*       notice, this list of conditions and the following disclaimer in the
-*       documentation and/or other materials provided with the distribution.
-*     * Neither the name of the <organization> nor the
-*       names of its contributors may be used to endorse or promote products
-*       derived from this software without specific prior written permission.
-*
-* THIS SOFTWARE IS PROVIDED BY OUNCE LABS, INC. ``AS IS'' AND ANY
-* EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-* WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL OUNCE LABS, INC. BE LIABLE FOR ANY
-* DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-* (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-* LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-* ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-* (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ * Copyright (c) 2007, Ounce Labs, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the <organization> nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY OUNCE LABS, INC. ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL OUNCE LABS, INC. BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 package org.codehaus.mojo.ounce;
 
@@ -48,16 +48,11 @@ import org.codehaus.plexus.component.repository.exception.ComponentLookupExcepti
 import org.codehaus.plexus.components.io.fileselectors.IncludeExcludeFileSelector;
 import org.codehaus.plexus.util.StringUtils;
 
-
 /**
- * This mojo generates an Ounce application file. It will automatically include all
- * child modules as projects. This list make be modified using the includes and excludes
- * patterns. 
- * 
- * Projects that are external to this build may be included directly using the externalProjects list.
- * 
- * External Applications may also be included. All of their modules will be inherted as part of this 
- * application file. Those projects may also be filtered upon import.
+ * This mojo generates an Ounce application file. It will automatically include all child modules as projects. This list
+ * make be modified using the includes and excludes patterns. Projects that are external to this build may be included
+ * directly using the externalProjects list. External Applications may also be included. All of their modules will be
+ * inherted as part of this application file. Those projects may also be filtered upon import.
  * 
  * @author <a href="mailto:brianf@apache.org">Brian Fox</a>
  * @aggregator
@@ -78,35 +73,27 @@ public class ApplicationMojo
     private List projects;
 
     /**
-     * An array of directories containing the pom file of any projects to include. If an include pattern is 
-     * specified, projects not specifed by include patterns are excluded.
-     * <br/>
-     * Include only applies to inherited modules, not external projects. The current project is not filtered. 
-     * <br/>
-     * The include pattern may contain the following wildcard characters:<br/>
-     * *: Zero or more characters<br/>
-     * **: Any folders<br/>
-     * ?: One and only one character<br/>
+     * An array of directories containing the pom file of any projects to include. If an include pattern is specified,
+     * projects not specifed by include patterns are excluded. <br/> Include only applies to inherited modules, not
+     * external projects. The current project is not filtered. <br/> The include pattern may contain the following
+     * wildcard characters:<br/> *: Zero or more characters<br/> **: Any folders<br/> ?: One and only one character<br/>
      * 
      * @parameter
      */
     protected String[] includes;
 
     /**
-     * An array of directories containing the pom file of any projects to exclude. Excludes can contain standard 
-     * Ant-style wildcards.Exclude only applies to inherited modules, not external projects. The current project 
-     * is not filtered.  
+     * An array of directories containing the pom file of any projects to exclude. Excludes can contain standard
+     * Ant-style wildcards.Exclude only applies to inherited modules, not external projects. The current project is not
+     * filtered.
      * 
      * @parameter
      */
     protected String[] excludes;
 
     /**
-     * List of external projects to include.  These projects are included after any other projects have been 
-     * included or excluded. 
-     * <br/>
-     * The format is: name,path<br/>
-     * Where:<br/>
+     * List of external projects to include. These projects are included after any other projects have been included or
+     * excluded. <br/> The format is: name,path<br/> Where:<br/>
      * <li>name is the artifact ID of the project to include.</li>
      * <li>path is the pathname to the project.</li>
      * 
@@ -115,17 +102,14 @@ public class ApplicationMojo
     protected List externalProjects;
 
     /**
-     * Allows you to include projects from multiple applications. The external application 
-     * properties are not inherited, and the external application must already exist.
-     * <br/>
-     * externalApplications is a list of directories containing top-level pom files.
-     * <br/>
-     * The format for externalApplications is: pathname,[includes|includes],[excludes|excludes]
-     * <br/>
-     * Where:<br/>
+     * Allows you to include projects from multiple applications. The external application properties are not inherited,
+     * and the external application must already exist. <br/> externalApplications is a list of directories containing
+     * top-level pom files. <br/> The format for externalApplications is:
+     * pathname,[includes|includes],[excludes|excludes] <br/> Where:<br/>
      * <li>pathname, includes, and excludes are comma delimited; if you have excludes, but no includes, use two commas.</li>
      * <li>Multiple includes or excludes are separated by pipes (\x7c).</li>
      * <li>Excludes can contain standard Ant-style wild-cards.</li>
+     * 
      * @parameter
      */
     protected List externalApplications;
@@ -137,7 +121,7 @@ public class ApplicationMojo
      * 
      * @see org.apache.maven.plugin.Mojo#execute()
      */
-    public void execute ()
+    public void execute()
         throws MojoExecutionException, MojoFailureException
     {
 
@@ -175,12 +159,13 @@ public class ApplicationMojo
             {
                 coreProjects.addAll( externs );
             }
-            
+
             // perform variable substitution
             Iterator it = coreProjects.iterator();
-            while ( it.hasNext() ) {
-            	OunceProjectBean projectBean = (OunceProjectBean) it.next();
-            	projectBean.setPath( Utils.convertToVariablePath( projectBean.getPath(), pathVariableMap ));
+            while ( it.hasNext() )
+            {
+                OunceProjectBean projectBean = (OunceProjectBean) it.next();
+                projectBean.setPath( Utils.convertToVariablePath( projectBean.getPath(), pathVariableMap ) );
             }
 
             core.createApplication( getProjectRoot(), name, ".", coreProjects, options, getLog() );
@@ -206,7 +191,7 @@ public class ApplicationMojo
      * @return List of modules
      * @throws IOException
      */
-    protected List getIncludedModules ()
+    protected List getIncludedModules()
         throws IOException
     {
         List coreProjects = new ArrayList( projects.size() );
@@ -239,10 +224,9 @@ public class ApplicationMojo
      * Get the list of user defined external projects
      * 
      * @return List of external Projects
-     * @throws MojoExecutionException if the format is
-     *             invalid
+     * @throws MojoExecutionException if the format is invalid
      */
-    protected List getExternalProjects ()
+    protected List getExternalProjects()
         throws MojoExecutionException
     {
         List externals = null;
@@ -275,14 +259,12 @@ public class ApplicationMojo
     }
 
     /**
-     * Get the list of user defined external application
-     * files to process
+     * Get the list of user defined external application files to process
      * 
      * @return List of external Applications
-     * @throws MojoExecutionException if the format is
-     *             invalid
+     * @throws MojoExecutionException if the format is invalid
      */
-    protected List getExternalApplications ()
+    protected List getExternalApplications()
         throws MojoExecutionException
     {
         List externals = null;
@@ -331,16 +313,14 @@ public class ApplicationMojo
     }
 
     /**
-     * This method processes the external Applications and
-     * filters them according to the include/exclude
-     * patterns
+     * This method processes the external Applications and filters them according to the include/exclude patterns
      * 
      * @return List of OunceCoreProject objects
      * @throws MojoExecutionException
      * @throws OunceCoreException
      * @throws IOException
      */
-    public List getIncludedExternalApplicationProjects ( OunceCore core )
+    public List getIncludedExternalApplicationProjects( OunceCore core )
         throws MojoExecutionException, OunceCoreException, IOException
     {
 
@@ -366,49 +346,50 @@ public class ApplicationMojo
     }
 
     /**
-     * This method filters the projects retrieved from the
-     * external application
+     * This method filters the projects retrieved from the external application
      * 
      * @param app
      * @param extern
      * @return
      * @throws IOException
      */
-    public List filterExternalApplicationProjects ( OunceCoreApplication app, ExternalApplication extern )
+    public List filterExternalApplicationProjects( OunceCoreApplication app, ExternalApplication extern )
         throws IOException
     {
-        List results = new ArrayList( app.getProjects().size() );
-
-        IncludeExcludeFileSelector fileSelector = new IncludeExcludeFileSelector();
-
-        String excludeString = extern.getExcludes();
-        String includeString = extern.getIncludes();
-
-        // init scanner with inc/exc
-        if ( StringUtils.isNotEmpty( excludeString ) )
+        List results = new ArrayList();
+        if ( app != null && app.getProjects() != null )
         {
-            // split on |
-            fileSelector.setExcludes( excludeString.split( "\\x7C" ) );
-        }
+            IncludeExcludeFileSelector fileSelector = new IncludeExcludeFileSelector();
 
-        if ( StringUtils.isNotEmpty( includeString ) )
-        {
-            // split on |
-            fileSelector.setIncludes( includeString.split( "\\x7C" ) );
-        }
+            String excludeString = extern.getExcludes();
+            String includeString = extern.getIncludes();
 
-        for ( Iterator pIter = app.getProjects().iterator(); pIter.hasNext(); )
-        {
-            OunceProjectBean prj = (OunceProjectBean) pIter.next();
-            getLog().debug( "Filtering External App Project: " + prj );
-            if ( fileSelector.isSelected( new ProjectFileInfo( new File( prj.getPath() ) ) ) )
+            // init scanner with inc/exc
+            if ( StringUtils.isNotEmpty( excludeString ) )
             {
-                String path = Utils.convertToUnixStylePath( extern.getPath() + "/" + prj.getPath() );
-                path = Utils.convertToVariablePath( path, pathVariableMap );
-                prj.setPath( path );
+                // split on |
+                fileSelector.setExcludes( excludeString.split( "\\x7C" ) );
+            }
 
-                getLog().debug( "Adding External App Project: " + prj );
-                results.add( prj );
+            if ( StringUtils.isNotEmpty( includeString ) )
+            {
+                // split on |
+                fileSelector.setIncludes( includeString.split( "\\x7C" ) );
+            }
+
+            for ( Iterator pIter = app.getProjects().iterator(); pIter.hasNext(); )
+            {
+                OunceProjectBean prj = (OunceProjectBean) pIter.next();
+                getLog().debug( "Filtering External App Project: " + prj );
+                if ( fileSelector.isSelected( new ProjectFileInfo( new File( prj.getPath() ) ) ) )
+                {
+                    String path = Utils.convertToUnixStylePath( extern.getPath() + "/" + prj.getPath() );
+                    path = Utils.convertToVariablePath( path, pathVariableMap );
+                    prj.setPath( path );
+
+                    getLog().debug( "Adding External App Project: " + prj );
+                    results.add( prj );
+                }
             }
         }
         return results;
@@ -417,7 +398,7 @@ public class ApplicationMojo
     /**
      * @return the projects
      */
-    public List getProjects ()
+    public List getProjects()
     {
         return this.projects;
     }
@@ -425,16 +406,15 @@ public class ApplicationMojo
     /**
      * @param theProjects the projects to set
      */
-    public void setProjects ( List theProjects )
+    public void setProjects( List theProjects )
     {
         this.projects = theProjects;
     }
 
-
     /**
      * @return the includes
      */
-    public String[] getIncludes ()
+    public String[] getIncludes()
     {
         return this.includes;
     }
@@ -442,7 +422,7 @@ public class ApplicationMojo
     /**
      * @param theIncludes the includes to set
      */
-    public void setIncludes ( String[] theIncludes )
+    public void setIncludes( String[] theIncludes )
     {
         this.includes = theIncludes;
     }
@@ -450,7 +430,7 @@ public class ApplicationMojo
     /**
      * @return the excludes
      */
-    public String[] getExcludes ()
+    public String[] getExcludes()
     {
         return this.excludes;
     }
@@ -458,25 +438,23 @@ public class ApplicationMojo
     /**
      * @param theExcludes the excludes to set
      */
-    public void setExcludes ( String[] theExcludes )
+    public void setExcludes( String[] theExcludes )
     {
         this.excludes = theExcludes;
     }
 
     /**
-     * @param theExternalProjects the externalProjects to
-     *            set
+     * @param theExternalProjects the externalProjects to set
      */
-    public void setExternalProjects ( List theExternalProjects )
+    public void setExternalProjects( List theExternalProjects )
     {
         this.externalProjects = theExternalProjects;
     }
 
     /**
-     * @param theExternalApplications the
-     *            externalApplications to set
+     * @param theExternalApplications the externalApplications to set
      */
-    public void setExternalApplications ( List theExternalApplications )
+    public void setExternalApplications( List theExternalApplications )
     {
         this.externalApplications = theExternalApplications;
     }
@@ -484,7 +462,7 @@ public class ApplicationMojo
     /**
      * @param thePathProperties the pathVariableMap to set
      */
-    public void setPathProperties ( Map thePathProperties )
+    public void setPathProperties( Map thePathProperties )
     {
         this.pathVariableMap = thePathProperties;
     }

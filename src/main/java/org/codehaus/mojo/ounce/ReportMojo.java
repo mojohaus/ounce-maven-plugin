@@ -34,14 +34,13 @@ public class ReportMojo
     private File reportOutputDirectory;
 
     /**
-     * Specify the name of an existing assessment for which to generate a report. 
-     * If not specified, Ounce/Maven scans the application and generates the report 
-     * from that assessment.
+     * Specify the name of an existing assessment for which to generate a report. If not specified, Ounce/Maven scans
+     * the application and generates the report from that assessment.
      * 
      * @parameter expression="${ounce.existingAssessmentFile}"
      */
     String existingAssessmentFile;
-    
+
     /**
      * The current Project.
      * 
@@ -66,17 +65,17 @@ public class ReportMojo
 
     public String getDescription( Locale locale )
     {
-        return getBundle( locale ).getString( "report.description" ); 
+        return getBundle( locale ).getString( "report.description" );
     }
 
     public String getName( Locale locale )
     {
-        return getBundle( locale ).getString( "report.name" ); 
+        return getBundle( locale ).getString( "report.name" );
     }
 
     public String getOutputName()
     {
-       return "Ounce-Analysis/index";
+        return "Ounce-Analysis/index";
     }
 
     /**
@@ -86,7 +85,7 @@ public class ReportMojo
     {
         return true;
     }
-    
+
     private ResourceBundle getBundle( Locale locale )
     {
         return ResourceBundle.getBundle( "ounce-report", locale, this.getClass().getClassLoader() );
@@ -95,13 +94,15 @@ public class ReportMojo
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
-    	this.getLog().warn( "Generating..." );
-        
-        if (existingAssessmentFile != null) {
-        	if (options == null) {
-        		options = new HashMap();
-        	}
-        	options.put("existingAssessmentFile", existingAssessmentFile);
+        this.getLog().warn( "Generating..." );
+
+        if ( existingAssessmentFile != null )
+        {
+            if ( options == null )
+            {
+                options = new HashMap();
+            }
+            options.put( "existingAssessmentFile", existingAssessmentFile );
         }
 
         super.execute();
@@ -117,13 +118,15 @@ public class ReportMojo
     {
         this.getLog().warn( "Generating..." );
         this.waitForScan = true;
-        if (this.reportType == null) {
-        	this.reportType = "Findings";
+        if ( this.reportType == null )
+        {
+            this.reportType = "Findings";
         }
-        if (this.reportOutputType == null) {
+        if ( this.reportOutputType == null )
+        {
             this.reportOutputType = "html";
         }
-        this.reportOutputPath = reportOutputDirectory+File.separator+getOutputName()+".html";
+        this.reportOutputPath = reportOutputDirectory + File.separator + getOutputName() + ".html";
 
         try
         {
@@ -131,11 +134,11 @@ public class ReportMojo
         }
         catch ( MojoExecutionException e )
         {
-            throw new MavenReportException("Execption generating report:",e);
+            throw new MavenReportException( "Execption generating report:", e );
         }
         catch ( MojoFailureException e )
         {
-            throw new MavenReportException("Execption generating report:",e);
+            throw new MavenReportException( "Execption generating report:", e );
         }
     }
 
@@ -147,7 +150,6 @@ public class ReportMojo
         return CATEGORY_PROJECT_REPORTS;
     }
 
-
     /**
      * @see org.apache.maven.reporting.MavenReport#getReportOutputDirectory()
      */
@@ -155,12 +157,12 @@ public class ReportMojo
     {
         return this.reportOutputDirectory;
     }
-    
+
     /**
      * @see org.apache.maven.reporting.MavenReport#setReportOutputDirectory()
      */
     public void setReportOutputDirectory( File outputDirectory )
     {
-        reportOutputDirectory = outputDirectory;    
+        reportOutputDirectory = outputDirectory;
     }
 }

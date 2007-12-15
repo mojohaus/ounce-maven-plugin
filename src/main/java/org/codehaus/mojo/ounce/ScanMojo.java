@@ -46,6 +46,7 @@ import org.codehaus.plexus.util.StringUtils;
  * @goal scan
  * @phase package
  * @aggregator
+ * @execute lifecycle="scan" phase="package"
  */
 public class ScanMojo
     extends AbstractOunceMojo
