@@ -69,7 +69,7 @@ public class ProjectOnlyMojo
     private String classpathScope;
 
     /**
-     * Jdk configuration known to OunceCore.
+     * JDK configuration known to Ounce Core.
      * 
      * @parameter expression="${ounce.jdkName}"
      */

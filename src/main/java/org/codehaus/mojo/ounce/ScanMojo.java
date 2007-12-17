@@ -54,8 +54,6 @@ public class ScanMojo
 
     /**
      * The location of the application file (.paf) to scan. 
-     * <br/> 
-     * Default value is ${basedir}/${project.artifactId}.paf
      * 
      * @parameter expression="${ounce.applicationFile}" default-value="${basedir}/${project.artifactId}.paf"
      */

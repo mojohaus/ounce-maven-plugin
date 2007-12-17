@@ -84,7 +84,9 @@ public class ApplicationMojo
 
     /**
      * An array of directories containing the pom file of any projects to exclude. Excludes can contain standard
-     * Ant-style wildcards.Exclude only applies to inherited modules, not external projects. The current project is not
+     * Ant-style wildcards.
+     * <br/>
+     * Excludes only apply to inherited modules, not external projects. The current project is not
      * filtered.
      * 
      * @parameter
@@ -108,7 +110,7 @@ public class ApplicationMojo
      * pathname,[includes|includes],[excludes|excludes] <br/> Where:<br/>
      * <li>pathname, includes, and excludes are comma delimited; if you have excludes, but no includes, use two commas.</li>
      * <li>Multiple includes or excludes are separated by pipes (\x7c).</li>
-     * <li>Excludes can contain standard Ant-style wild-cards.</li>
+     * <li>Excludes can contain standard Ant style wildcards.</li>
      * 
      * @parameter
      */
