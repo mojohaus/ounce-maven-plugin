@@ -23,6 +23,7 @@ Report Mojo Usage
 * The <<<ounce:report>>> mojo
   
     If you want to include the results of the scan as part of your site, configure your pom like this:
+    
 +---+
 <project>
   [...]
@@ -33,6 +34,13 @@ Report Mojo Usage
 		<artifactId>ounce-maven-plugin</artifactId>
 		<configuration>
 	      <!--insert scan configuration here. It is the same as the scan mojo--> 
+	      <!--
+	      <applicationFile>webgoat.paf</applicationFile>
+	      <installDir>C:\Program Files\Ounce Labs</installDir>
+	      <pathVariableMap>
+	      	<WebGoatWS>C:\WebGoat</WebGoatWS>
+	      </pathVariableMap>
+	      -->
 		</configuration>
       </plugin>
      </plugins>
