@@ -44,7 +44,6 @@ import org.codehaus.plexus.util.StringUtils;
  * 
  * @author <a href="mailto:brianf@apache.org">Brian Fox</a>
  * @goal scan
- * @phase package
  * @aggregator
  * @execute lifecycle="scan" phase="package"
  */
