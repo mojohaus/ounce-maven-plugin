@@ -9,7 +9,22 @@
 
 Ounce Maven Plugin
 
-  The Ounce Maven plugin allows easy integration with the {{{http://www.ouncelabs.com}OunceLabs}} Ounce security analysis tool.
+  Ounce Labs' solutions enable organizations to identify, prioritize, and eliminate business
+risk to enterprises caused by software security vulnerabilities.  Ounce analyzes application
+source code to provide the most complete and accurate analysis of application vulnerabilities
+and their relative priorities, enabling business users and IT professionals to optimize 
+their resources in resolving the most critical issues.
+
+  The Ounce/Maven Plugin makes it easy to integrate static source code analysis into your Maven
+build framework.  Specialized goals allow you to extend the Maven framework to generate:
+
+	*Ounce Project and Application files
+	
+	*Source code security scans
+	
+	*Comprehensive security reports
+	
+  For more information about Ounce Labs' solution, see {{{http://www.ouncelabs.com}www.ouncelabs.com}}.
 
 * Goals Overview
 

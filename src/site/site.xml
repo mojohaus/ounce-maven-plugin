@@ -36,7 +36,7 @@
         <item name="Configuring Compiler Settings" href="examples/compiler.html"/>
     </menu>
     <menu name="Resources">
-      <item name="OunceLabs" href="http://www.ouncelabs.com" />
+      <item name="Ounce Labs, Inc." href="http://www.ouncelabs.com" />
     </menu>
 	<menu ref="reports" />
   </body>
