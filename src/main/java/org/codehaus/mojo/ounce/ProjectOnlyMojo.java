@@ -59,10 +59,9 @@ public class ProjectOnlyMojo
     public static final String M2_REPO = "M2_REPO";
 
     /**
-     * The scope of the classpath used to analyze this project.  
-     * <br/>
-     * Valid choices are: compile, test, runtime, or system.  If includeTestSources is true, then the classpathScope 
-     * reverts to test. Otherwise, the default is compile.
+     * The scope of the classpath used to analyze this project. <br/> Valid choices are: compile, test, runtime, or
+     * system. If includeTestSources is true, then the classpathScope reverts to test. Otherwise, the default is
+     * compile.
      * 
      * @parameter default-value="compile" expression="${ounce.classpathScope}";
      */
@@ -89,7 +88,7 @@ public class ProjectOnlyMojo
      * @parameter expression="${ounce.includeTestSources}" default-value="false"
      */
     protected boolean includeTestSources;
-    
+
     /**
      * Whether the plugin should use the Ounce Automation Server to create any necessary variables (such as M2_REPO).
      * Requires that the Ounce Automation Server be installed.
@@ -97,9 +96,9 @@ public class ProjectOnlyMojo
      * @parameter expression="${ounce.createVariables}" default-value="true"
      */
     protected boolean createVariables;
-    
+
     /**
-     * The location of the Ounce client installation directory.  Required if ounceauto is not on the path.
+     * The location of the Ounce client installation directory. Required if ounceauto is not on the path.
      * 
      * @parameter expression="${ounce.installDir}"
      */
@@ -150,7 +149,7 @@ public class ProjectOnlyMojo
                 classPath = Utils.convertToRelativePath( classPath, local.getBasedir(), ProjectOnlyMojo.M2_REPO );
 
                 classPath = Utils.convertToVariablePath( classPath, pathVariableMap );
-                
+
                 sourceRoots = Utils.convertToRelativePaths( sourceRoots, projectRoot, "" );
 
                 projectRoot = ".";
@@ -159,7 +158,7 @@ public class ProjectOnlyMojo
 
                 core.createProject( getProjectRoot(), name, projectRoot, sourceRoots, webappDirectory, classPath,
                                     jdkName, javaCompilerOptions, project.getPackaging(), this.options, this.getLog() );
-                
+
                 if ( createVariables )
                 {
                     if ( pathVariableMap == null )
@@ -220,7 +219,6 @@ public class ProjectOnlyMojo
         StringBuffer sb = new StringBuffer();
         Iterator i = classpathElements.iterator();
 
-                    
         if ( i.hasNext() )
         {
             // first one, no separator needed

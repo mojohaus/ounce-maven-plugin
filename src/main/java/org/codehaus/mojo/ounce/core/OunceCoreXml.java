@@ -204,17 +204,16 @@ public class OunceCoreXml
      *      java.lang.String, java.lang.String, java.lang.String, boolean, java.util.Map, java.lang.String, boolean,
      *      org.apache.maven.plugin.logging.Log)
      */
-    public void scan( String theApplicationFile, String theAssessmentName,
-                      String theAssessmentOutput, String theCaller, String theReportType, String theReportOutputType,
+    public void scan( String theApplicationFile, String theAssessmentName, String theAssessmentOutput,
+                      String theCaller, String theReportType, String theReportOutputType,
                       String theReportOutputLocation, boolean thePublish, Map theOunceOptions, String installDir,
                       boolean wait, Log theLog )
         throws OunceCoreException
     {
 
         OunceCoreScan bean =
-            new OunceCoreScan( theApplicationFile, theAssessmentName, theAssessmentOutput,
-                               theCaller, theReportType, theReportOutputType, theReportOutputLocation, thePublish,
-                               theOunceOptions );
+            new OunceCoreScan( theApplicationFile, theAssessmentName, theAssessmentOutput, theCaller, theReportType,
+                               theReportOutputType, theReportOutputLocation, thePublish, theOunceOptions );
 
         {
             XStream xs = new XStream();

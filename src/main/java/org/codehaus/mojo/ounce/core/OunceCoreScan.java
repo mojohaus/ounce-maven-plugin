@@ -51,10 +51,9 @@ public class OunceCoreScan
 
     Map OunceOptions;
 
-    public OunceCoreScan( String theApplicationFile, String theAssessmentName,
-                          String theAssessmentOutput, String theCaller, String theReportType,
-                          String theReportOutputType, String theReportOutputLocation, boolean thePublish,
-                          Map theOunceOptions )
+    public OunceCoreScan( String theApplicationFile, String theAssessmentName, String theAssessmentOutput,
+                          String theCaller, String theReportType, String theReportOutputType,
+                          String theReportOutputLocation, boolean thePublish, Map theOunceOptions )
     {
         super();
         this.applicationFile = theApplicationFile;

@@ -102,8 +102,8 @@ public interface OunceCore
      * @param log
      * @throws OunceCoreException
      */
-    void scan( String applicationFile, String assessmentName, String assessmentOutput,
-               String caller, String reportType, String reportOutputType, String reportOutputLocation, boolean publish,
+    void scan( String applicationFile, String assessmentName, String assessmentOutput, String caller,
+               String reportType, String reportOutputType, String reportOutputLocation, boolean publish,
                Map ounceOptions, String installDir, boolean wait, Log log )
         throws OunceCoreException;
 

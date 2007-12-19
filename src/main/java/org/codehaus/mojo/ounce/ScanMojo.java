@@ -52,7 +52,7 @@ public class ScanMojo
 {
 
     /**
-     * The location of the application file (.paf) to scan. 
+     * The location of the application file (.paf) to scan.
      * 
      * @parameter expression="${ounce.applicationFile}" default-value="${basedir}/${project.artifactId}.paf"
      */
@@ -66,41 +66,35 @@ public class ScanMojo
     String assessmentName;
 
     /**
-     * A filename to which to save the assessment.
-     * <br/> 
-     * If filename is not specified, Ounce/Maven generates a name based on the application name and timestamp and saves it to the application’s working directory.
+     * A filename to which to save the assessment. <br/> If filename is not specified, Ounce/Maven generates a name
+     * based on the application name and timestamp and saves it to the application’s working directory.
      * 
      * @parameter expression="${ounce.assessmentOutput}"
      */
     String assessmentOutput;
 
     /**
-     * A short  string to help identify the corresponding entries in the ounceauto log file. 
+     * A short string to help identify the corresponding entries in the ounceauto log file.
      * 
      * @parameter expression="${ounce.caller}"
      */
     String caller;
 
     /**
-     * Generates an Ounce report of the specified type, including findings reports, SmartAudit 
-     * Reports, and, if available, custom reports. Ounce/Maven generates a report for this assessment 
-     * after the scan completes. 
-     * <br/>
-     * The following report types are included: Findings, Findings By CWE, Findings By API, 
-     * Findings By Classification, Findings By File, Findings By Type, Findings By Bundle, 
-     * OWASP Top Ten, PCI Data Security Standard, Ounce Software Security Profile, or 
-     * OWASP Top Ten 2007
-     * <br/>
-     * If you specify reportType, then reportOutputType and reportOutputPath are required. 
+     * Generates an Ounce report of the specified type, including findings reports, SmartAudit Reports, and, if
+     * available, custom reports. Ounce/Maven generates a report for this assessment after the scan completes. <br/> The
+     * following report types are included: Findings, Findings By CWE, Findings By API, Findings By Classification,
+     * Findings By File, Findings By Type, Findings By Bundle, OWASP Top Ten, PCI Data Security Standard, Ounce Software
+     * Security Profile, or OWASP Top Ten 2007 <br/> If you specify reportType, then reportOutputType and
+     * reportOutputPath are required.
      * 
      * @parameter expression="${ounce.reportType}"
      */
     String reportType;
 
     /**
-     * The output to generate for the report specified in reportType. Required with reportType. 
-     * 
-     * Output type may be html, zip, pdf-summary, pdf-detailed, pdf-comprehensive, or pdf-annotated.
+     * The output to generate for the report specified in reportType. Required with reportType. Output type may be html,
+     * zip, pdf-summary, pdf-detailed, pdf-comprehensive, or pdf-annotated.
      * 
      * @parameter expression="${ounce.reportOutputType}"
      */
@@ -112,21 +106,21 @@ public class ScanMojo
      * @parameter expression="${ounce.reportOutputPath}"
      */
     String reportOutputPath;
-    
+
     /**
      * Number of lines of source code to include in the report before each finding.
      * 
      * @parameter expression="${ounce.includeSrcBefore}"
      */
     int includeSrcBefore = -1;
-    
+
     /**
      * Number of lines of source code to include in the report after each finding.
      * 
      * @parameter expression="${ounce.includeSrcAfter}"
      */
     int includeSrcAfter = -1;
-    
+
     /**
      * Automatically publish the assessment following the completion of the scan.
      * 
@@ -142,10 +136,9 @@ public class ScanMojo
     String installDir;
 
     /**
-     * Forces the goal to wait until the scan finishes, thus blocking the Maven build. 
-     * 
-     * This is useful if the scan is being performed from the report mojo as part 
-     * of integration with the site target and the site is getting deployed.
+     * Forces the goal to wait until the scan finishes, thus blocking the Maven build. This is useful if the scan is
+     * being performed from the report mojo as part of integration with the site target and the site is getting
+     * deployed.
      * 
      * @parameter expression="${ounce.wait}" default-value="false"
      */
@@ -176,17 +169,19 @@ public class ScanMojo
         {
             try
             {
-            	if (includeSrcAfter != -1 || includeSrcBefore != -1) {
-                	if (options == null) {
-                		options = new HashMap();
-                	}
-                	options.put("includeSrcAfter", new Integer(includeSrcAfter));
-                	options.put("includeSrcBefore", new Integer(includeSrcBefore));
-            	}
+                if ( includeSrcAfter != -1 || includeSrcBefore != -1 )
+                {
+                    if ( options == null )
+                    {
+                        options = new HashMap();
+                    }
+                    options.put( "includeSrcAfter", new Integer( includeSrcAfter ) );
+                    options.put( "includeSrcBefore", new Integer( includeSrcBefore ) );
+                }
                 OunceCore core = getCore();
-                core.scan( Utils.convertToVariablePath( applicationFile, pathVariableMap ),
-                           assessmentName, assessmentOutput, caller, reportType, reportOutputType,
-                           reportOutputPath, publish, this.options, this.installDir, waitForScan, getLog() );
+                core.scan( Utils.convertToVariablePath( applicationFile, pathVariableMap ), assessmentName,
+                           assessmentOutput, caller, reportType, reportOutputType, reportOutputPath, publish,
+                           this.options, this.installDir, waitForScan, getLog() );
             }
             catch ( ComponentLookupException e )
             {
@@ -199,7 +194,8 @@ public class ScanMojo
         }
         else
         {
-            this.getLog().info( "Skipping Scan because these same parameters where already used in a scan for this project during this build. (build was probably forked)" );
+            this.getLog().info(
+                                "Skipping Scan because these same parameters where already used in a scan for this project during this build. (build was probably forked)" );
         }
     }
 
@@ -240,7 +236,7 @@ public class ScanMojo
         buf.append( getSafeHash( this.reportOutputType ) );
         buf.append( "-" );
         buf.append( getSafeHash( this.reportType ) );
-        this.getLog().debug( "Parameter Hash: "+buf.toString() );
+        this.getLog().debug( "Parameter Hash: " + buf.toString() );
         return buf.toString();
     }
 

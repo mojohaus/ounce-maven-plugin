@@ -128,14 +128,14 @@ public class OunceCoreMock
      * @see org.codehaus.mojo.ounce.core.OunceCore#scan(java.lang.String, java.lang.String, java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String, boolean, org.apache.maven.plugin.logging.Log)
      */
-    public void scan( String applicationFile, String assessmentName, String assessmentOutput,
-                      String caller, String reportType, String reportOutputType, String reportOutputLocation,
-                      boolean publish, Map ounceOptions, String installDir, boolean wait, Log log )
+    public void scan( String applicationFile, String assessmentName, String assessmentOutput, String caller,
+                      String reportType, String reportOutputType, String reportOutputLocation, boolean publish,
+                      Map ounceOptions, String installDir, boolean wait, Log log )
         throws OunceCoreException
     {
         scan =
-            new OunceCoreScan( applicationFile, assessmentName, assessmentOutput, caller, reportType,
-                               reportOutputType, reportOutputLocation, publish, ounceOptions );
+            new OunceCoreScan( applicationFile, assessmentName, assessmentOutput, caller, reportType, reportOutputType,
+                               reportOutputLocation, publish, ounceOptions );
     }
 
     /**

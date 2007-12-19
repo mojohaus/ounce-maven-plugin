@@ -84,10 +84,8 @@ public class ApplicationMojo
 
     /**
      * An array of directories containing the pom file of any projects to exclude. Excludes can contain standard
-     * Ant-style wildcards.
-     * <br/>
-     * Excludes only apply to inherited modules, not external projects. The current project is not
-     * filtered.
+     * Ant-style wildcards. <br/> Excludes only apply to inherited modules, not external projects. The current project
+     * is not filtered.
      * 
      * @parameter
      */
@@ -115,8 +113,6 @@ public class ApplicationMojo
      * @parameter
      */
     protected List externalApplications;
-
-
 
     /*
      * (non-Javadoc)
@@ -179,6 +175,7 @@ public class ApplicationMojo
 
     /**
      * This method filters the projects.
+     * 
      * @param theProjects
      * @param includes
      * @param excludes
@@ -214,9 +211,10 @@ public class ApplicationMojo
         }
         return coreProjects;
     }
+
     /**
-     * Build a list of modules to be included as projects. These will
-     * be projects that are children of the current project.
+     * Build a list of modules to be included as projects. These will be projects that are children of the current
+     * project.
      * 
      * @return List of OunceProjectBeans representing each module
      * @throws IOException
@@ -225,25 +223,27 @@ public class ApplicationMojo
         throws IOException
     {
 
-        /*first we need to prefilter the reactor projects list.
-         *instead of including only the current project's children, it includes everything
-         * we need to build a prefilter based on the current project's path and only include projects
-         * with a matching path. */
+        /*
+         * first we need to prefilter the reactor projects list. instead of including only the current project's
+         * children, it includes everything we need to build a prefilter based on the current project's path and only
+         * include projects with a matching path.
+         */
         File baseDir = project.getBasedir();
         String[] preFilterIncludes = new String[1];
-        preFilterIncludes[0] = "**/"+baseDir.getName()+"/**";
-        List preFilteredProjects = getSelectedModules( projects, preFilterIncludes, null);
-     
-        //now do the normal filtering
+        preFilterIncludes[0] = "**/" + baseDir.getName() + "/**";
+        List preFilteredProjects = getSelectedModules( projects, preFilterIncludes, null );
+
+        // now do the normal filtering
         List includedProjects = getSelectedModules( preFilteredProjects, includes, excludes );
-        
-        //now make them beans
+
+        // now make them beans
         return convertToBeans( includedProjects );
-    
+
     }
-    
+
     /**
      * Converts a list of Maven Projects to OunceProjectBeans
+     * 
      * @param theProjects
      * @return
      */
@@ -270,9 +270,10 @@ public class ApplicationMojo
                 this.getLog().debug( "Skipping Pom: " + prj.getArtifactId() );
             }
         }
-        
+
         return beanProjects;
     }
+
     /**
      * Get the list of user defined external projects
      * 
