@@ -30,6 +30,7 @@
 						<externalApplication>../externalApps/3,**/*,**/uis/**</externalApplication>
 					  </externalApplications>
 					</configuration>
+                    <executions><execution><goals><goal>application</goal></goals></execution></executions>
 	  </plugin>
     </plugins>
 	</build>

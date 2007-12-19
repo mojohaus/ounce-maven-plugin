@@ -116,7 +116,7 @@ public class ApplicationMojo
      */
     protected List externalApplications;
 
-    IncludeExcludeFileSelector selector = new IncludeExcludeFileSelector();
+
 
     /*
      * (non-Javadoc)
@@ -126,16 +126,6 @@ public class ApplicationMojo
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
-
-        if ( excludes != null && excludes.length > 0 )
-        {
-            selector.setExcludes( excludes );
-        }
-
-        if ( includes != null && includes.length > 0 )
-        {
-            selector.setIncludes( includes );
-        }
 
         try
         {
@@ -188,40 +178,101 @@ public class ApplicationMojo
     }
 
     /**
-     * Build a list of modules to be included as projects
+     * This method filters the projects.
+     * @param theProjects
+     * @param includes
+     * @param excludes
+     * @return
+     * @throws IOException
+     */
+    private List getSelectedModules( List theProjects, String[] includes, String[] excludes )
+        throws IOException
+    {
+        IncludeExcludeFileSelector selector = new IncludeExcludeFileSelector();
+
+        if ( excludes != null && excludes.length > 0 )
+        {
+            selector.setExcludes( excludes );
+        }
+
+        if ( includes != null && includes.length > 0 )
+        {
+            selector.setIncludes( includes );
+        }
+
+        List coreProjects = new ArrayList( theProjects.size() );
+
+        Iterator iter = theProjects.iterator();
+        while ( iter.hasNext() )
+        {
+            MavenProject prj = (MavenProject) iter.next();
+
+            if ( selector.isSelected( new ProjectFileInfo( prj.getBasedir() ) ) || prj == project )
+            {
+                coreProjects.add( prj );
+            }
+        }
+        return coreProjects;
+    }
+    /**
+     * Build a list of modules to be included as projects. These will
+     * be projects that are children of the current project.
      * 
-     * @return List of modules
+     * @return List of OunceProjectBeans representing each module
      * @throws IOException
      */
     protected List getIncludedModules()
         throws IOException
     {
-        List coreProjects = new ArrayList( projects.size() );
 
-        Iterator iter = projects.iterator();
+        /*first we need to prefilter the reactor projects list.
+         *instead of including only the current project's children, it includes everything
+         * we need to build a prefilter based on the current project's path and only include projects
+         * with a matching path. */
+        File baseDir = project.getBasedir();
+        String[] preFilterIncludes = new String[1];
+        preFilterIncludes[0] = "**/"+baseDir.getName()+"/**";
+        List preFilteredProjects = getSelectedModules( projects, preFilterIncludes, null);
+     
+        //now do the normal filtering
+        List includedProjects = getSelectedModules( preFilteredProjects, includes, excludes );
+        
+        //now make them beans
+        return convertToBeans( includedProjects );
+    
+    }
+    
+    /**
+     * Converts a list of Maven Projects to OunceProjectBeans
+     * @param theProjects
+     * @return
+     */
+    private List convertToBeans( List theProjects )
+    {
+        List beanProjects = new ArrayList( theProjects.size() );
+
+        Iterator iter = theProjects.iterator();
         while ( iter.hasNext() )
         {
             MavenProject prj = (MavenProject) iter.next();
 
             if ( !skipPoms || !prj.getPackaging().equalsIgnoreCase( "pom" ) )
             {
-                if ( selector.isSelected( new ProjectFileInfo( prj.getBasedir() ) ) || prj == project )
-                {
-                    String path = prj.getBasedir().getAbsolutePath();
+                String path = prj.getBasedir().getAbsolutePath();
 
-                    path = Utils.convertToRelativePath( path, getProjectRoot(), "" );
+                path = Utils.convertToRelativePath( path, getProjectRoot(), "" );
 
-                    coreProjects.add( new OunceProjectBean( path, prj.getArtifactId() ) );
-                }
+                beanProjects.add( new OunceProjectBean( path, prj.getArtifactId() ) );
             }
+
             else
             {
                 this.getLog().debug( "Skipping Pom: " + prj.getArtifactId() );
             }
         }
-        return coreProjects;
+        
+        return beanProjects;
     }
-
     /**
      * Get the list of user defined external projects
      * 
