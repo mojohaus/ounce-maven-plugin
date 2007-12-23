@@ -27,15 +27,15 @@
 -->
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>mojo-sandbox</artifactId>
-		<groupId>org.codehaus.mojo</groupId>
-		<version>5-SNAPSHOT</version>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>mojo</artifactId>
+      <version>16</version>
 	</parent>
 	<groupId>org.codehaus.mojo</groupId>
 	<artifactId>ounce-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
 	<name>Ounce Maven Plugin</name>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<developers>
 		<developer>
 			<id>brianf</id>
@@ -77,7 +77,7 @@
 				<artifactId>maven-enforcer-plugin</artifactId>
 				<configuration>
 					<rules>
-						<requirePluginVersions/>
+						<requirePluginVersions />
 					</rules>
 				</configuration>
 			</plugin>-->		
@@ -261,4 +261,10 @@
       <version>2.0.2</version>
     </dependency>-->
   </dependencies>
+
+  <scm>
+    <connection>scm:svn:http://svn.codehaus.org/mojo/tags/ounce-maven-plugin-1.0</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/tags/ounce-maven-plugin-1.0</developerConnection>
+    <url>http://svn.codehaus.org/mojo/tags/ounce-maven-plugin-1.0</url>
+  </scm>
 </project>
