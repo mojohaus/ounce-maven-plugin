@@ -36,6 +36,10 @@
 	<packaging>maven-plugin</packaging>
 	<name>Ounce Maven Plugin</name>
 	<version>1.1-SNAPSHOT</version>
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://jira.codehaus.org/browse/MOUNCE</url>
+  </issueManagement>
 	<developers>
 		<developer>
 			<id>brianf</id>
