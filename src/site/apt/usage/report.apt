@@ -27,24 +27,24 @@ Report Mojo Usage
 +---+
 <project>
   [...]
-	<reporting>
+   <reporting>
      <plugins>
       <plugin>
-	    <groupId>org.codehaus.mojo</groupId>
-		<artifactId>ounce-maven-plugin</artifactId>
-		<configuration>
-	      <!--insert scan configuration here. It is the same as the scan mojo--> 
-	      <!--
-	      <applicationFile>webgoat.paf</applicationFile>
-	      <installDir>C:\Program Files\Ounce Labs</installDir>
-	      <pathVariableMap>
-	      	<WebGoatWS>C:\WebGoat</WebGoatWS>
-	      </pathVariableMap>
-	      -->
-		</configuration>
-      </plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>ounce-maven-plugin</artifactId>
+        <configuration>
+          <!--insert scan configuration here. It is the same as the scan mojo--> 
+          <!--
+          <applicationFile>webgoat.paf</applicationFile>
+          <installDir>C:\Program Files\Ounce Labs</installDir>
+          <pathVariableMap>
+            <WebGoatWS>C:\WebGoat</WebGoatWS>
+          </pathVariableMap>
+          -->
+         </configuration>
+       </plugin>
      </plugins>
-	</reporting>
+   </reporting>
   [...]
 </project>
 +---+	
