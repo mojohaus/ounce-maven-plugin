@@ -73,6 +73,13 @@ public class ProjectOnlyMojo
      * @parameter expression="${ounce.jdkName}"
      */
     private String jdkName;
+    
+    /**
+     * Ounce Identifier
+     * 
+     * @parameter expression="${ounce.identifier}";
+     */
+    private String identifier;
 
     /**
      * Options to pass to the javac compiler.
@@ -132,6 +139,12 @@ public class ProjectOnlyMojo
         {
             try
             {
+            	
+            	if ( identifier == null ) 
+            	{
+            		identifier = name;
+            	}
+            	
                 String classPath = buildClasspath();
                 List sourceRoots = getSourceRoots();
 
@@ -156,7 +169,7 @@ public class ProjectOnlyMojo
 
                 OunceCore core = getCore();
 
-                core.createProject( getProjectRoot(), name, projectRoot, sourceRoots, webappDirectory, classPath,
+                core.createProject( getProjectRoot(), name, identifier, projectRoot, sourceRoots, webappDirectory, classPath,
                                     jdkName, javaCompilerOptions, project.getPackaging(), this.options, this.getLog() );
 
                 if ( createVariables )
@@ -312,6 +325,22 @@ public class ProjectOnlyMojo
     protected void setJdkName( String theJdkName )
     {
         this.jdkName = theJdkName;
+    }
+    
+    /**
+     * @return the identifier
+     */
+    protected String getIdentifier()
+    {
+    	return this.identifier;
+    }
+    
+    /*
+     * @param theIdentifier the identifier to set
+     */
+    protected void setIdentifier( String theIdentifier )
+    {
+    	this.identifier = theIdentifier;
     }
 
     /**

@@ -32,20 +32,23 @@ import java.util.Map;
 public class OunceCoreApplication
 {
     String name;
-
+    
     String applicationRoot;
 
     List projects;
 
     Map ounceOptions;
 
-    public OunceCoreApplication( String theName, String theApplicationRoot, List theProjects, Map theOunceOptions )
+    String identifier;
+
+    public OunceCoreApplication( String theName, String theIdentifier, String theApplicationRoot, List theProjects, Map theOunceOptions )
     {
         super();
         this.name = theName;
         this.applicationRoot = theApplicationRoot;
         this.projects = theProjects;
         this.ounceOptions = theOunceOptions;
+        this.identifier = theIdentifier;
     }
 
     /**
@@ -55,7 +58,7 @@ public class OunceCoreApplication
     {
         return this.name;
     }
-
+    
     /**
      * @return the applicationRoot
      */
@@ -80,4 +83,11 @@ public class OunceCoreApplication
         return this.ounceOptions;
     }
 
+    /**
+     * @return the identifier
+     */
+    public String getIdentifier()
+    {
+    	return this.identifier;
+    }
 }
