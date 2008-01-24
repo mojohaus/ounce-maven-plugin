@@ -77,7 +77,7 @@ public class ProjectOnlyMojo
     /**
      * Ounce Identifier
      * 
-     * @parameter expression="${ounce.identifier}";
+     * @parameter expression="${ounce.id}";
      */
     private String identifier;
 
