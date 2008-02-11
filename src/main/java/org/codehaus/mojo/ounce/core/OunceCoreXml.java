@@ -57,7 +57,7 @@ public class OunceCoreXml
      * @see com.ouncelabs.plugins.OunceCore#createApplication(java.lang.String, java.io.File, java.util.List, boolean,
      *      boolean)
      */
-    public void createApplication( String baseDir, String theName, String theIdentifier, String theApplicationRoot, List theProjects,
+    public void createApplication( String baseDir, String theName, String theApplicationRoot, List theProjects,
                                    Map ounceOptions, Log log )
         throws OunceCoreException
     {
@@ -65,7 +65,7 @@ public class OunceCoreXml
         // up the order for testing.
         Collections.sort( theProjects );
         log.info( "Writing parameters to xml." );
-        OunceCoreApplication bean = new OunceCoreApplication( theName, theName, theApplicationRoot, theProjects, ounceOptions );
+        OunceCoreApplication bean = new OunceCoreApplication( theName, theApplicationRoot, theProjects, ounceOptions );
         XStream xs = new XStream();
 
         xs.alias( "application", OunceCoreApplication.class );
@@ -92,7 +92,7 @@ public class OunceCoreXml
      * @see com.ouncelabs.plugins.OunceCore#createProject(java.lang.String, java.io.File, java.util.List, java.io.File,
      *      java.lang.String, java.lang.String, boolean, com.ouncelabs.plugins.CompilerOptions)
      */
-    public void createProject( String baseDir, String theName, String theIdentifier, String theProjectRoot, List theSourceRoots,
+    public void createProject( String baseDir, String theName, String theProjectRoot, List theSourceRoots,
                                String theWebRoot, String theClassPath, String theJdkName, String theCompilerOptions,
                                String packaging, Map ounceOptions, Log log )
         throws OunceCoreException

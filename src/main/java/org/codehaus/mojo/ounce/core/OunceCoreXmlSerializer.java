@@ -63,7 +63,7 @@ public class OunceCoreXmlSerializer
     implements OunceCore
 {
 
-    public void createApplication( String baseDir, String theName, String theIdentifier, String applicationRoot, List theProjects,
+    public void createApplication( String baseDir, String theName, String applicationRoot, List theProjects,
                                    Map options, Log log )
         throws OunceCoreException
     {
@@ -98,9 +98,6 @@ public class OunceCoreXmlSerializer
                     {
                         root = (Element) node;
 
-                        // need to ensure that identifier exists (this could be an older application file)
-                        root.setAttribute( "identifier", theIdentifier );
-                        
                         NodeList applicationChildren = node.getChildNodes();
                         for ( int j = 0; j < applicationChildren.getLength(); j++ )
                         {
@@ -121,7 +118,6 @@ public class OunceCoreXmlSerializer
                 xmlDoc = new DocumentImpl();
                 root = xmlDoc.createElement( "Application" );
                 root.setAttribute( "name", theName );
-                root.setAttribute( "identifier", theIdentifier );
                 xmlDoc.appendChild( root );
             }
 
@@ -153,7 +149,7 @@ public class OunceCoreXmlSerializer
         }
     }
 
-    public void createProject( String baseDir, String theName, String theIdentifier, String projectRoot, List theSourceRoots,
+    public void createProject( String baseDir, String theName, String projectRoot, List theSourceRoots,
                                String theWebRoot, String theClassPath, String theJdkName, String compilerOptions,
                                String packaging, Map options, Log log )
         throws OunceCoreException
@@ -165,7 +161,6 @@ public class OunceCoreXmlSerializer
 
         // set the dynamic values
         projectProperties.setProperty( "name", theName );
-        projectProperties.setProperty( "identifier", theIdentifier );
 
         // set the constant values
         projectProperties.setProperty( "language_type", "2" );
@@ -327,7 +322,6 @@ public class OunceCoreXmlSerializer
             {
                 String parentDir = pafFile.getParent();
                 String applicationName = null;
-                String applicationIdentifier = null;
                 String applicationRoot = null;
                 List projects = new ArrayList();
                 Map options = new HashMap();
@@ -350,7 +344,6 @@ public class OunceCoreXmlSerializer
                     {
                         NamedNodeMap applicationAttribs = node.getAttributes();
                         applicationName = applicationAttribs.getNamedItem( "name" ).getNodeValue();
-                        applicationIdentifier = applicationAttribs.getNamedItem( "identifier" ).getNodeValue();
 
                         NodeList applicationChildren = node.getChildNodes();
                         for ( int j = 0; j < applicationChildren.getLength(); j++ )
@@ -370,7 +363,7 @@ public class OunceCoreXmlSerializer
                 }
 
                 OunceCoreApplication application =
-                    new OunceCoreApplication( applicationName, applicationIdentifier, applicationRoot, projects, options );
+                    new OunceCoreApplication( applicationName, applicationRoot, projects, options );
                 return application;
             }
         }

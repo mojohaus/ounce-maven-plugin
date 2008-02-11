@@ -54,7 +54,7 @@ public interface OunceCore
      * @param log Logger
      * @throws OunceCoreException
      */
-    void createApplication( String baseDir, String name, String identifier, String applicationRoot, List projects, Map ounceOptions,
+    void createApplication( String baseDir, String name, String applicationRoot, List projects, Map ounceOptions,
                             Log log )
         throws OunceCoreException;
 
@@ -77,7 +77,7 @@ public interface OunceCore
      * @param log Logger
      * @throws OunceCoreException
      */
-    void createProject( String baseDir, String name, String identifier, String projectRoot, List sourceRoots, String webRoot,
+    void createProject( String baseDir, String name, String projectRoot, List sourceRoots, String webRoot,
                         String classPath, String jdkName, String compilerOptions, String packaging, Map ounceOptions,
                         Log log )
         throws OunceCoreException;

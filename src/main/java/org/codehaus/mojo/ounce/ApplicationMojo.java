@@ -114,13 +114,6 @@ public class ApplicationMojo
      */
     protected List externalApplications;
     
-    /**
-     * Ounce Identifier
-     * 
-     * @parameter expression="${ounce.identifier}";
-     */
-    private String identifier;    
-
     /*
      * (non-Javadoc)
      * 
@@ -132,11 +125,6 @@ public class ApplicationMojo
 
         try
         {
-        	if ( identifier == null ) 
-        	{
-        		identifier = name;
-        	}
-        	
             OunceCore core = getCore();
 
             List coreProjects = getIncludedModules();
@@ -168,7 +156,7 @@ public class ApplicationMojo
                 projectBean.setPath( Utils.convertToVariablePath( projectBean.getPath(), pathVariableMap ) );
             }
 
-            core.createApplication( getProjectRoot(), name, identifier, ".", coreProjects, options, getLog() );
+            core.createApplication( getProjectRoot(), name, ".", coreProjects, options, getLog() );
         }
         catch ( ComponentLookupException e )
         {
@@ -475,22 +463,6 @@ public class ApplicationMojo
     public void setProjects( List theProjects )
     {
         this.projects = theProjects;
-    }
-    
-    /**
-     * @return the identifier
-     */
-    protected String getIdentifier()
-    {
-    	return this.identifier;
-    }
-    
-    /*
-     * @param theIdentifier the identifier to set
-     */
-    protected void setIdentifier( String theIdentifier )
-    {
-    	this.identifier = theIdentifier;
     }
     
     /**

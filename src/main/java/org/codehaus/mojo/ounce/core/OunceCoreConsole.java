@@ -44,14 +44,13 @@ public class OunceCoreConsole
      * @see com.ouncelabs.plugins.OunceCoreInterface#createApplication(java.lang.String, java.io.File, java.util.List,
      *      boolean, boolean)
      */
-    public void createApplication( String baseDir, String theName, String theIdentifier, String theApplicationRoot, List theProjects,
+    public void createApplication( String baseDir, String theName, String theApplicationRoot, List theProjects,
                                    Map ounceOptions, Log log )
         throws OunceCoreException
     {
         System.out.println( "Create Application Params:" );
         System.out.println( "Basedir: " + baseDir );
         System.out.println( "Name: " + theName );
-        System.out.println( "Identifier: " + theIdentifier );
         System.out.println( "Root: " + theApplicationRoot );
         System.out.println( "Projects: " + theProjects );
         System.out.println( "OunceOptions: " + ounceOptions );
@@ -63,7 +62,7 @@ public class OunceCoreConsole
      * @see com.ouncelabs.plugins.OunceCoreInterface#createProject(java.lang.String, java.io.File, java.util.List,
      *      java.io.File, java.lang.String, java.lang.String, boolean, com.ouncelabs.plugins.CompilerOptions)
      */
-    public void createProject( String baseDir, String theName, String theIdentifier, String theProjectRoot, List theSourceRoots,
+    public void createProject( String baseDir, String theName, String theProjectRoot, List theSourceRoots,
                                String theWebRoot, String theClassPath, String theJdkName, String theCompilerOptions,
                                String packaging, Map ounceOptions, Log log )
         throws OunceCoreException
@@ -71,7 +70,6 @@ public class OunceCoreConsole
         System.out.println( "Create Project Params:" );
         System.out.println( "Basedir: " + baseDir );
         System.out.println( "Name: " + theName );
-        System.out.println( "Identifier " + theIdentifier );
         System.out.println( "Root: " + theProjectRoot );
         System.out.println( "JDK Name: " + theJdkName );
         System.out.println( "SourceRoots: " + theSourceRoots );

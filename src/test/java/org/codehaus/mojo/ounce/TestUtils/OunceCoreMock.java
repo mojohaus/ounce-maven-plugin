@@ -61,12 +61,12 @@ public class OunceCoreMock
      * @see org.codehaus.mojo.ounce.core.OunceCore#createApplication(java.lang.String, java.lang.String, java.util.List,
      *      boolean, boolean, org.apache.maven.plugin.logging.Log)
      */
-    public void createApplication( String theBaseDir, String name, String identifier, String applicationRoot, List projects,
+    public void createApplication( String theBaseDir, String name, String applicationRoot, List projects,
                                    Map ounceOptions, Log theLog )
         throws OunceCoreException
     {
 
-        app = new OunceCoreApplication( name, identifier, applicationRoot, projects, ounceOptions );
+        app = new OunceCoreApplication( name, applicationRoot, projects, ounceOptions );
 
         baseDir = theBaseDir;
 
@@ -80,7 +80,7 @@ public class OunceCoreMock
      *      org.codehaus.mojo.ounce.core.OunceCoreCompilerOptions, java.lang.String, java.util.Set, java.util.Set,
      *      org.apache.maven.plugin.logging.Log)
      */
-    public void createProject( String theBaseDir, String name, String identifier, String projectRoot, List sourceRoots, String webRoot,
+    public void createProject( String theBaseDir, String name, String projectRoot, List sourceRoots, String webRoot,
                                String classPath, String jdkName, String compilerOptions, String packaging,
                                Map ounceOptions, Log theLog )
         throws OunceCoreException
@@ -104,7 +104,7 @@ public class OunceCoreMock
         projects.add( new OunceProjectBean( "uis/f", "f" ) );
         projects.add( new OunceProjectBean( "uis/g", "g" ) );
 
-        OunceCoreApplication appl = new OunceCoreApplication( "testApp", "testApp", ".", projects, null );
+        OunceCoreApplication appl = new OunceCoreApplication( "testApp", ".", projects, null );
 
         return appl;
 

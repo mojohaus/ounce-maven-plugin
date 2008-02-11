@@ -39,16 +39,13 @@ public class OunceCoreApplication
 
     Map ounceOptions;
 
-    String identifier;
-
-    public OunceCoreApplication( String theName, String theIdentifier, String theApplicationRoot, List theProjects, Map theOunceOptions )
+    public OunceCoreApplication( String theName, String theApplicationRoot, List theProjects, Map theOunceOptions )
     {
         super();
         this.name = theName;
         this.applicationRoot = theApplicationRoot;
         this.projects = theProjects;
         this.ounceOptions = theOunceOptions;
-        this.identifier = theIdentifier;
     }
 
     /**
@@ -81,13 +78,5 @@ public class OunceCoreApplication
     public Map getOunceOptions()
     {
         return this.ounceOptions;
-    }
-
-    /**
-     * @return the identifier
-     */
-    public String getIdentifier()
-    {
-    	return this.identifier;
     }
 }
