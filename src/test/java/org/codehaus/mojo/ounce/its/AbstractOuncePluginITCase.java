@@ -56,7 +56,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:brianf@apache.org">Brian Fox</a> Copied from the Eclipse AbstractEclipsePluginTestCase v2.4
- * @version $Id: AbstractDependencyPluginITCase.java 556442 2007-07-15 20:20:23Z dantran $
+ * @version $Id$
  */
 public abstract class AbstractOuncePluginITCase
     extends PlexusTestCase
