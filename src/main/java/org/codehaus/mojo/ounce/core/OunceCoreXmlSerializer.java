@@ -565,15 +565,7 @@ public class OunceCoreXmlSerializer
                 command += " generatereport -assessment \"" + existingAssessment + "\"";
                 if ( !StringUtils.isEmpty( reportType ) )
                 {
-                    String[] split = reportType.split( "[|]" );
-                    if ( split.length != 3 )
-                    {
-                        throw new OunceCoreException( "Invalid report type specification '" + reportType + "'." );
-                    }
-                    String type = split[0];
-                    String format = split[1];
-                    String location = split[2];
-                    command += " -type \"" + type + "\" -output \"" + format + "\" -file \"" + location + "\"";
+                    command += " -type \"" + reportType + "\" -output \"" + reportOutputType + "\" -file \"" + reportOutputLocation + "\"";
                 }
             }
             if ( !StringUtils.isEmpty( caller ) )
