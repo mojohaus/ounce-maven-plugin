@@ -28,11 +28,11 @@ package org.codehaus.mojo.ounce.core;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -46,8 +46,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.maven.plugin.logging.Log;
 import org.apache.xerces.dom.DocumentImpl;
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
 import org.codehaus.plexus.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -63,6 +61,8 @@ public class OunceCoreXmlSerializer
     implements OunceCore
 {
 
+    private HashMap m_existingProjectAttributes;
+
     public void createApplication( String baseDir, String theName, String applicationRoot, List theProjects,
                                    Map options, Log log )
         throws OunceCoreException
@@ -75,6 +75,8 @@ public class OunceCoreXmlSerializer
 
         try
         {
+            m_existingProjectAttributes = new HashMap();
+
             // need to read the Application in first if it exists
             // create the XML Document
             Document xmlDoc;
@@ -106,9 +108,15 @@ public class OunceCoreXmlSerializer
                             // don't preserve Projects, everything else should be left alone
                             if ( childName.equals( "Project" ) )
                             {
+                                NamedNodeMap attributes = child.getAttributes();
+                                String projectPath = attributes.getNamedItem( "path" ).getNodeValue();
+                                m_existingProjectAttributes.put( projectPath, attributes );
                                 node.removeChild( child );
                             }
                         }
+
+                        // now add the new projects so they come first
+                        insertChildProjects( xmlDoc, root, theProjects );
                     }
                 }
             }
@@ -119,33 +127,76 @@ public class OunceCoreXmlSerializer
                 root = xmlDoc.createElement( "Application" );
                 root.setAttribute( "name", theName );
                 xmlDoc.appendChild( root );
-            }
-
-            for ( int i = 0; i < theProjects.size(); i++ )
-            {
-                OunceProjectBean projectBean = (OunceProjectBean) theProjects.get( i );
-                String projectPath = projectBean.getPath() + File.separator + projectBean.name + ".ppf";
-                Element project = xmlDoc.createElementNS( null, "Project" );
-                project.setAttributeNS( null, "path", projectPath );
-                project.setAttributeNS( null, "language_type", "2" );
-                root.appendChild( project );
+                insertChildProjects( xmlDoc, root, theProjects );
             }
 
             // write out the XML
-            FileOutputStream fos = new FileOutputStream( filePath );
-
-            OutputFormat of = new OutputFormat( "XML", "UTF-8", true );
-            of.setIndent( 1 );
-            of.setIndenting( true );
-
-            XMLSerializer serializer = new XMLSerializer( fos, of );
-            serializer.asDOMSerializer();
-            serializer.serialize( xmlDoc.getDocumentElement() );
-            fos.close();
+            XmlWriter writer = new XmlWriter( true );
+            writer.setWriteEmptyValues( false );
+            writer.setDefaultToAttributesOnSameLine( true );
+            writer.saveXmlFile( filePath, xmlDoc );
         }
         catch ( Exception ex )
         {
             log.error( ex );
+        }
+    }
+
+    private void insertChildProjects( Document xmlDoc, Element root, List theProjects )
+    {
+        // sort the projects by file path
+        Collections.sort( theProjects, new Comparator()
+        {
+            public int compare( Object arg0, Object arg1 )
+            {
+                OunceProjectBean project1 = (OunceProjectBean) arg0;
+                OunceProjectBean project2 = (OunceProjectBean) arg1;
+                return project1.getPath().compareTo( project2.getPath() );
+            }
+        } );
+
+        for ( int i = 0; i < theProjects.size(); i++ )
+        {
+            OunceProjectBean projectBean = (OunceProjectBean) theProjects.get( i );
+            String projectPath = projectBean.getPath() + File.separator + projectBean.name + ".ppf";
+
+            Element project = xmlDoc.createElementNS( null, "Project" );
+
+            NamedNodeMap existingAttribs = (NamedNodeMap) m_existingProjectAttributes.get( projectPath );
+
+            if ( existingAttribs != null )
+            {
+                existingAttribs.removeNamedItem( "path" );
+                existingAttribs.removeNamedItem( "language_type" );
+            }
+
+            project.setAttributeNS( null, "path", projectPath );
+            project.setAttributeNS( null, "language_type", "2" );
+
+            if ( existingAttribs != null )
+            {
+                for ( int j = 0; j < existingAttribs.getLength(); j++ )
+                {
+                    Node node = existingAttribs.item( j );
+                    String name = node.getNodeName();
+                    String nodeValue = node.getNodeValue();
+                    project.setAttributeNS( null, name, nodeValue );
+                }
+            }
+
+            // if this a fresh XML doc or do we need to worry about making sure the projects come first?
+            NodeList childNodes = root.getChildNodes();
+            boolean hasChildren = childNodes.getLength() > 0;
+            if ( hasChildren )
+            {
+                // there are other nodes
+                Node child = childNodes.item( 0 );
+                root.insertBefore( project, child );
+            }
+            else
+            {
+                root.appendChild( project );
+            }
         }
     }
 
@@ -280,6 +331,18 @@ public class OunceCoreXmlSerializer
             // add Configuration to under the Project node
             root.appendChild( configuration );
 
+            Collections.sort( theSourceRoots, new Comparator()
+            {
+
+                public int compare( Object arg0, Object arg1 )
+                {
+                    String root1 = (String) arg0;
+                    String root2 = (String) arg1;
+                    return root1.compareTo( root2 );
+                }
+
+            } );
+
             for ( int i = 0; i < theSourceRoots.size(); i++ )
             {
                 String sourceRoot = (String) theSourceRoots.get( i );
@@ -293,17 +356,11 @@ public class OunceCoreXmlSerializer
                 root.appendChild( source );
             }
 
-            FileOutputStream fos = new FileOutputStream( filePath );
-
-            OutputFormat of = new OutputFormat( "XML", "UTF-8", true );
-            of.setIndent( 1 );
-            of.setIndenting( true );
-
-            XMLSerializer serializer = new XMLSerializer( fos, of );
-
-            serializer.asDOMSerializer();
-            serializer.serialize( xmlDoc.getDocumentElement() );
-            fos.close();
+            // write out the XML
+            XmlWriter writer = new XmlWriter( true );
+            writer.setWriteEmptyValues( false );
+            writer.setDefaultToAttributesOnSameLine( true );
+            writer.saveXmlFile( filePath, xmlDoc );
         }
         catch ( Exception ex )
         {
@@ -353,8 +410,8 @@ public class OunceCoreXmlSerializer
                             if ( childName.equals( "Project" ) )
                             {
                                 String projectPath =
-                                    parentDir + File.separator +
-                                        child.getAttributes().getNamedItem( "path" ).getNodeValue();
+                                    parentDir + File.separator
+                                        + child.getAttributes().getNamedItem( "path" ).getNodeValue();
                                 OunceCoreProject project = readProject( projectPath, log );
                                 projects.add( project );
                             }
@@ -551,8 +608,8 @@ public class OunceCoreXmlSerializer
                 if ( !StringUtils.isEmpty( reportType ) )
                 {
                     command +=
-                        " -report \"" + reportType + "\" \"" + reportOutputType + "\" " + "\"" + reportOutputLocation +
-                            "\"";
+                        " -report \"" + reportType + "\" \"" + reportOutputType + "\" " + "\"" + reportOutputLocation
+                            + "\"";
                 }
                 if ( publish )
                 {
@@ -565,7 +622,9 @@ public class OunceCoreXmlSerializer
                 command += " generatereport -assessment \"" + existingAssessment + "\"";
                 if ( !StringUtils.isEmpty( reportType ) )
                 {
-                    command += " -type \"" + reportType + "\" -output \"" + reportOutputType + "\" -file \"" + reportOutputLocation + "\"";
+                    command +=
+                        " -type \"" + reportType + "\" -output \"" + reportOutputType + "\" -file \""
+                            + reportOutputLocation + "\"";
                 }
             }
             if ( !StringUtils.isEmpty( caller ) )
