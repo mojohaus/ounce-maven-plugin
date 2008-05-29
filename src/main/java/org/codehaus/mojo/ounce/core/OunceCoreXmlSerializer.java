@@ -119,6 +119,12 @@ public class OunceCoreXmlSerializer
                         insertChildProjects( xmlDoc, root, theProjects );
                     }
                 }
+                if ( root == null )
+                {
+                    // every paf should have an Application element
+                    throw new OunceCoreException( "The existing application file '" + filePath
+                        + "' is not in a valid format and cannot be updated." );
+                }
             }
             else
             {
@@ -233,6 +239,10 @@ public class OunceCoreXmlSerializer
         {
             projectProperties.setProperty( "web_context_root_path", theWebRoot.trim() );
         }
+        else
+        {
+            theWebRoot = null;
+        }
 
         if ( !StringUtils.isEmpty( compilerOptions ) )
         {
@@ -241,6 +251,10 @@ public class OunceCoreXmlSerializer
 
         try
         {
+            HashMap existingConfigurationAttribs = new HashMap();
+            HashMap existingSourceAttribs = new HashMap();
+            ArrayList excludedSources = new ArrayList();
+
             Document xmlDoc;
             Element root = null;
             String filePath = baseDir + File.separator + theName + ".ppf";
@@ -265,26 +279,37 @@ public class OunceCoreXmlSerializer
                         {
                             Node child = projectChildren.item( j );
                             String childName = child.getNodeName();
-                            // don't preserve Configuration and Source, these should come fresh from Maven
-                            // everything else should be left alone
-                            if ( childName.equals( "Configuration" ) || childName.equals( "Source" ) )
+
+                            NamedNodeMap attributes = child.getAttributes();
+
+                            // Don't preserve Configuration and Source (but remember their attributes for
+                            // later). Everything else should be left alone.
+                            if ( childName.equals( "Configuration" ) )
                             {
-                                if ( childName.equals( "Source" ) )
-                                {
-                                    NamedNodeMap attribs = child.getAttributes();
-                                    String webStr = attribs.getNamedItem( "web" ).getNodeValue();
-                                    if ( !( webStr != null && webStr.equals( "true" ) ) )
-                                    {
-                                        node.removeChild( child );
-                                    }
-                                }
-                                else
-                                {
-                                    node.removeChild( child );
-                                }
+                                String configurationName = attributes.getNamedItem( "name" ).getNodeValue();
+                                existingConfigurationAttribs.put( configurationName, attributes );
+                                node.removeChild( child );
                             }
+                            else if ( childName.equals( "Source" ) )
+                            {
+                                String sourcePath = attributes.getNamedItem( "path" ).getNodeValue();
+                                String excludedStr = attributes.getNamedItem( "exclude" ).getNodeValue();
+                                if ( excludedStr.equals( "true" ) )
+                                {
+                                    excludedSources.add( child );
+                                }
+                                existingSourceAttribs.put( sourcePath, attributes );
+                                node.removeChild( child );
+                            }
+                            // shouldn't need to handle SourceFile here because they come after Source
                         }
                     }
+                }
+                if ( root == null )
+                {
+                    // every ppf should have a Project element
+                    throw new OunceCoreException( "The existing project file '" + filePath
+                        + "' is not in a valid format and cannot be updated." );
                 }
             }
             else
@@ -306,55 +331,8 @@ public class OunceCoreXmlSerializer
                 root.setAttribute( name, value );
             }
 
-            // place all of the Configuration properties into a property bundle
-            Properties configProperties = new Properties();
-            configProperties.setProperty( "name", "Configuration 1" );
-            configProperties.setProperty( "class_path", theClassPath );
-            if ( theJdkName != null && theJdkName.trim().length() > 0 )
-            {
-                configProperties.setProperty( "jdk_name", theJdkName.trim() );
-            }
-
-            // add the Configuration element to Project. Java Projects always have exactly one Configuration
-            Element configuration = xmlDoc.createElementNS( null, "Configuration" );
-
-            // give the Configuration all its attributes
-            propertyNames = configProperties.propertyNames();
-            while ( propertyNames.hasMoreElements() )
-            {
-                Object propertyNameObject = propertyNames.nextElement();
-                String name = (String) propertyNameObject;
-                String value = configProperties.getProperty( name );
-                configuration.setAttributeNS( null, name, value );
-            }
-
-            // add Configuration to under the Project node
-            root.appendChild( configuration );
-
-            Collections.sort( theSourceRoots, new Comparator()
-            {
-
-                public int compare( Object arg0, Object arg1 )
-                {
-                    String root1 = (String) arg0;
-                    String root2 = (String) arg1;
-                    return root1.compareTo( root2 );
-                }
-
-            } );
-
-            for ( int i = 0; i < theSourceRoots.size(); i++ )
-            {
-                String sourceRoot = (String) theSourceRoots.get( i );
-
-                Element source = xmlDoc.createElementNS( null, "Source" );
-                source.setAttributeNS( null, "path", "./" + sourceRoot );
-                source.setAttributeNS( null, "exclude", "false" );
-                source.setAttributeNS( null, "web", "false" );
-
-                // add this Source under the Project node
-                root.appendChild( source );
-            }
+            insertSources( xmlDoc, root, theSourceRoots, theWebRoot, existingSourceAttribs, excludedSources );
+            insertConfigurations( xmlDoc, root, theClassPath, theJdkName, existingConfigurationAttribs );
 
             // write out the XML
             XmlWriter writer = new XmlWriter( true );
@@ -366,6 +344,185 @@ public class OunceCoreXmlSerializer
         {
             log.error( ex );
         }
+    }
+
+    private void insertConfigurations( Document xmlDoc, Element root, String theClassPath, String theJdkName,
+                                       HashMap existingConfigurationAttribs )
+    {
+        // place all of the Configuration properties into a property bundle
+        Properties configProperties = new Properties();
+        String configurationName = "Configuration 1";
+
+        configProperties.setProperty( "name", configurationName );
+        configProperties.setProperty( "class_path", theClassPath );
+        if ( !StringUtils.isEmpty( theJdkName ) )
+        {
+            configProperties.setProperty( "jdk_name", theJdkName.trim() );
+        }
+
+        // add the Configuration element to Project. Java Projects always have exactly one Configuration
+        Element configuration = xmlDoc.createElementNS( null, "Configuration" );
+        NamedNodeMap existingConfigAttribs = (NamedNodeMap) existingConfigurationAttribs.get( configurationName );
+
+        // give the Configuration all its attributes
+        Enumeration propertyNames = configProperties.propertyNames();
+        while ( propertyNames.hasMoreElements() )
+        {
+            Object propertyNameObject = propertyNames.nextElement();
+            String name = (String) propertyNameObject;
+            String value = configProperties.getProperty( name );
+            configuration.setAttributeNS( null, name, value );
+            if ( existingConfigAttribs != null )
+            {
+                existingConfigAttribs.removeNamedItem( name );
+            }
+        }
+
+        if ( existingConfigAttribs != null )
+        {
+            for ( int j = 0; j < existingConfigAttribs.getLength(); j++ )
+            {
+                Node node = existingConfigAttribs.item( j );
+                String name = node.getNodeName();
+                String value = node.getNodeValue();
+                configuration.setAttributeNS( null, name, value );
+            }
+        }
+
+        NodeList childNodes = root.getChildNodes();
+        boolean hasChildren = childNodes.getLength() > 0;
+        if ( hasChildren )
+        {
+            Node child = childNodes.item( 0 );
+            root.insertBefore( configuration, child );
+        }
+        else
+        {
+            root.appendChild( configuration );
+        }
+    }
+
+    private void insertSources( Document xmlDoc, Element root, List theSourceRoots, String webRoot,
+                                HashMap existingSourceAttribs, ArrayList excludedSources )
+    {
+        Collections.sort( theSourceRoots, new Comparator()
+        {
+
+            public int compare( Object arg0, Object arg1 )
+            {
+                String root1 = (String) arg0;
+                String root2 = (String) arg1;
+                return root1.compareTo( root2 );
+            }
+
+        } );
+
+        for ( int i = 0; i < theSourceRoots.size(); i++ )
+        {
+            String sourceRoot = (String) theSourceRoots.get( i );
+
+            if ( !pathAlreadyInNodeList( excludedSources, sourceRoot ) )
+            {
+                addSourceElement( xmlDoc, root, sourceRoot, "false", false, existingSourceAttribs );
+            }
+        }
+
+        // now re-add any excluded sources created in the UI
+        for ( int i = 0; i < excludedSources.size(); i++ )
+        {
+            Node node = (Node) excludedSources.get( i );
+            NamedNodeMap attributes = node.getAttributes();
+            String path = attributes.getNamedItem( "path" ).getNodeValue();
+            if ( new File( path ).exists() )
+            {
+                NodeList childNodes = root.getChildNodes();
+                boolean hasChildren = childNodes.getLength() > 0;
+                if ( hasChildren )
+                {
+                    Node child = childNodes.item( 0 );
+                    root.insertBefore( node, child );
+                }
+                else
+                {
+                    root.appendChild( node );
+                }
+            }
+        }
+
+        // add web context root if it exists
+        if ( webRoot != null )
+        {
+            addSourceElement( xmlDoc, root, webRoot, "true", true, existingSourceAttribs );
+        }
+    }
+
+    private void addSourceElement( Document xmlDoc, Element root, String sourceRoot, String defaultWeb,
+                                   boolean forceWeb, HashMap existingSourceAttribs )
+    {
+        Element source = xmlDoc.createElementNS( null, "Source" );
+        NamedNodeMap existingAttribs = (NamedNodeMap) existingSourceAttribs.get( sourceRoot );
+
+        if ( existingAttribs != null )
+        {
+            existingAttribs.removeNamedItem( "path" );
+        }
+        source.setAttributeNS( null, "path", "./" + sourceRoot );
+
+        if ( existingAttribs == null || existingAttribs.getNamedItem( "exclude" ) == null )
+        {
+            source.setAttributeNS( null, "exclude", "false" );
+        }
+        if ( forceWeb )
+        {
+            if ( existingAttribs != null )
+            {
+                existingAttribs.removeNamedItem( "web" );
+            }
+            source.setAttributeNS( null, "web", defaultWeb );
+
+        }
+        else if ( existingAttribs == null || existingAttribs.getNamedItem( "web" ) == null )
+        {
+            source.setAttributeNS( null, "web", defaultWeb );
+        }
+
+        if ( existingAttribs != null )
+        {
+            for ( int j = 0; j < existingAttribs.getLength(); j++ )
+            {
+                Node node = existingAttribs.item( j );
+                String name = node.getNodeName();
+                String value = node.getNodeValue();
+                source.setAttributeNS( null, name, value );
+            }
+        }
+
+        NodeList childNodes = root.getChildNodes();
+        boolean hasChildren = childNodes.getLength() > 0;
+        if ( hasChildren )
+        {
+            Node child = childNodes.item( 0 );
+            root.insertBefore( source, child );
+        }
+        else
+        {
+            root.appendChild( source );
+        }
+    }
+
+    private boolean pathAlreadyInNodeList( ArrayList list, String relPath )
+    {
+        for ( int i = 0; i < list.size(); i++ )
+        {
+            Node node = (Node) list.get( i );
+            NamedNodeMap attributes = node.getAttributes();
+            String path = attributes.getNamedItem( "path" ).getNodeValue();
+            if ( relPath.equals( path ) )
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public OunceCoreApplication readApplication( String path, Log log )
