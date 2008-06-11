@@ -150,14 +150,14 @@ public class OunceCoreXmlSerializer
 
     private void insertChildProjects( Document xmlDoc, Element root, List theProjects )
     {
-        // sort the projects by file path
+        // sort the projects by file path (in reverse order because they are written in reverse)
         Collections.sort( theProjects, new Comparator()
         {
             public int compare( Object arg0, Object arg1 )
             {
                 OunceProjectBean project1 = (OunceProjectBean) arg0;
                 OunceProjectBean project2 = (OunceProjectBean) arg1;
-                return project1.getPath().compareTo( project2.getPath() );
+                return project2.getPath().compareTo( project1.getPath() );
             }
         } );
 
@@ -176,7 +176,12 @@ public class OunceCoreXmlSerializer
                 existingAttribs.removeNamedItem( "language_type" );
             }
 
-            project.setAttributeNS( null, "path", projectPath );
+            String fullPath = projectPath;
+            if ( !fullPath.startsWith( "./" ) )
+            {
+                fullPath = "./" + projectPath;
+            }
+            project.setAttributeNS( null, "path", fullPath );
             project.setAttributeNS( null, "language_type", "2" );
 
             if ( existingAttribs != null )
@@ -412,7 +417,7 @@ public class OunceCoreXmlSerializer
             {
                 String root1 = (String) arg0;
                 String root2 = (String) arg1;
-                return root1.compareTo( root2 );
+                return root2.compareTo( root1 );
             }
 
         } );
@@ -466,7 +471,12 @@ public class OunceCoreXmlSerializer
         {
             existingAttribs.removeNamedItem( "path" );
         }
-        source.setAttributeNS( null, "path", "./" + sourceRoot );
+        String fullSourceRoot = sourceRoot;
+        if ( !fullSourceRoot.startsWith( "./" ) )
+        {
+            fullSourceRoot = "./" + sourceRoot;
+        }
+        source.setAttributeNS( null, "path", fullSourceRoot );
 
         if ( existingAttribs == null || existingAttribs.getNamedItem( "exclude" ) == null )
         {
@@ -517,6 +527,10 @@ public class OunceCoreXmlSerializer
             Node node = (Node) list.get( i );
             NamedNodeMap attributes = node.getAttributes();
             String path = attributes.getNamedItem( "path" ).getNodeValue();
+            if ( !relPath.startsWith( "./" ) )
+            {
+                relPath = "./" + relPath;
+            }
             if ( relPath.equals( path ) )
             {
                 return true;
