@@ -157,7 +157,9 @@ public class OunceCoreXmlSerializer
             {
                 OunceProjectBean project1 = (OunceProjectBean) arg0;
                 OunceProjectBean project2 = (OunceProjectBean) arg1;
-                return project2.getPath().compareTo( project1.getPath() );
+                String projectPath1 = project1.getPath() + File.separator + project1.name + ".ppf";
+                String projectPath2 = project2.getPath() + File.separator + project2.name + ".ppf";
+                return projectPath2.compareTo( projectPath1 );
             }
         } );
 
