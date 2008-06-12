@@ -338,7 +338,7 @@ public class OunceCoreXmlSerializer
                 root.setAttribute( name, value );
             }
 
-            insertSources( xmlDoc, root, theSourceRoots, theWebRoot, existingSourceAttribs, excludedSources );
+            insertSources( xmlDoc, root, baseDir, theSourceRoots, theWebRoot, existingSourceAttribs, excludedSources );
             insertConfigurations( xmlDoc, root, theClassPath, theJdkName, existingConfigurationAttribs );
 
             // write out the XML
@@ -409,7 +409,7 @@ public class OunceCoreXmlSerializer
         }
     }
 
-    private void insertSources( Document xmlDoc, Element root, List theSourceRoots, String webRoot,
+    private void insertSources( Document xmlDoc, Element root, String baseDir, List theSourceRoots, String webRoot,
                                 HashMap existingSourceAttribs, ArrayList excludedSources )
     {
         Collections.sort( theSourceRoots, new Comparator()
@@ -440,7 +440,7 @@ public class OunceCoreXmlSerializer
             Node node = (Node) excludedSources.get( i );
             NamedNodeMap attributes = node.getAttributes();
             String path = attributes.getNamedItem( "path" ).getNodeValue();
-            if ( new File( path ).exists() )
+            if ( new File( baseDir + File.separator + path ).exists() )
             {
                 NodeList childNodes = root.getChildNodes();
                 boolean hasChildren = childNodes.getLength() > 0;
