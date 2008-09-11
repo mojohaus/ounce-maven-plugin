@@ -74,11 +74,14 @@ public interface OunceCore
      * @param compilerOptions Bean containing compiler options (based on maven-compiler-plugin options)
      * @param packaging The packaging type of the current project.
      * @param ounceOptions Extra Ounce options
+     * @param analyzeStrutsFramework Whether to analyze Struts framework
+     * @param importStrutsValidation Whether to import Struts validation routines
      * @param log Logger
      * @throws OunceCoreException
      */
     void createProject( String baseDir, String name, String projectRoot, List sourceRoots, String webRoot,
                         String classPath, String jdkName, String compilerOptions, String packaging, Map ounceOptions,
+                        boolean analyzeStrutsFramework, boolean importStrutsValidation,
                         Log log )
         throws OunceCoreException;
 

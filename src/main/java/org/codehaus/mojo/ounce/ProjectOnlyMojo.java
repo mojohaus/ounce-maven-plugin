@@ -110,6 +110,20 @@ public class ProjectOnlyMojo
      * @parameter expression="${project.build.directory}/${project.build.finalName}"
      */
     private String webappDirectory;
+    
+    /**
+     * Whether to analyze the framework for a Struts application
+     * 
+     * @parameter expression="${ounce.analyzeStrutsFramework}" default-value="false"
+     */
+    private boolean analyzeStrutsFramework;
+    
+    /**
+     * Whether to import Struts validation routines
+     * 
+     * @parameter expression="${ounce.importStrutsValidation}" default-value="false"
+     */
+    private boolean importStrutsValidation;
 
     /**
      * Location of the local repository.
@@ -158,7 +172,8 @@ public class ProjectOnlyMojo
                 OunceCore core = getCore();
 
                 core.createProject( getProjectRoot(), name, projectRoot, sourceRoots, webappDirectory, classPath,
-                                    jdkName, javaCompilerOptions, project.getPackaging(), this.options, this.getLog() );
+                                    jdkName, javaCompilerOptions, project.getPackaging(), this.options, 
+                                    analyzeStrutsFramework, importStrutsValidation, this.getLog() );
 
                 if ( createVariables )
                 {
@@ -362,7 +377,35 @@ public class ProjectOnlyMojo
     {
         this.webappDirectory = theWebappDirectory;
     }
-
+    
+    /**
+     * @return whether to analyze Struts framework
+     */
+    protected boolean getAnalyzeStrutsFramework() {
+    	return this.analyzeStrutsFramework;
+    }
+    
+    /**
+     * @param toAnalyzeStrutsFramework whether to analyze Struts Framework
+     */
+    protected void setAnalyzeStrutsFramework(boolean analyzeStrutsFramework) {
+    	this.analyzeStrutsFramework = analyzeStrutsFramework;
+    }
+    
+    /**
+     * @return whether to import Struts validation
+     */
+    protected boolean getImportStrutsValidation() {
+    	return this.importStrutsValidation;
+    }
+    
+    /**
+     * @param importStrutsValidation whether to import Struts validation 
+     */ 
+    protected void setImportStrutsValidation(boolean importStrutsValidation) {
+    	this.importStrutsValidation = importStrutsValidation;
+    }
+    
     /**
      * @return the local
      */

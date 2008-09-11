@@ -215,7 +215,8 @@ public class OunceCoreXmlSerializer
 
     public void createProject( String baseDir, String theName, String projectRoot, List theSourceRoots,
                                String theWebRoot, String theClassPath, String theJdkName, String compilerOptions,
-                               String packaging, Map options, Log log )
+                               String packaging, Map options,
+                               boolean analyzeStrutsFramework, boolean importStrutsValidation, Log log )
         throws OunceCoreException
     {
         log.info( "OunceCoreXmlSerializer: Writing Project parameters to xml." );
@@ -254,6 +255,14 @@ public class OunceCoreXmlSerializer
         if ( !StringUtils.isEmpty( compilerOptions ) )
         {
             projectProperties.setProperty( "compiler_options", compilerOptions );
+        }
+        
+        if ( analyzeStrutsFramework != false ) {
+        	projectProperties.setProperty( "analyze_struts_framework", "true" );
+        } 
+        
+        if ( importStrutsValidation != false ) {
+        	projectProperties.setProperty( "import_struts_validation", "true" );
         }
 
         try

@@ -82,7 +82,7 @@ public class OunceCoreMock
      */
     public void createProject( String theBaseDir, String name, String projectRoot, List sourceRoots, String webRoot,
                                String classPath, String jdkName, String compilerOptions, String packaging,
-                               Map ounceOptions, Log theLog )
+                               Map ounceOptions, boolean analyzeStrutsFramework, boolean importStrutsValidation, Log theLog )
         throws OunceCoreException
     {
         project =
