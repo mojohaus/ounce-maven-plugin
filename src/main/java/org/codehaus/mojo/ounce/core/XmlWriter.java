@@ -85,7 +85,7 @@ public class XmlWriter
     private String m_tabs = "";
 
     private boolean m_writeEmptyValues = false;
-    
+
     private boolean m_defaultToAttributesOnSameLine = false;
 
     public XmlWriter()
@@ -101,8 +101,9 @@ public class XmlWriter
             RETURN_CHAR = "\r\n";
         }
     }
-    
-    public void setDefaultToAttributesOnSameLine( boolean value ) {
+
+    public void setDefaultToAttributesOnSameLine( boolean value )
+    {
         m_defaultToAttributesOnSameLine = value;
     }
 
@@ -254,8 +255,9 @@ public class XmlWriter
         {
 
             boolean attributesOnSameLine = false;
-            
-            if (m_defaultToAttributesOnSameLine) {
+
+            if ( m_defaultToAttributesOnSameLine )
+            {
                 attributesOnSameLine = true;
             }
 
@@ -396,34 +398,66 @@ public class XmlWriter
     }
 
     /**
-     * Encode the string passed in so that it will be "safe" for most XML documents
+     * Code copied from XMLEncoder to java.bean.XMLEncoder, replaces XML special characters with
      * 
-     * @param str the input string
-     * @return the output string (replacing any "bad" characters)
+     * the XML special encoding. If the output writer already encodes the XML, do not use this method,
+     * 
+     * as it will be encoded twice.
+     * 
+     * @param str the string to encode
+     * @return the encoded string
      */
     public static String safeEncode( String str )
     {
-        boolean replacedOne = false;
+        StringBuffer result = null;
 
-        int index = 0;
-        char[] buf = new char[str.length()];
-        str.getChars( 0, buf.length, buf, 0 );
-        for ( int i = 0; i < buf.length; i++ )
+        for ( int i = 0, max = str.length(), delta = 0; i < max; i++ )
         {
-            char ch = buf[i];
-            if ( ch == 0 || ch >= 128 || Character.isISOControl( ch ) )
+            char c = str.charAt( i );
+            String replacement = null;
+            if ( c == '&' )
             {
-                buf[index] = ' ';
-                replacedOne = true;
+                replacement = "&amp;";
             }
-            ++index;
+            else if ( c == '<' )
+            {
+                replacement = "&lt;";
+            }
+            else if ( c == '\r' )
+            {
+                replacement = "&#13;";
+            }
+            else if ( c == '>' )
+            {
+                replacement = "&gt;";
+            }
+            else if ( c == '"' )
+            {
+                replacement = "&quot;";
+            }
+            else if ( c == '\'' )
+            {
+                replacement = "&apos;";
+            }
+
+            if ( replacement != null )
+            {
+                if ( result == null )
+                {
+                    result = new StringBuffer( str );
+                }
+
+                result.replace( i + delta, i + delta + 1, replacement );
+                delta += ( replacement.length() - 1 );
+            }
         }
 
-        if ( replacedOne )
+        if ( result == null )
         {
-            return new String( buf );
+            return str;
         }
-        return str;
+
+        return result.toString();
     }
 
     /**

@@ -875,6 +875,7 @@ public class OunceCoreXmlSerializer
                     String key = (String) it.next();
                     String value = (String) pathVariableMap.get( key );
 
+                    // TODO: need to put quotes around the key and value
                     command += " -" + key + " " + value;
                 }
                 System.out.println( command );
