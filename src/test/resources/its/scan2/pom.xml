@@ -22,6 +22,7 @@
                 <artifactId>ounce-maven-plugin</artifactId>
                 <inherited>false</inherited>
                 <configuration>
+                    <assessmentName>scan-2</assessmentName>
                     <pathVariableMap>
                         <extApp>${basedir}/../externalApps</extApp>
                     </pathVariableMap>

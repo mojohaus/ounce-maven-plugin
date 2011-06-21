@@ -21,7 +21,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>ounce-maven-plugin</artifactId>
                 <configuration>
-         
+                    <assessmentName>scan-1</assessmentName>
                     <applicationFile>${basedir}/ounce-scan-1.paf</applicationFile>
                 </configuration>
             </plugin>

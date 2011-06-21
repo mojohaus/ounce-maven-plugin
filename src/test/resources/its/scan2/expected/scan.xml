@@ -1,7 +1,7 @@
 <object-stream>
   <scan>
     <applicationFile>${basedir}/ounce-scan-2.paf</applicationFile>
-    <assessmentName>Unnamed - test:ounce-scan-2:pom:1-1</assessmentName>
+    <assessmentName>scan-2</assessmentName>
     <publish>false</publish>
   </scan>
 </object-stream>
