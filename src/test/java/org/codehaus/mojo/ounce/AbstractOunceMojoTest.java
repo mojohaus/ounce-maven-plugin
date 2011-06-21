@@ -34,5 +34,9 @@ import junit.framework.TestCase;
 public class AbstractOunceMojoTest
     extends TestCase
 {
-
+       public void testNull()
+       {
+           
+       }
+     
 }
