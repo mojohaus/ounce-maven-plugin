@@ -67,7 +67,7 @@ public class ScanMojo
 
     /**
      * A filename to which to save the assessment. <br/> If filename is not specified, Ounce/Maven generates a name
-     * based on the application name and timestamp and saves it to the application’s working directory.
+     * based on the application name and timestamp and saves it to the application's working directory.
      * 
      * @parameter expression="${ounce.assessmentOutput}"
      */
