@@ -19,6 +19,7 @@ import org.codehaus.doxia.sink.Sink;
  * @author <a href="mailto:brianf@apache.org">Brian Fox</a>
  * @goal report
  * @phase site
+ * @execute lifecycle="scan" phase="install"
  */
 public class ReportMojo
     extends ScanMojo
