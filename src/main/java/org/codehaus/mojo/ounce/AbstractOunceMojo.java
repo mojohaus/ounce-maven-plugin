@@ -29,7 +29,9 @@ package org.codehaus.mojo.ounce;
 
 import java.util.Map;
 
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.mojo.ounce.core.OunceCore;
 import org.codehaus.plexus.PlexusConstants;
@@ -53,6 +55,15 @@ public abstract class AbstractOunceMojo
      * @readonly
      */
     protected MavenProject project;
+
+    /**
+     * The Maven Session Object
+     * 
+     * @parameter default-value="${session}"
+     * @required
+     * @readonly
+     */
+    private MavenSession mavenSession;
 
     /**
      * This hint provides a way to switch the core implementation. Consult Ounce support for details, most users should
@@ -198,4 +209,32 @@ public abstract class AbstractOunceMojo
         this.skipPoms = theSkipPoms;
     }
 
+    /**
+     * Returns true if the current project is located at the Execution Root Directory (where mvn was launched)
+     * 
+     * @return
+     */
+    protected boolean isThisTheExecutionRoot()
+    {
+        final Log log = getLog();
+        if ( null == mavenSession )
+        {
+            log.debug( "Assuming this is the execution root." );
+            return true;
+        }
+        final String executionRootDirectory = mavenSession.getExecutionRootDirectory();
+        log.debug( "Root Folder:" + executionRootDirectory );
+        log.debug( "Current Folder:" + projectRoot );
+        final boolean result = executionRootDirectory.equalsIgnoreCase( projectRoot );
+        if ( result )
+        {
+            log.debug( "This is the execution root." );
+        }
+        else
+        {
+            log.debug( "This is NOT the execution root." );
+        }
+
+        return result;
+    }
 }

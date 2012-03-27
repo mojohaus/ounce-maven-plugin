@@ -122,6 +122,10 @@ public class ApplicationMojo
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
+        if ( !isThisTheExecutionRoot() )
+        {
+            return;
+        }
 
         try
         {
