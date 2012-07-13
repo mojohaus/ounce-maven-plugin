@@ -179,9 +179,10 @@ public class OunceCoreXmlSerializer
             }
 
             String fullPath = projectPath;
+            String startsWithCheck = "." + File.separator;
             if ( !fullPath.startsWith( "./" ) )
             {
-                fullPath = "./" + projectPath;
+                fullPath = startsWithCheck + projectPath;
             }
             project.setAttributeNS( null, "path", fullPath );
             project.setAttributeNS( null, "language_type", "2" );
